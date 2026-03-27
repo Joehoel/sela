@@ -21,6 +21,7 @@ extension MockSongProvider {
         Song(
             id: "DE6B4FD6-DF41-4F1A-8AC7-6D8552A14C13",
             title: "Way Maker",
+            author: "Sinach",
             category: "Modern Worship",
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [
@@ -59,6 +60,7 @@ extension MockSongProvider {
         Song(
             id: "F10C37C5-0144-4E87-9A62-C168E86BEEF7",
             title: "Build My Life",
+            author: "Housefires",
             category: "Modern Worship",
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [
@@ -95,6 +97,7 @@ extension MockSongProvider {
         Song(
             id: "47898003-1A89-4397-B73A-85394983FF1E",
             title: "Great Are You Lord",
+            author: "All Sons & Daughters",
             category: "Modern Worship",
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [
@@ -124,6 +127,7 @@ extension MockSongProvider {
         Song(
             id: "22CDF97B-B435-4FF0-8746-30BD07F9CD52",
             title: "10,000 Reasons (Bless the Lord)",
+            author: "Matt Redman",
             category: "Contemporary",
             slideGroups: [
                 SlideGroup(name: "Chorus", slides: [
@@ -158,6 +162,7 @@ extension MockSongProvider {
         Song(
             id: "87566B14-432C-46EB-B988-D10BC4E978BE",
             title: "Amazing Grace",
+            author: "John Newton",
             category: "Hymns",
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [
@@ -192,6 +197,7 @@ extension MockSongProvider {
         Song(
             id: "6F82F53D-143A-4D9A-ABE8-D9E537B08479",
             title: "Blessed Be Your Name",
+            author: "Matt Redman",
             category: "Modern Worship",
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [

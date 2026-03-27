@@ -18,11 +18,17 @@ class Song: Identifiable {
         }
     }
 
+    var slideCount: Int {
+        slideGroups.flatMap(\.slides).count
+    }
+
+    var translatedSlideCount: Int {
+        slideGroups.flatMap(\.slides).filter(\.hasTranslation).count
+    }
+
     var translationProgress: Double {
-        let allLines = slideGroups.flatMap(\.slides).flatMap(\.lines)
-        guard !allLines.isEmpty else { return 0 }
-        let translated = allLines.filter { !$0.translation.isEmpty }.count
-        return Double(translated) / Double(allLines.count)
+        guard slideCount > 0 else { return 0 }
+        return Double(translatedSlideCount) / Double(slideCount)
     }
 
     init(

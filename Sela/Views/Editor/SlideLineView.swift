@@ -10,7 +10,7 @@ struct SlideLineView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(line.original)
                 .font(.body)
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
                 .textSelection(.enabled)
 
             TextField("Translation", text: $line.translation)
@@ -35,5 +35,6 @@ struct SlideLineView: View {
             RoundedRectangle(cornerRadius: 6)
                 .fill(focusedLineID.wrappedValue == line.id ? Color.accentColor.opacity(0.1) : Color.primary.opacity(0.03))
         )
+        .id(line.id)
     }
 }

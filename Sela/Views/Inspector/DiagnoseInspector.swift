@@ -106,3 +106,13 @@ struct IssueRowView: View {
         }
     }
 }
+
+#Preview("With Issues") {
+    DiagnoseInspector(song: MockSongProvider.buildMyLife)
+        .frame(width: 260, height: 400)
+}
+
+#Preview("No Translation") {
+    DiagnoseInspector(song: MockSongProvider.wayMaker)
+        .frame(width: 260, height: 400)
+}

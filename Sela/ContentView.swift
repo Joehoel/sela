@@ -24,9 +24,14 @@ struct ContentView: View {
                 )
             }
         }
-        .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
         .task {
             await appState.loadSongs(from: provider)
         }
     }
+}
+
+#Preview {
+    ContentView()
+        .environment(AppState())
+        .frame(width: 900, height: 600)
 }

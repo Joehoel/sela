@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SongEditorView: View {
+    @Environment(AppState.self) private var appState
     let song: Song
     @FocusState private var focusedLineID: String?
 
@@ -19,6 +20,7 @@ struct SongEditorView: View {
             .padding(20)
         }
         .navigationTitle(song.title)
+        .navigationSubtitle(song.author)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Button {
@@ -28,6 +30,14 @@ struct SongEditorView: View {
                 }
                 .keyboardShortcut("t")
                 .help("Translate empty slides (⌘T)")
+
+                Button {
+                    appState.isInspectorPresented.toggle()
+                } label: {
+                    Label("Diagnose", systemImage: "sidebar.trailing")
+                }
+                .keyboardShortcut("d")
+                .help("Toggle diagnose inspector (⌘D)")
             }
         }
     }
@@ -42,13 +52,31 @@ struct SongEditorView: View {
 
     private func advanceFromLine(_ lineID: String) {
         let ids = allLineIDs
-        guard let index = ids.firstIndex(of: lineID), index + 1 < ids.count else { return }
-        focusedLineID = ids[index + 1]
+        guard let index = ids.firstIndex(of: lineID) else { return }
+        let next = (index + 1) % ids.count
+        focusedLineID = ids[next]
     }
 
     private func retreatFromLine(_ lineID: String) {
         let ids = allLineIDs
-        guard let index = ids.firstIndex(of: lineID), index > 0 else { return }
-        focusedLineID = ids[index - 1]
+        guard let index = ids.firstIndex(of: lineID) else { return }
+        let prev = (index - 1 + ids.count) % ids.count
+        focusedLineID = ids[prev]
     }
+}
+
+#Preview("With Translation") {
+    NavigationStack {
+        SongEditorView(song: MockSongProvider.buildMyLife)
+    }
+    .environment(AppState())
+    .frame(width: 600, height: 700)
+}
+
+#Preview("Empty") {
+    NavigationStack {
+        SongEditorView(song: MockSongProvider.wayMaker)
+    }
+    .environment(AppState())
+    .frame(width: 600, height: 700)
 }
