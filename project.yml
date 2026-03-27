@@ -1,0 +1,27 @@
+name: Sela
+options:
+  bundleIdPrefix: com.sela
+  deploymentTarget:
+    macOS: "15.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+targets:
+  Sela:
+    type: application
+    platform: macOS
+    sources:
+      - Sela
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sela.app
+        PRODUCT_NAME: Sela
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: "6.0"
+        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
+        ENABLE_APP_SANDBOX: false
+        GENERATE_INFOPLIST_FILE: true
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGNING_REQUIRED: false
