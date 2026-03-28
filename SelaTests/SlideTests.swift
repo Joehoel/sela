@@ -1,9 +1,7 @@
-import Testing
 @testable import Sela
+import Testing
 
-@Suite("Slide")
 struct SlideTests {
-
     @Test("hasTranslation is false when translation is empty")
     func noTranslation() {
         let slide = Slide(lines: [SlideLine(original: "Hello")])

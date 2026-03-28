@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    swiftformat:
+      glob: "*.swift"
+      run: swiftformat --lint {staged_files}
+      stage_fixed: true
+    swiftlint:
+      glob: "*.swift"
+      run: swiftlint lint --quiet --force-exclude {staged_files}

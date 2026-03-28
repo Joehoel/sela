@@ -35,7 +35,6 @@ struct DiagnoseInspector: View {
     private var translatedCount: Int {
         song.slideGroups.flatMap(\.slides).filter(\.hasTranslation).count
     }
-
 }
 
 struct IssueRowView: View {

@@ -1,10 +1,9 @@
 import Foundation
-import Testing
 @testable import Sela
+import Testing
 
-@Suite("GlossaryEntry", .serialized)
+@Suite(.serialized)
 struct GlossaryEntryTests {
-
     @Test("defaults contains expected terms")
     func defaultsNotEmpty() {
         let defaults = GlossaryEntry.defaults
@@ -18,8 +17,7 @@ struct GlossaryEntryTests {
         let key = "glossaryTerms"
         let original = UserDefaults.standard.data(forKey: key)
         defer { // restore original state
-            if let original { UserDefaults.standard.set(original, forKey: key) }
-            else { UserDefaults.standard.removeObject(forKey: key) }
+            if let original { UserDefaults.standard.set(original, forKey: key) } else { UserDefaults.standard.removeObject(forKey: key) }
         }
 
         let terms = [
@@ -41,8 +39,7 @@ struct GlossaryEntryTests {
         let key = "glossaryTerms"
         let original = UserDefaults.standard.data(forKey: key)
         defer {
-            if let original { UserDefaults.standard.set(original, forKey: key) }
-            else { UserDefaults.standard.removeObject(forKey: key) }
+            if let original { UserDefaults.standard.set(original, forKey: key) } else { UserDefaults.standard.removeObject(forKey: key) }
         }
 
         UserDefaults.standard.removeObject(forKey: key)
@@ -56,8 +53,7 @@ struct GlossaryEntryTests {
         let key = "glossaryTerms"
         let original = UserDefaults.standard.data(forKey: key)
         defer {
-            if let original { UserDefaults.standard.set(original, forKey: key) }
-            else { UserDefaults.standard.removeObject(forKey: key) }
+            if let original { UserDefaults.standard.set(original, forKey: key) } else { UserDefaults.standard.removeObject(forKey: key) }
         }
 
         var terms = [
@@ -81,8 +77,7 @@ struct GlossaryEntryTests {
         let key = "glossaryTerms"
         let original = UserDefaults.standard.data(forKey: key)
         defer {
-            if let original { UserDefaults.standard.set(original, forKey: key) }
-            else { UserDefaults.standard.removeObject(forKey: key) }
+            if let original { UserDefaults.standard.set(original, forKey: key) } else { UserDefaults.standard.removeObject(forKey: key) }
         }
 
         GlossaryEntry.save([])

@@ -1,26 +1,24 @@
-import Testing
 @testable import Sela
+import Testing
 
-@Suite("AppState")
 struct AppStateTests {
-
     private func makeSongs() -> [Song] {
         [
             Song(title: "Untranslated Song", slideGroups: [
                 SlideGroup(name: "V1", slides: [
                     Slide(lines: [SlideLine(original: "A")])
-                ])
+                ]),
             ]),
             Song(title: "Partial Song", slideGroups: [
                 SlideGroup(name: "V1", slides: [
                     Slide(lines: [SlideLine(original: "A", translation: "X")]),
                     Slide(lines: [SlideLine(original: "B")]),
-                ])
+                ]),
             ]),
             Song(title: "Done Song", slideGroups: [
                 SlideGroup(name: "V1", slides: [
                     Slide(lines: [SlideLine(original: "A", translation: "X")])
-                ])
+                ]),
             ]),
         ]
     }

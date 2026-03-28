@@ -1,0 +1,12 @@
+--indent 4
+--indentcase false
+--trimwhitespace always
+--voidtype void
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--maxwidth 140
+--swiftversion 6.0
+--exclude DerivedData,.build,Sela/ProPresenter/Proto
+--disable redundantSelf
+--disable trailingCommas

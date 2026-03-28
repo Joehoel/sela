@@ -1,9 +1,7 @@
-import Testing
 @testable import Sela
+import Testing
 
-@Suite("Song")
 struct SongTests {
-
     @Test("hasTranslation is false when no translations")
     func noTranslation() {
         let song = Song(
@@ -11,7 +9,7 @@ struct SongTests {
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [
                     Slide(lines: [SlideLine(original: "Hello")])
-                ])
+                ]),
             ]
         )
         #expect(!song.hasTranslation)
@@ -24,7 +22,7 @@ struct SongTests {
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [
                     Slide(lines: [SlideLine(original: "Hello", translation: "Hallo")])
-                ])
+                ]),
             ]
         )
         #expect(song.hasTranslation)
@@ -55,7 +53,7 @@ struct SongTests {
                 SlideGroup(name: "Verse 1", slides: [
                     Slide(lines: [SlideLine(original: "A", translation: "X")]),
                     Slide(lines: [SlideLine(original: "B")]),
-                ])
+                ]),
             ]
         )
         #expect(song.translatedSlideCount == 1)
@@ -71,7 +69,7 @@ struct SongTests {
                 SlideGroup(name: "Verse 1", slides: [
                     Slide(lines: [SlideLine(original: "A", translation: "X")]),
                     Slide(lines: [SlideLine(original: "B", translation: "Y")]),
-                ])
+                ]),
             ]
         )
         #expect(song.translationProgress == 1.0)

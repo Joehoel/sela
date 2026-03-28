@@ -41,7 +41,8 @@ struct SelaCommands: Commands {
         guard !songs.isEmpty else { return }
 
         if let currentID = appState.selectedSongID,
-           let index = songs.firstIndex(where: { $0.id == currentID }) {
+           let index = songs.firstIndex(where: { $0.id == currentID })
+        {
             let newIndex = min(max(index + direction, 0), songs.count - 1)
             appState.selectedSongID = songs[newIndex].id
         } else {

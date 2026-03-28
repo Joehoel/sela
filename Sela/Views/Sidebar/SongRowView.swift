@@ -36,7 +36,6 @@ struct SongRowView: View {
             "\(song.slideCount) slides"
         }
     }
-
 }
 
 #Preview("Untranslated") {

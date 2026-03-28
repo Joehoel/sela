@@ -1,9 +1,7 @@
-import Testing
 @testable import Sela
+import Testing
 
-@Suite("MockSongProvider")
 struct MockSongProviderTests {
-
     @Test("loads 6 songs")
     func loadsSongs() async {
         let songs = await MockSongProvider().loadSongs()

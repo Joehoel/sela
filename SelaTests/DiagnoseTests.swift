@@ -1,15 +1,13 @@
-import Testing
 @testable import Sela
+import Testing
 
-@Suite("Diagnose Issues")
 struct DiagnoseTests {
-
     @Test("no issues for untranslated slides")
     func untranslatedHasNoIssues() {
         let song = Song(title: "Test", slideGroups: [
             SlideGroup(name: "Verse 1", slides: [
                 Slide(lines: [SlideLine(original: "Hello world")])
-            ])
+            ]),
         ])
         #expect(song.diagnoseIssues.isEmpty)
     }
@@ -19,7 +17,7 @@ struct DiagnoseTests {
         let song = Song(title: "Test", slideGroups: [
             SlideGroup(name: "Verse 1", slides: [
                 Slide(lines: [SlideLine(original: "I worship You", translation: "Ik aanbid U")])
-            ])
+            ]),
         ])
         #expect(song.diagnoseIssues.isEmpty)
     }
@@ -29,7 +27,7 @@ struct DiagnoseTests {
         let song = Song(title: "Test", slideGroups: [
             SlideGroup(name: "Verse 1", slides: [
                 Slide(lines: [SlideLine(original: "I worship You.", translation: "Ik aanbid U")])
-            ])
+            ]),
         ])
         let issues = song.diagnoseIssues
         #expect(issues.count == 1)
@@ -42,7 +40,7 @@ struct DiagnoseTests {
         let song = Song(title: "Test", slideGroups: [
             SlideGroup(name: "Verse 1", slides: [
                 Slide(lines: [SlideLine(original: "I worship You", translation: "Ik aanbid U.")])
-            ])
+            ]),
         ])
         let issues = song.diagnoseIssues
         #expect(issues.count == 1)
@@ -55,7 +53,7 @@ struct DiagnoseTests {
         let song = Song(title: "Test", slideGroups: [
             SlideGroup(name: "Verse 1", slides: [
                 Slide(lines: [SlideLine(original: "Line one", translation: "Regel een\nRegel twee")])
-            ])
+            ]),
         ])
         let issues = song.diagnoseIssues
         #expect(issues.contains { $0.severity == .warning })
@@ -68,7 +66,7 @@ struct DiagnoseTests {
             SlideGroup(name: "Verse 1", slides: [
                 Slide(lines: [SlideLine(original: "Hello.", translation: "Hallo")]),
                 Slide(lines: [SlideLine(original: "World", translation: "Wereld!")]),
-            ])
+            ]),
         ])
         let issues = song.diagnoseIssues
         #expect(issues.count == 2)
@@ -79,7 +77,7 @@ struct DiagnoseTests {
         let song = Song(title: "Test", slideGroups: [
             SlideGroup(name: "Chorus", slides: [
                 Slide(lines: [SlideLine(original: "Praise!", translation: "Lofprijs")]),
-            ])
+            ]),
         ])
         let issues = song.diagnoseIssues
         #expect(issues.count == 1)
@@ -92,7 +90,7 @@ struct DiagnoseTests {
         let song = Song(title: "Test", slideGroups: [
             SlideGroup(name: "Verse 1", slides: [
                 Slide(lines: [SlideLine(original: "My God!", translation: "Mijn God!")])
-            ])
+            ]),
         ])
         #expect(song.diagnoseIssues.isEmpty)
     }

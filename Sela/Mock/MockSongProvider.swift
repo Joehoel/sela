@@ -16,7 +16,6 @@ struct MockSongProvider: SongProvider {
 // MARK: - Songs extracted from real ProPresenter library
 
 extension MockSongProvider {
-
     static var wayMaker: Song {
         Song(
             id: "DE6B4FD6-DF41-4F1A-8AC7-6D8552A14C13",
@@ -64,16 +63,37 @@ extension MockSongProvider {
             category: "Modern Worship",
             slideGroups: [
                 SlideGroup(name: "Verse 1", slides: [
-                    Slide(lines: [SlideLine(original: "Worthy of every song we could ever sing", translation: "Elk lied dat we ooit zouden kunnen zingen waardig")]),
-                    Slide(lines: [SlideLine(original: "Worthy of all the praise we could ever bring", translation: "Alle lof waard die we ooit zouden kunnen geven")]),
-                    Slide(lines: [SlideLine(original: "Worthy of every breath we could ever breathe", translation: "Elke ademtocht die we ooit zouden kunnen nemen waard")]),
+                    Slide(lines: [SlideLine(
+                        original: "Worthy of every song we could ever sing",
+                        translation: "Elk lied dat we ooit zouden kunnen zingen waardig"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Worthy of all the praise we could ever bring",
+                        translation: "Alle lof waard die we ooit zouden kunnen geven"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Worthy of every breath we could ever breathe",
+                        translation: "Elke ademtocht die we ooit zouden kunnen nemen waard"
+                    ),]),
                     Slide(lines: [SlideLine(original: "We live for You", translation: "Wij leven voor U")]),
                 ]),
                 SlideGroup(name: "Verse 2", slides: [
-                    Slide(lines: [SlideLine(original: "Jesus, the name above every other name", translation: "Jezus, de naam boven alle andere namen")]),
-                    Slide(lines: [SlideLine(original: "Jesus, the only One who could ever save", translation: "Jezus, de enige die ooit kon redden")]),
-                    Slide(lines: [SlideLine(original: "Worthy of every breath we could ever breathe", translation: "Elke ademtocht die we ooit zouden kunnen nemen waard")]),
-                    Slide(lines: [SlideLine(original: "We live for You, we live for You", translation: "Wij leven voor U, wij leven voor U")]),
+                    Slide(lines: [SlideLine(
+                        original: "Jesus, the name above every other name",
+                        translation: "Jezus, de naam boven alle andere namen"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Jesus, the only One who could ever save",
+                        translation: "Jezus, de enige die ooit kon redden"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Worthy of every breath we could ever breathe",
+                        translation: "Elke ademtocht die we ooit zouden kunnen nemen waard"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "We live for You, we live for You",
+                        translation: "Wij leven voor U, wij leven voor U"
+                    ),]),
                 ]),
                 SlideGroup(name: "Chorus", slides: [
                     Slide(lines: [SlideLine(original: "Holy, there is no one like You", translation: "Heilig, er is niemand zoals U")]),
@@ -81,10 +101,16 @@ extension MockSongProvider {
                     Slide(lines: [SlideLine(original: "Open up my eyes in wonder", translation: "Open mijn ogen in verwondering")]),
                     Slide(lines: [SlideLine(original: "And show me who You are", translation: "En laat me zien wie U bent")]),
                     Slide(lines: [SlideLine(original: "And fill me with Your heart", translation: "En vul mij met Uw hart")]),
-                    Slide(lines: [SlideLine(original: "And lead me in Your love to those around me", translation: "En leid mij in Uw liefde naar de mensen om mij heen")]),
+                    Slide(lines: [SlideLine(
+                        original: "And lead me in Your love to those around me",
+                        translation: "En leid mij in Uw liefde naar de mensen om mij heen"
+                    ),]),
                 ]),
                 SlideGroup(name: "Bridge 1", slides: [
-                    Slide(lines: [SlideLine(original: "I will build my life upon Your love", translation: "Ik zal mijn leven bouwen op Uw liefde")]),
+                    Slide(lines: [SlideLine(
+                        original: "I will build my life upon Your love",
+                        translation: "Ik zal mijn leven bouwen op Uw liefde"
+                    ),]),
                     Slide(lines: [SlideLine(original: "It is a firm foundation", translation: "Het is een stevig fundament")]),
                     Slide(lines: [SlideLine(original: "I will put my trust in You alone", translation: "Ik zal alleen op U vertrouwen")]),
                     Slide(lines: [SlideLine(original: "And I will not be shaken", translation: "En ik zal niet wankelen")]),
@@ -132,27 +158,69 @@ extension MockSongProvider {
             slideGroups: [
                 SlideGroup(name: "Chorus", slides: [
                     Slide(lines: [SlideLine(original: "Bless the Lord, O my soul", translation: "Loof de Heer, mijn ziel")]),
-                    Slide(lines: [SlideLine(original: "O my soul, worship His holy name", translation: "O mijn ziel, aanbid Zijn heilige naam")]),
-                    Slide(lines: [SlideLine(original: "Sing like never before, O my soul", translation: "Zing als nooit tevoren, o mijn ziel")]),
+                    Slide(lines: [SlideLine(
+                        original: "O my soul, worship His holy name",
+                        translation: "O mijn ziel, aanbid Zijn heilige naam"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Sing like never before, O my soul",
+                        translation: "Zing als nooit tevoren, o mijn ziel"
+                    ),]),
                     Slide(lines: [SlideLine(original: "I'll worship Your holy name", translation: "Ik zal Uw heilige naam aanbidden")]),
                 ]),
                 SlideGroup(name: "Verse 1", slides: [
-                    Slide(lines: [SlideLine(original: "The sun comes up, it's a new day dawning", translation: "De zon komt op, het is een nieuwe dag die aanbreekt")]),
-                    Slide(lines: [SlideLine(original: "It's time to sing Your song again", translation: "Het is tijd om Uw lied weer te zingen")]),
-                    Slide(lines: [SlideLine(original: "Whatever may pass and whatever lies before me", translation: "Wat er ook gebeurt en wat er ook voor mij ligt")]),
-                    Slide(lines: [SlideLine(original: "Let me be singing when the evening comes", translation: "Laat me zingen als de avond valt")]),
+                    Slide(lines: [SlideLine(
+                        original: "The sun comes up, it's a new day dawning",
+                        translation: "De zon komt op, het is een nieuwe dag die aanbreekt"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "It's time to sing Your song again",
+                        translation: "Het is tijd om Uw lied weer te zingen"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Whatever may pass and whatever lies before me",
+                        translation: "Wat er ook gebeurt en wat er ook voor mij ligt"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Let me be singing when the evening comes",
+                        translation: "Laat me zingen als de avond valt"
+                    ),]),
                 ]),
                 SlideGroup(name: "Verse 2", slides: [
-                    Slide(lines: [SlideLine(original: "You're rich in love and You're slow to anger", translation: "U bent rijk aan liefde en langzaam tot toorn")]),
-                    Slide(lines: [SlideLine(original: "Your name is great and Your heart is kind", translation: "Uw naam is groot en Uw hart is goed")]),
-                    Slide(lines: [SlideLine(original: "For all Your goodness I will keep on singing", translation: "Voor al Uw goedheid zal ik blijven zingen")]),
-                    Slide(lines: [SlideLine(original: "Ten thousand reasons for my heart to find", translation: "Tienduizend redenen voor mijn hart om te vinden")]),
+                    Slide(lines: [SlideLine(
+                        original: "You're rich in love and You're slow to anger",
+                        translation: "U bent rijk aan liefde en langzaam tot toorn"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Your name is great and Your heart is kind",
+                        translation: "Uw naam is groot en Uw hart is goed"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "For all Your goodness I will keep on singing",
+                        translation: "Voor al Uw goedheid zal ik blijven zingen"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Ten thousand reasons for my heart to find",
+                        translation: "Tienduizend redenen voor mijn hart om te vinden"
+                    ),]),
                 ]),
                 SlideGroup(name: "Verse 3", slides: [
-                    Slide(lines: [SlideLine(original: "And on that day when my strength is failing", translation: "En op die dag waarop mijn krachten mij verlaten")]),
-                    Slide(lines: [SlideLine(original: "The end draws near and my time has come", translation: "Het einde nadert en mijn tijd is gekomen")]),
-                    Slide(lines: [SlideLine(original: "Still my soul will sing Your praise unending", translation: "Toch zal mijn ziel Uw lof bezingen, zonder einde")]),
-                    Slide(lines: [SlideLine(original: "Ten thousand years and then forevermore", translation: "Tienduizend jaar en daarna voor altijd")]),
+                    Slide(lines: [SlideLine(
+                        original: "And on that day when my strength is failing",
+                        translation: "En op die dag waarop mijn krachten mij verlaten"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "The end draws near and my time has come",
+                        translation: "Het einde nadert en mijn tijd is gekomen"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Still my soul will sing Your praise unending",
+                        translation: "Toch zal mijn ziel Uw lof bezingen, zonder einde"
+                    ),]),
+                    Slide(lines: [SlideLine(
+                        original: "Ten thousand years and then forevermore",
+                        translation: "Tienduizend jaar en daarna voor altijd"
+                    ),]),
                 ]),
             ]
         )
@@ -168,7 +236,10 @@ extension MockSongProvider {
                 SlideGroup(name: "Verse 1", slides: [
                     Slide(lines: [SlideLine(original: "Amazing grace, how sweet the sound", translation: "Genade, zo oneindig groot")]),
                     Slide(lines: [SlideLine(original: "That saved a wretch like me", translation: "Dat ik, die 't niet verdien")]),
-                    Slide(lines: [SlideLine(original: "I once was lost, but now am found", translation: "Het leven vond, want ik was dood")]),
+                    Slide(lines: [SlideLine(
+                        original: "I once was lost, but now am found",
+                        translation: "Het leven vond, want ik was dood"
+                    ),]),
                     Slide(lines: [SlideLine(original: "Was blind, but now I see", translation: "En blind, maar nu kan ik zien")]),
                 ]),
                 SlideGroup(name: "Verse 2", slides: [

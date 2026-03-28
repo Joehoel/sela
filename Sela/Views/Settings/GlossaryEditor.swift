@@ -76,7 +76,8 @@ struct GlossaryEntry: Identifiable, Codable, Equatable {
 
     static func load() -> [GlossaryEntry] {
         guard let data = UserDefaults.standard.data(forKey: storageKey),
-              let terms = try? JSONDecoder().decode([GlossaryEntry].self, from: data) else {
+              let terms = try? JSONDecoder().decode([GlossaryEntry].self, from: data)
+        else {
             return defaults
         }
         return terms
