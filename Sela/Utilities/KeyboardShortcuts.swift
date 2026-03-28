@@ -9,6 +9,11 @@ struct SelaCommands: Commands {
                 appState.isInspectorPresented.toggle()
             }
             .keyboardShortcut("d")
+
+            Button("Find") {
+                appState.isSearchFocused = true
+            }
+            .keyboardShortcut("f")
         }
 
         CommandGroup(replacing: .saveItem) {

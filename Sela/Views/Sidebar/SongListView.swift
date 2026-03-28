@@ -30,7 +30,6 @@ struct SongListView: View {
             }
         }
         .listStyle(.sidebar)
-        .searchable(text: $appState.searchText, prompt: "Search songs")
         .navigationTitle("Songs")
         .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
     }

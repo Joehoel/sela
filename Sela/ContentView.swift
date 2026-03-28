@@ -24,6 +24,7 @@ struct ContentView: View {
                 )
             }
         }
+        .searchable(text: $appState.searchText, isPresented: $appState.isSearchFocused, placement: .sidebar, prompt: "Search songs")
         .task(id: libraryPath) {
             let url = URL(fileURLWithPath: (libraryPath as NSString).expandingTildeInPath)
             let provider = ProPresenterSongProvider(libraryURL: url)

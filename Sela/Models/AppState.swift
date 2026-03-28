@@ -7,6 +7,7 @@ class AppState {
     var selectedSongID: String?
     var isInspectorPresented = false
     var searchText = ""
+    var isSearchFocused = false
     var translationRequest: TranslationRequest?
     var provider: (any SongProvider)?
 
