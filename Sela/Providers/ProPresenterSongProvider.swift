@@ -21,7 +21,9 @@ class ProPresenterSongProvider: SongProvider {
             cache[song.id] = presentation
             songs.append(song)
         }
-        return songs.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+        return songs
+            .filter { $0.slideGroups.contains { $0.slides.contains(where: \.isTranslatable) } }
+            .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
     }
 
     func save(_ song: Song) async throws {

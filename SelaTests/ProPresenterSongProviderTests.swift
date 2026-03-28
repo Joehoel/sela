@@ -21,7 +21,7 @@ struct ProPresenterSongProviderTests {
         return tmp
     }
 
-    @Test("load songs from directory returns all .pro files as songs")
+    @Test("load songs only returns presentations with translatable slides")
     @MainActor
     func loadSongs() async throws {
         let dir = try tempDir(copying: ["Way Maker.pro", "Amazing Grace.pro", "Welkom.pro"])
@@ -30,14 +30,12 @@ struct ProPresenterSongProviderTests {
         let provider = ProPresenterSongProvider(libraryURL: dir)
         let songs = await provider.loadSongs()
 
-        #expect(songs.count == 3)
+        // Way Maker has no translatable slides (no second text element), so it's excluded
         let titles = Set(songs.map(\.title))
-        #expect(titles.contains("Way Maker"))
-        #expect(titles.contains("Amazing Grace"))
-        // Each song has slide groups with slides
+        #expect(!titles.contains("Way Maker"))
+        #expect(titles.contains("Welkom"))
         for song in songs {
-            #expect(!song.slideGroups.isEmpty)
-            #expect(!song.slideGroups.flatMap(\.slides).isEmpty)
+            #expect(song.slideGroups.contains { $0.slides.contains(where: \.isTranslatable) })
         }
     }
 

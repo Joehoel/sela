@@ -5,35 +5,16 @@ struct SongRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Text(song.title)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-
-                Spacer()
-
-                if song.translationProgress >= 1.0 {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
-                        .font(.caption)
-                } else if song.hasTranslation {
-                    ProgressView(value: song.translationProgress)
-                        .frame(width: 40)
-                }
-            }
-
-            Text(subtitle)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Text(song.title)
+                .fontWeight(.medium)
                 .lineLimit(1)
-        }
-    }
 
-    private var subtitle: String {
-        if song.hasTranslation {
-            "\(song.translatedSlideCount) of \(song.slideCount) slides"
-        } else {
-            "\(song.slideCount) slides"
+            if !song.author.isEmpty {
+                Text(song.author)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
         }
     }
 }
