@@ -1,6 +1,7 @@
 @testable import Sela
 import Testing
 
+@MainActor
 struct MockSongProviderTests {
     @Test("loads 6 songs")
     func loadsSongs() async {

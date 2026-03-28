@@ -1,5 +1,6 @@
 import Foundation
 
-protocol SongProvider: Sendable {
+@MainActor
+protocol SongProvider {
     func loadSongs() async -> [Song]
 }

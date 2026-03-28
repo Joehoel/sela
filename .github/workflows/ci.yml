@@ -20,9 +20,7 @@ jobs:
       - name: Cache Homebrew
         uses: actions/cache@v4
         with:
-          path: |
-            ~/Library/Caches/Homebrew
-            /opt/homebrew/Cellar/swiftlint
+          path: ~/Library/Caches/Homebrew
           key: brew-swiftlint-${{ runner.os }}
 
       - name: Install SwiftLint
@@ -41,6 +39,8 @@ jobs:
           - runner: macos-15
             xcode: "16.2"
           - runner: macos-15
+            xcode: "16.3"
+          - runner: macos-15
             xcode: "16.4"
     steps:
       - uses: actions/checkout@v4
@@ -51,9 +51,7 @@ jobs:
       - name: Cache Homebrew
         uses: actions/cache@v4
         with:
-          path: |
-            ~/Library/Caches/Homebrew
-            /opt/homebrew/Cellar/xcodegen
+          path: ~/Library/Caches/Homebrew
           key: brew-xcodegen-${{ runner.os }}
 
       - name: Install xcodegen

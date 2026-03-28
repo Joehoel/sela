@@ -1,6 +1,7 @@
 @testable import Sela
 import Testing
 
+@MainActor
 struct AppStateTests {
     private func makeSongs() -> [Song] {
         [

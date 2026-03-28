@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(AppState.self) private var appState
-    private nonisolated(unsafe) let provider: any SongProvider = MockSongProvider()
+    private let provider: any SongProvider = MockSongProvider()
 
     var body: some View {
         @Bindable var appState = appState
