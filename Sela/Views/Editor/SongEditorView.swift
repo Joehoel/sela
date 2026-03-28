@@ -76,7 +76,8 @@ struct SongEditorView: View {
             Text(translationError ?? "")
         }
         .translationTask(translationConfig) { session in
-            let pipeline = TranslationPipeline.make(engine: .apple, session: session)
+            let glossary = GlossaryEntry.load()
+            let pipeline = TranslationPipeline.make(engine: .apple, session: session, glossary: glossary)
             await runPipeline(pipeline)
         }
         .onChange(of: appState.translationRequest) { _, request in
@@ -119,7 +120,8 @@ struct SongEditorView: View {
                 translationConfig?.invalidate()
             }
         case .deepl:
-            let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: deeplAPIKey)
+            let glossary = GlossaryEntry.load()
+            let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: deeplAPIKey, glossary: glossary)
             Task { await runPipeline(pipeline) }
         }
     }

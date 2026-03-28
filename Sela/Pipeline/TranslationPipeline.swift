@@ -24,7 +24,8 @@ struct TranslationPipeline {
     static func make(
         engine: TranslationEngine,
         session: TranslationSession? = nil,
-        deeplAPIKey: String = ""
+        deeplAPIKey: String = "",
+        glossary: [GlossaryEntry] = []
     ) -> TranslationPipeline {
         var pipeline = TranslationPipeline()
 
@@ -35,6 +36,11 @@ struct TranslationPipeline {
             }
         case .deepl:
             pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey))
+        }
+
+        let activeGlossary = glossary.filter { !$0.replacements.isEmpty }
+        if !activeGlossary.isEmpty {
+            pipeline.steps.append(GlossaryReplacementStep(entries: activeGlossary))
         }
 
         if #available(macOS 26, *) {

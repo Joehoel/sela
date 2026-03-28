@@ -14,6 +14,7 @@
 		26000D901806EEBE60970C13 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A81F83864242CB8478B21 /* SongEditorView.swift */; };
 		26BB7DF7B7CADBF547BCB661 /* SlideGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */; };
 		362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B37E6953080F227525BB64 /* SlideTests.swift */; };
+		3AC36DCB4971CD0AA7526DAA /* GlossaryReplacementStepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */; };
 		40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B8C4927209E20D2079572C /* DiagnoseInspector.swift */; };
 		510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34619DE434DDB179602B4A22 /* AppStateTests.swift */; };
 		678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */; };
@@ -38,6 +39,7 @@
 		DB95294103D26EEB620056D7 /* SongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7503E4CD39EA35952236D6 /* SongProvider.swift */; };
 		EF0C486F7D4917018A661D9F /* FoundationModelRefinementStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20EA8B7E389EF3B3EFD0A8A /* FoundationModelRefinementStep.swift */; };
 		F186862D77EE61F6400FD4DC /* SelaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE540DAB80598BE53C26424F /* SelaApp.swift */; };
+		F49534F903526339F3A8D0CC /* GlossaryReplacementStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E72BEF9EB5AA4463962379 /* GlossaryReplacementStep.swift */; };
 		FE4B0FE3EB1E42F6AC917BFA /* AppleTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C590B47E43098347BB7CDCB /* AppleTranslationStep.swift */; };
 		FE9F77B5D38FE4892D5ABEF8 /* TranslationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135AFA5E3EF1D4AAEA0392D /* TranslationItem.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,7 @@
 		2E96CAC4E6576830D6E012F1 /* TranslationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEngine.swift; sourceTree = "<group>"; };
 		2F7A81F83864242CB8478B21 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
 		34619DE434DDB179602B4A22 /* AppStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateTests.swift; sourceTree = "<group>"; };
+		35E72BEF9EB5AA4463962379 /* GlossaryReplacementStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryReplacementStep.swift; sourceTree = "<group>"; };
 		3B7503E4CD39EA35952236D6 /* SongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongProvider.swift; sourceTree = "<group>"; };
 		48FACE2FA6A16E4BDB051C82 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4BAA3738084D224196CE7EFB /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
@@ -80,6 +83,7 @@
 		9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroupView.swift; sourceTree = "<group>"; };
 		A20EA8B7E389EF3B3EFD0A8A /* FoundationModelRefinementStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModelRefinementStep.swift; sourceTree = "<group>"; };
 		BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseIssue.swift; sourceTree = "<group>"; };
+		C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryReplacementStepTests.swift; sourceTree = "<group>"; };
 		C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseTests.swift; sourceTree = "<group>"; };
 		C7B8C4927209E20D2079572C /* DiagnoseInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseInspector.swift; sourceTree = "<group>"; };
 		CE540DAB80598BE53C26424F /* SelaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaApp.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 				78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */,
 				C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */,
 				55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */,
+				C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */,
 				8A956CE0A06EB68F75CBA5D5 /* MockSongProviderTests.swift */,
 				15B37E6953080F227525BB64 /* SlideTests.swift */,
 				1543174EB7507BF1E048A727 /* SongTests.swift */,
@@ -224,6 +229,7 @@
 				1C590B47E43098347BB7CDCB /* AppleTranslationStep.swift */,
 				8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */,
 				A20EA8B7E389EF3B3EFD0A8A /* FoundationModelRefinementStep.swift */,
+				35E72BEF9EB5AA4463962379 /* GlossaryReplacementStep.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 				680AA6BE9D06649F32B25E71 /* DeepLTranslationStepTests.swift in Sources */,
 				74DDAE6E41E479FBECEBA40C /* DiagnoseTests.swift in Sources */,
 				D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */,
+				3AC36DCB4971CD0AA7526DAA /* GlossaryReplacementStepTests.swift in Sources */,
 				0BB4A55C541E985781065C5E /* MockSongProviderTests.swift in Sources */,
 				362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */,
 				D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */,
@@ -341,6 +348,7 @@
 				A6962FC2DEB5D2CE67BCCD9D /* DiagnoseIssue.swift in Sources */,
 				EF0C486F7D4917018A661D9F /* FoundationModelRefinementStep.swift in Sources */,
 				939E123836CEE0E6A15107EC /* GlossaryEditor.swift in Sources */,
+				F49534F903526339F3A8D0CC /* GlossaryReplacementStep.swift in Sources */,
 				678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */,
 				A37F3CAD6696DC6682217224 /* MockSongProvider.swift in Sources */,
 				F186862D77EE61F6400FD4DC /* SelaApp.swift in Sources */,

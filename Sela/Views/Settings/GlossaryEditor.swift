@@ -15,8 +15,17 @@ struct GlossaryEditor: View {
                 }
                 TableColumn("Dutch") { entry in
                     if let index = terms.firstIndex(where: { $0.id == entry.id }) {
-                        TextField("Dutch translation", text: $terms[index].target)
+                        TextField("Correct Dutch", text: $terms[index].target)
                             .textFieldStyle(.plain)
+                    }
+                }
+                TableColumn("Replacements") { entry in
+                    if let index = terms.firstIndex(where: { $0.id == entry.id }) {
+                        TextField(
+                            "Wrong translations, comma-separated",
+                            text: replacementsBinding(for: index)
+                        )
+                        .textFieldStyle(.plain)
                     }
                 }
             } rows: {
@@ -59,17 +68,31 @@ struct GlossaryEditor: View {
             GlossaryEntry.save(terms)
         }
     }
+
+    private func replacementsBinding(for index: Int) -> Binding<String> {
+        Binding(
+            get: { terms[index].replacements.joined(separator: ", ") },
+            set: { newValue in
+                terms[index].replacements = newValue
+                    .split(separator: ",")
+                    .map { $0.trimmingCharacters(in: .whitespaces) }
+                    .filter { !$0.isEmpty }
+            }
+        )
+    }
 }
 
 struct GlossaryEntry: Identifiable, Codable, Equatable {
     var id: UUID
     var source: String
     var target: String
+    var replacements: [String]
 
-    init(id: UUID = UUID(), source: String, target: String) {
+    init(id: UUID = UUID(), source: String, target: String, replacements: [String] = []) {
         self.id = id
         self.source = source
         self.target = target
+        self.replacements = replacements
     }
 
     private static let storageKey = "glossaryTerms"
@@ -89,7 +112,9 @@ struct GlossaryEntry: Identifiable, Codable, Equatable {
     }
 
     static let defaults: [GlossaryEntry] = [
-        GlossaryEntry(source: "Lord", target: "Heer"),
+        GlossaryEntry(source: "You", target: "U", replacements: ["Jij", "Je", "Jou"]),
+        GlossaryEntry(source: "Your", target: "Uw", replacements: ["Jouw"]),
+        GlossaryEntry(source: "Lord", target: "Heer", replacements: ["Heere", "Here"]),
         GlossaryEntry(source: "grace", target: "genade"),
         GlossaryEntry(source: "soul", target: "ziel"),
         GlossaryEntry(source: "praise", target: "lofprijs"),

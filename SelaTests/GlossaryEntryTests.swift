@@ -7,9 +7,10 @@ struct GlossaryEntryTests {
     @Test("defaults contains expected terms")
     func defaultsNotEmpty() {
         let defaults = GlossaryEntry.defaults
-        #expect(defaults.count == 10)
-        #expect(defaults.first?.source == "Lord")
-        #expect(defaults.first?.target == "Heer")
+        #expect(defaults.count == 12)
+        #expect(defaults.first?.source == "You")
+        #expect(defaults.first?.target == "U")
+        #expect(defaults.first?.replacements == ["Jij", "Je", "Jou"])
     }
 
     @Test("save and load round-trips")
@@ -44,8 +45,8 @@ struct GlossaryEntryTests {
 
         UserDefaults.standard.removeObject(forKey: key)
         let loaded = GlossaryEntry.load()
-        #expect(loaded.count == 10)
-        #expect(loaded.first?.source == "Lord")
+        #expect(loaded.count == 12)
+        #expect(loaded.first?.source == "You")
     }
 
     @Test("removing a term persists correctly")
