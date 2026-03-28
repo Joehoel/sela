@@ -43,9 +43,11 @@ struct TranslationPipeline {
             pipeline.steps.append(GlossaryReplacementStep(entries: activeGlossary))
         }
 
-        if #available(macOS 26, *) {
-            pipeline.steps.append(FoundationModelRefinementStep())
-        }
+        #if canImport(FoundationModels)
+            if #available(macOS 26, *) {
+                pipeline.steps.append(FoundationModelRefinementStep())
+            }
+        #endif
 
         return pipeline
     }

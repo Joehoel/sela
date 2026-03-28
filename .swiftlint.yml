@@ -2,6 +2,8 @@ excluded:
   - DerivedData
   - .build
   - Sela/Proto/Generated
+  - Tools
+  - Tools
 
 line_length:
   warning: 140
