@@ -25,3 +25,17 @@ targets:
         GENERATE_INFOPLIST_FILE: true
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGNING_REQUIRED: false
+
+  SelaTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - SelaTests
+    dependencies:
+      - target: Sela
+    settings:
+      base:
+        SWIFT_VERSION: "6.0"
+        GENERATE_INFOPLIST_FILE: true
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Sela.app/Contents/MacOS/Sela"

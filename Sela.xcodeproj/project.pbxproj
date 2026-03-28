@@ -7,40 +7,65 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BB4A55C541E985781065C5E /* MockSongProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A956CE0A06EB68F75CBA5D5 /* MockSongProviderTests.swift */; };
 		1E71F41F2B938705D86534AD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FACE2FA6A16E4BDB051C82 /* SettingsView.swift */; };
 		1E81BADAEA90205DF68A4D3A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B944FBFF2E5F68DEB1675E /* AppState.swift */; };
 		26000D901806EEBE60970C13 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A81F83864242CB8478B21 /* SongEditorView.swift */; };
 		26BB7DF7B7CADBF547BCB661 /* SlideGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */; };
+		362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B37E6953080F227525BB64 /* SlideTests.swift */; };
 		40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B8C4927209E20D2079572C /* DiagnoseInspector.swift */; };
+		510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34619DE434DDB179602B4A22 /* AppStateTests.swift */; };
 		678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */; };
 		734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5620769B923ADA75805EA7F /* ContentView.swift */; };
+		74DDAE6E41E479FBECEBA40C /* DiagnoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */; };
 		83FC3D389B8DCE093638476C /* SlideLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740C64B189E675F5B9705D0E /* SlideLineView.swift */; };
 		90363AED7355AD138C87E1E1 /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554B4AA4096F03804218D05B /* Slide.swift */; };
 		93025DE4C5AA35F9E1CD4EFA /* SlideLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928D490244ABDE64693E6DB0 /* SlideLine.swift */; };
 		939E123836CEE0E6A15107EC /* GlossaryEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7CD9AB341EFBFC9E1642BF /* GlossaryEditor.swift */; };
 		9F921A4DE2B54C355681CA7A /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAA3738084D224196CE7EFB /* SongListView.swift */; };
 		A37F3CAD6696DC6682217224 /* MockSongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8BEC791A8C8E5B789471B3 /* MockSongProvider.swift */; };
+		A6962FC2DEB5D2CE67BCCD9D /* DiagnoseIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */; };
 		B536405302EC5103F9A95B6E /* SongRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE807C04B2DB30418F5958A3 /* SongRowView.swift */; };
 		C648F69728B54BA4867629B9 /* SlideGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C383C266D1B8F87634CA00 /* SlideGroup.swift */; };
 		CA357B628CDEF369FCA666B9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684D79F7089AD52F2770565A /* Song.swift */; };
+		D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543174EB7507BF1E048A727 /* SongTests.swift */; };
+		D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */; };
 		DB95294103D26EEB620056D7 /* SongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7503E4CD39EA35952236D6 /* SongProvider.swift */; };
 		F186862D77EE61F6400FD4DC /* SelaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE540DAB80598BE53C26424F /* SelaApp.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9B3BF0C3BED5288631E07B63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00D91F157DDD0E8B939A7DFE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D7CDA0DACD625387EB3B1EBE;
+			remoteInfo = Sela;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		05A99E3843277952FFCDC54F /* SelaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SelaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1543174EB7507BF1E048A727 /* SongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTests.swift; sourceTree = "<group>"; };
+		15B37E6953080F227525BB64 /* SlideTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTests.swift; sourceTree = "<group>"; };
 		18A59EFBD6EC6088AC45F2FD /* Sela.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sela.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F7A81F83864242CB8478B21 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
+		34619DE434DDB179602B4A22 /* AppStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateTests.swift; sourceTree = "<group>"; };
 		3B7503E4CD39EA35952236D6 /* SongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongProvider.swift; sourceTree = "<group>"; };
 		48FACE2FA6A16E4BDB051C82 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4BAA3738084D224196CE7EFB /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
+		55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryEntryTests.swift; sourceTree = "<group>"; };
 		554B4AA4096F03804218D05B /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
 		684D79F7089AD52F2770565A /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		740C64B189E675F5B9705D0E /* SlideLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideLineView.swift; sourceTree = "<group>"; };
 		75C383C266D1B8F87634CA00 /* SlideGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroup.swift; sourceTree = "<group>"; };
 		890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
+		8A956CE0A06EB68F75CBA5D5 /* MockSongProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSongProviderTests.swift; sourceTree = "<group>"; };
 		8D8BEC791A8C8E5B789471B3 /* MockSongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSongProvider.swift; sourceTree = "<group>"; };
 		928D490244ABDE64693E6DB0 /* SlideLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideLine.swift; sourceTree = "<group>"; };
 		9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroupView.swift; sourceTree = "<group>"; };
+		BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseIssue.swift; sourceTree = "<group>"; };
+		C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseTests.swift; sourceTree = "<group>"; };
 		C7B8C4927209E20D2079572C /* DiagnoseInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseInspector.swift; sourceTree = "<group>"; };
 		CE540DAB80598BE53C26424F /* SelaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaApp.swift; sourceTree = "<group>"; };
 		CE807C04B2DB30418F5958A3 /* SongRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRowView.swift; sourceTree = "<group>"; };
@@ -54,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				18A59EFBD6EC6088AC45F2FD /* Sela.app */,
+				05A99E3843277952FFCDC54F /* SelaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -96,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				E1B944FBFF2E5F68DEB1675E /* AppState.swift */,
+				BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */,
 				554B4AA4096F03804218D05B /* Slide.swift */,
 				75C383C266D1B8F87634CA00 /* SlideGroup.swift */,
 				928D490244ABDE64693E6DB0 /* SlideLine.swift */,
@@ -110,6 +137,19 @@
 				890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		AB0778AABFC03F855214649B /* SelaTests */ = {
+			isa = PBXGroup;
+			children = (
+				34619DE434DDB179602B4A22 /* AppStateTests.swift */,
+				C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */,
+				55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */,
+				8A956CE0A06EB68F75CBA5D5 /* MockSongProviderTests.swift */,
+				15B37E6953080F227525BB64 /* SlideTests.swift */,
+				1543174EB7507BF1E048A727 /* SongTests.swift */,
+			);
+			path = SelaTests;
 			sourceTree = "<group>";
 		};
 		B2AD119E4E7575547E8F8D05 /* Editor */ = {
@@ -143,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				4DC3C69D03DF27C60197E61A /* Sela */,
+				AB0778AABFC03F855214649B /* SelaTests */,
 				226A628E5A9BBD603C2FBA29 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -166,6 +207,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		53BDFDF825B1F99EE02D4672 /* SelaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F6E179FA7239D78EBF072F1 /* Build configuration list for PBXNativeTarget "SelaTests" */;
+			buildPhases = (
+				AD338004CB34F9B8ABDC8BD5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A636FDF543AB693AEB88CB1 /* PBXTargetDependency */,
+			);
+			name = SelaTests;
+			packageProductDependencies = (
+			);
+			productName = SelaTests;
+			productReference = 05A99E3843277952FFCDC54F /* SelaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D7CDA0DACD625387EB3B1EBE /* Sela */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1ACD88F8AB07334DD6AB7C66 /* Build configuration list for PBXNativeTarget "Sela" */;
@@ -209,11 +268,25 @@
 			projectRoot = "";
 			targets = (
 				D7CDA0DACD625387EB3B1EBE /* Sela */,
+				53BDFDF825B1F99EE02D4672 /* SelaTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AD338004CB34F9B8ABDC8BD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */,
+				74DDAE6E41E479FBECEBA40C /* DiagnoseTests.swift in Sources */,
+				D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */,
+				0BB4A55C541E985781065C5E /* MockSongProviderTests.swift in Sources */,
+				362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */,
+				D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B7BEB56F534A0B9680EA9A5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -221,6 +294,7 @@
 				1E81BADAEA90205DF68A4D3A /* AppState.swift in Sources */,
 				734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */,
 				40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */,
+				A6962FC2DEB5D2CE67BCCD9D /* DiagnoseIssue.swift in Sources */,
 				939E123836CEE0E6A15107EC /* GlossaryEditor.swift in Sources */,
 				678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */,
 				A37F3CAD6696DC6682217224 /* MockSongProvider.swift in Sources */,
@@ -240,6 +314,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A636FDF543AB693AEB88CB1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D7CDA0DACD625387EB3B1EBE /* Sela */;
+			targetProxy = 9B3BF0C3BED5288631E07B63 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		55F874E73C291B0D4854C0D2 /* Debug */ = {
@@ -305,6 +387,24 @@
 			};
 			name = Debug;
 		};
+		600492EC5B608892B9F57151 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sela.SelaTests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sela.app/Contents/MacOS/Sela";
+			};
+			name = Debug;
+		};
 		60D5E9F990309A72B0A751F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -328,6 +428,24 @@
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
+		};
+		88BB65EC5FB0CFF6F1EFF2E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sela.SelaTests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sela.app/Contents/MacOS/Sela";
+			};
+			name = Release;
 		};
 		95C45B7017F8ACC5DE702870 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -417,6 +535,15 @@
 			buildConfigurations = (
 				60D5E9F990309A72B0A751F9 /* Debug */,
 				F3D050DE6D5B2C40CAC5EDDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F6E179FA7239D78EBF072F1 /* Build configuration list for PBXNativeTarget "SelaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				600492EC5B608892B9F57151 /* Debug */,
+				88BB65EC5FB0CFF6F1EFF2E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

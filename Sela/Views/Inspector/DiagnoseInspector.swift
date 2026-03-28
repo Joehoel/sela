@@ -12,9 +12,9 @@ struct DiagnoseInspector: View {
                 }
             }
 
-            if !issues.isEmpty {
+            if !song.diagnoseIssues.isEmpty {
                 Section("Issues") {
-                    ForEach(issues, id: \.id) { issue in
+                    ForEach(song.diagnoseIssues, id: \.id) { issue in
                         IssueRowView(issue: issue)
                     }
                 }
@@ -36,55 +36,6 @@ struct DiagnoseInspector: View {
         song.slideGroups.flatMap(\.slides).filter(\.hasTranslation).count
     }
 
-    private var issues: [DiagnoseIssue] {
-        var result: [DiagnoseIssue] = []
-        for group in song.slideGroups {
-            for (slideIndex, slide) in group.slides.enumerated() {
-                for line in slide.lines {
-                    guard !line.translation.isEmpty else { continue }
-
-                    let originalLines = line.original.components(separatedBy: "\n").count
-                    let translationLines = line.translation.components(separatedBy: "\n").count
-                    if originalLines != translationLines {
-                        result.append(DiagnoseIssue(
-                            id: line.id,
-                            groupName: group.name,
-                            slideIndex: slideIndex,
-                            severity: .warning,
-                            message: "Line count mismatch: \(translationLines) vs \(originalLines) original"
-                        ))
-                    }
-
-                    let originalEndsWithPunctuation = line.original.last.map { ".,!?;:".contains($0) } ?? false
-                    let translationEndsWithPunctuation = line.translation.last.map { ".,!?;:".contains($0) } ?? false
-                    if originalEndsWithPunctuation != translationEndsWithPunctuation {
-                        result.append(DiagnoseIssue(
-                            id: "\(line.id)-punct",
-                            groupName: group.name,
-                            slideIndex: slideIndex,
-                            severity: .info,
-                            message: originalEndsWithPunctuation
-                                ? "Missing trailing punctuation"
-                                : "Extra trailing punctuation"
-                        ))
-                    }
-                }
-            }
-        }
-        return result
-    }
-}
-
-struct DiagnoseIssue {
-    let id: String
-    let groupName: String
-    let slideIndex: Int
-    let severity: Severity
-    let message: String
-
-    enum Severity {
-        case warning, info
-    }
 }
 
 struct IssueRowView: View {

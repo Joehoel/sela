@@ -31,6 +31,44 @@ class Song: Identifiable {
         return Double(translatedSlideCount) / Double(slideCount)
     }
 
+    var diagnoseIssues: [DiagnoseIssue] {
+        var result: [DiagnoseIssue] = []
+        for group in slideGroups {
+            for (slideIndex, slide) in group.slides.enumerated() {
+                for line in slide.lines {
+                    guard !line.translation.isEmpty else { continue }
+
+                    let originalLines = line.original.components(separatedBy: "\n").count
+                    let translationLines = line.translation.components(separatedBy: "\n").count
+                    if originalLines != translationLines {
+                        result.append(DiagnoseIssue(
+                            id: line.id,
+                            groupName: group.name,
+                            slideIndex: slideIndex,
+                            severity: .warning,
+                            message: "Line count mismatch: \(translationLines) vs \(originalLines) original"
+                        ))
+                    }
+
+                    let originalEnds = line.original.last.map { ".,!?;:".contains($0) } ?? false
+                    let translationEnds = line.translation.last.map { ".,!?;:".contains($0) } ?? false
+                    if originalEnds != translationEnds {
+                        result.append(DiagnoseIssue(
+                            id: "\(line.id)-punct",
+                            groupName: group.name,
+                            slideIndex: slideIndex,
+                            severity: .info,
+                            message: originalEnds
+                                ? "Missing trailing punctuation"
+                                : "Extra trailing punctuation"
+                        ))
+                    }
+                }
+            }
+        }
+        return result
+    }
+
     init(
         id: String = UUID().uuidString,
         title: String,
