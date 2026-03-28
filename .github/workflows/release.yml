@@ -152,6 +152,39 @@ jobs:
             --title "Sela ${{ steps.version.outputs.version }}" \
             --generate-notes
 
+      - name: Update Homebrew tap
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          SHA256=$(shasum -a 256 "build/export/Sela-${VERSION}-arm64.zip" | cut -d' ' -f1)
+
+          git clone "https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/Joehoel/homebrew-sela.git" /tmp/homebrew-sela
+          cd /tmp/homebrew-sela
+
+          cat > Casks/sela.rb <<CASK
+          cask "sela" do
+            version "${VERSION}"
+            sha256 "${SHA256}"
+
+            url "https://github.com/Joehoel/sela/releases/download/v#{version}/Sela-#{version}-arm64.zip"
+            name "Sela"
+            desc "Translate ProPresenter worship songs from English to Dutch"
+            homepage "https://github.com/Joehoel/sela"
+
+            depends_on macos: ">= :sequoia"
+            depends_on arch: :arm64
+
+            app "Sela.app"
+          end
+          CASK
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Casks/sela.rb
+          git commit -m "Update Sela to ${VERSION}"
+          git push
+
       - name: Clean up keychain
         if: always()
         run: |
