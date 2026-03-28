@@ -1,7 +1,7 @@
 import Foundation
 import Observation
 
-@Observable
+@Observable @MainActor
 class AppState {
     var songs: [Song] = []
     var selectedSongID: String?
