@@ -19,13 +19,9 @@ struct GlossaryEditor: View {
                             .textFieldStyle(.plain)
                     }
                 }
-                TableColumn("Replacements") { entry in
+                TableColumn("Replaces") { entry in
                     if let index = terms.firstIndex(where: { $0.id == entry.id }) {
-                        TextField(
-                            "Wrong translations, comma-separated",
-                            text: replacementsBinding(for: index)
-                        )
-                        .textFieldStyle(.plain)
+                        ReplacementTagsView(tags: $terms[index].replacements)
                     }
                 }
             } rows: {
@@ -68,17 +64,97 @@ struct GlossaryEditor: View {
             GlossaryEntry.save(terms)
         }
     }
+}
 
-    private func replacementsBinding(for index: Int) -> Binding<String> {
-        Binding(
-            get: { terms[index].replacements.joined(separator: ", ") },
-            set: { newValue in
-                terms[index].replacements = newValue
-                    .split(separator: ",")
-                    .map { $0.trimmingCharacters(in: .whitespaces) }
-                    .filter { !$0.isEmpty }
+private struct ReplacementTagsView: View {
+    @Binding var tags: [String]
+    @State private var newTag = ""
+
+    var body: some View {
+        FlowLayout(spacing: 4) {
+            ForEach(tags, id: \.self) { tag in
+                TagView(text: tag) {
+                    tags.removeAll { $0 == tag }
+                }
             }
-        )
+
+            TextField("Add…", text: $newTag)
+                .textFieldStyle(.plain)
+                .frame(minWidth: 40, maxWidth: 60)
+                .onSubmit {
+                    let trimmed = newTag.trimmingCharacters(in: .whitespaces)
+                    if !trimmed.isEmpty, !tags.contains(trimmed) {
+                        tags.append(trimmed)
+                    }
+                    newTag = ""
+                }
+        }
+    }
+}
+
+private struct TagView: View {
+    let text: String
+    let onRemove: () -> Void
+
+    var body: some View {
+        HStack(spacing: 2) {
+            Text(text)
+                .font(.caption)
+            Button {
+                onRemove()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 8, weight: .bold))
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+        .background(.quaternary, in: .capsule)
+    }
+}
+
+/// A simple wrapping flow layout for inline tags.
+private struct FlowLayout: Layout {
+    var spacing: CGFloat = 4
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
+        let result = arrange(subviews: subviews, in: proposal.width ?? .infinity)
+        return result.size
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal _: ProposedViewSize, subviews: Subviews, cache _: inout ()) {
+        let result = arrange(subviews: subviews, in: bounds.width)
+        for (index, position) in result.positions.enumerated() {
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
+            )
+        }
+    }
+
+    private func arrange(subviews: Subviews, in width: CGFloat) -> (size: CGSize, positions: [CGPoint]) {
+        var positions: [CGPoint] = []
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        var maxWidth: CGFloat = 0
+
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            if x + size.width > width, x > 0 {
+                x = 0
+                y += rowHeight + spacing
+                rowHeight = 0
+            }
+            positions.append(CGPoint(x: x, y: y))
+            rowHeight = max(rowHeight, size.height)
+            x += size.width + spacing
+            maxWidth = max(maxWidth, x - spacing)
+        }
+
+        return (CGSize(width: maxWidth, height: y + rowHeight), positions)
     }
 }
 
