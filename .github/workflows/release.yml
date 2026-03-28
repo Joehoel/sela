@@ -78,6 +78,23 @@ jobs:
           # Add to keychain search list
           security list-keychains -d user -s "$KEYCHAIN_PATH" login.keychain-db
 
+      - name: Generate ExportOptions.plist
+        run: |
+          cat > ExportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>developer-id</string>
+              <key>teamID</key>
+              <string>${{ secrets.APPLE_TEAM_ID }}</string>
+              <key>signingStyle</key>
+              <string>automatic</string>
+          </dict>
+          </plist>
+          PLIST
+
       - name: Archive
         run: |
           xcodebuild archive \
@@ -88,9 +105,6 @@ jobs:
             -archivePath build/Sela.xcarchive \
             MARKETING_VERSION="${{ steps.version.outputs.version }}" \
             CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
-            CODE_SIGN_IDENTITY="Developer ID Application" \
-            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}" \
-            OTHER_CODE_SIGN_FLAGS="--timestamp" \
             ENABLE_HARDENED_RUNTIME=YES
 
       - name: Export archive
@@ -98,7 +112,8 @@ jobs:
           xcodebuild -exportArchive \
             -archivePath build/Sela.xcarchive \
             -exportOptionsPlist ExportOptions.plist \
-            -exportPath build/export
+            -exportPath build/export \
+            ENABLE_HARDENED_RUNTIME=YES
 
       - name: Create ZIP
         run: |
