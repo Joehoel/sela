@@ -13,12 +13,12 @@ struct SelaCommands: Commands {
 
         CommandGroup(after: .textEditing) {
             Button("Translate Empty Slides") {
-                // Placeholder — will wire to translation pipeline
+                appState.translationRequest = .emptySlides
             }
             .keyboardShortcut("t")
 
             Button("Retranslate All Slides") {
-                // Placeholder — will wire to translation pipeline
+                appState.translationRequest = .allSlides
             }
             .keyboardShortcut("t", modifiers: [.command, .shift])
 

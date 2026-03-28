@@ -5,6 +5,7 @@ struct SlideGroupView: View {
     var focusedLineID: FocusState<String?>.Binding
     let onAdvance: (String) -> Void
     let onRetreat: (String) -> Void
+    let onTranslateSlide: (Slide) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -21,6 +22,11 @@ struct SlideGroupView: View {
                             onAdvance: onAdvance,
                             onRetreat: onRetreat
                         )
+                    }
+                    .contextMenu {
+                        Button("Translate This Slide") {
+                            onTranslateSlide(slide)
+                        }
                     }
                 }
             }

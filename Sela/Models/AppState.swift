@@ -7,6 +7,7 @@ class AppState {
     var selectedSongID: String?
     var isInspectorPresented = false
     var searchText = ""
+    var translationRequest: TranslationRequest?
 
     var selectedSong: Song? {
         guard let id = selectedSongID else { return nil }
