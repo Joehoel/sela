@@ -7,6 +7,6 @@
 --wrapcollections before-first
 --maxwidth 140
 --swiftversion 6.0
---exclude DerivedData,.build,Sela/ProPresenter/Proto
+--exclude DerivedData,.build,Sela/Proto/Generated
 --disable redundantSelf
 --disable trailingCommas

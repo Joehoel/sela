@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package rv.data;
+
+option cc_enable_arenas = true;
+
+import "google/protobuf/descriptor.proto";
+
+extend .google.protobuf.MessageOptions {
+  bool atomic = 51200;
+}
+extend .google.protobuf.FieldOptions {
+  bool optional = 51300;
+}
+extend .google.protobuf.FieldOptions {
+  bool obsolete = 51301;
+}

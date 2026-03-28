@@ -6,12 +6,19 @@ options:
   xcodeVersion: "16.0"
   createIntermediateGroups: true
 
+packages:
+  SwiftProtobuf:
+    url: https://github.com/apple/swift-protobuf.git
+    from: "1.28.0"
+
 targets:
   Sela:
     type: application
     platform: macOS
     sources:
       - Sela
+    dependencies:
+      - package: SwiftProtobuf
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sela.app
