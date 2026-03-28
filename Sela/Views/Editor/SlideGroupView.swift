@@ -19,6 +19,7 @@ struct SlideGroupView: View {
                         SlideLineView(
                             line: line,
                             focusedLineID: focusedLineID,
+                            isTranslatable: slide.isTranslatable,
                             onAdvance: onAdvance,
                             onRetreat: onRetreat
                         )

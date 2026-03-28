@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(AppState.self) private var appState
-    private let provider: any SongProvider = MockSongProvider()
+    @AppStorage("libraryPath") private var libraryPath = "~/Documents/ProPresenter/Libraries/Default"
 
     var body: some View {
         @Bindable var appState = appState
@@ -24,7 +24,9 @@ struct ContentView: View {
                 )
             }
         }
-        .task {
+        .task(id: libraryPath) {
+            let url = URL(fileURLWithPath: (libraryPath as NSString).expandingTildeInPath)
+            let provider = ProPresenterSongProvider(libraryURL: url)
             await appState.loadSongs(from: provider)
         }
     }

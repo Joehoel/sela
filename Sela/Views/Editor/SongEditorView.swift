@@ -1,5 +1,10 @@
+import Combine
 import SwiftUI
 @preconcurrency import Translation
+
+extension Notification.Name {
+    static let saveSong = Notification.Name("saveSong")
+}
 
 struct SongEditorView: View {
     @Environment(AppState.self) private var appState
@@ -13,6 +18,7 @@ struct SongEditorView: View {
     @State private var translationStatus: String?
     @State private var showRetranslateConfirmation = false
     @State private var translationError: String?
+    @State private var saveTask: Task<Void, Never>?
 
     var body: some View {
         ScrollView {
@@ -83,6 +89,9 @@ struct SongEditorView: View {
         .onChange(of: appState.translationRequest) { _, request in
             guard let request else { return }
             requestTranslation(request)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .saveSong)) { _ in
+            saveSong()
         }
     }
 
@@ -195,6 +204,25 @@ struct SongEditorView: View {
             }
         }
         pendingLineIDs = []
+        debounceSave()
+    }
+
+    // MARK: - Save
+
+    private func debounceSave() {
+        saveTask?.cancel()
+        saveTask = Task {
+            try? await Task.sleep(for: .seconds(2))
+            guard !Task.isCancelled else { return }
+            saveSong()
+        }
+    }
+
+    private func saveSong() {
+        saveTask?.cancel()
+        Task {
+            try? await appState.save(song)
+        }
     }
 
     // MARK: - Slide-level translation

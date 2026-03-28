@@ -8,6 +8,7 @@ class AppState {
     var isInspectorPresented = false
     var searchText = ""
     var translationRequest: TranslationRequest?
+    var provider: (any SongProvider)?
 
     var selectedSong: Song? {
         guard let id = selectedSongID else { return nil }
@@ -32,6 +33,11 @@ class AppState {
     }
 
     func loadSongs(from provider: any SongProvider) async {
+        self.provider = provider
         songs = await provider.loadSongs()
+    }
+
+    func save(_ song: Song) async throws {
+        try await provider?.save(song)
     }
 }

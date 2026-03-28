@@ -11,6 +11,13 @@ struct SelaCommands: Commands {
             .keyboardShortcut("d")
         }
 
+        CommandGroup(replacing: .saveItem) {
+            Button("Save") {
+                NotificationCenter.default.post(name: .saveSong, object: nil)
+            }
+            .keyboardShortcut("s")
+        }
+
         CommandGroup(after: .textEditing) {
             Button("Translate Empty Slides") {
                 appState.translationRequest = .emptySlides

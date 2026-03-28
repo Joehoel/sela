@@ -3,6 +3,7 @@ import SwiftUI
 struct SlideLineView: View {
     @Bindable var line: SlideLine
     var focusedLineID: FocusState<String?>.Binding
+    let isTranslatable: Bool
     let onAdvance: (String) -> Void
     let onRetreat: (String) -> Void
 
@@ -17,6 +18,8 @@ struct SlideLineView: View {
                 .textFieldStyle(.plain)
                 .font(.body)
                 .focused(focusedLineID, equals: line.id)
+                .disabled(!isTranslatable)
+                .opacity(isTranslatable ? 1 : 0.5)
                 .onSubmit {
                     onAdvance(line.id)
                 }
