@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */; };
 		0BB4A55C541E985781065C5E /* MockSongProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A956CE0A06EB68F75CBA5D5 /* MockSongProviderTests.swift */; };
 		1E71F41F2B938705D86534AD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FACE2FA6A16E4BDB051C82 /* SettingsView.swift */; };
 		1E81BADAEA90205DF68A4D3A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B944FBFF2E5F68DEB1675E /* AppState.swift */; };
@@ -16,9 +17,11 @@
 		40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B8C4927209E20D2079572C /* DiagnoseInspector.swift */; };
 		510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34619DE434DDB179602B4A22 /* AppStateTests.swift */; };
 		678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */; };
+		680AA6BE9D06649F32B25E71 /* DeepLTranslationStepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */; };
 		734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5620769B923ADA75805EA7F /* ContentView.swift */; };
 		74DDAE6E41E479FBECEBA40C /* DiagnoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */; };
 		83FC3D389B8DCE093638476C /* SlideLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740C64B189E675F5B9705D0E /* SlideLineView.swift */; };
+		83FC45CB98BACB828B6CD3D1 /* TranslationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E96CAC4E6576830D6E012F1 /* TranslationEngine.swift */; };
 		90363AED7355AD138C87E1E1 /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554B4AA4096F03804218D05B /* Slide.swift */; };
 		93025DE4C5AA35F9E1CD4EFA /* SlideLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928D490244ABDE64693E6DB0 /* SlideLine.swift */; };
 		939E123836CEE0E6A15107EC /* GlossaryEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7CD9AB341EFBFC9E1642BF /* GlossaryEditor.swift */; };
@@ -56,6 +59,7 @@
 		15B37E6953080F227525BB64 /* SlideTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTests.swift; sourceTree = "<group>"; };
 		18A59EFBD6EC6088AC45F2FD /* Sela.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sela.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C590B47E43098347BB7CDCB /* AppleTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTranslationStep.swift; sourceTree = "<group>"; };
+		2E96CAC4E6576830D6E012F1 /* TranslationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEngine.swift; sourceTree = "<group>"; };
 		2F7A81F83864242CB8478B21 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
 		34619DE434DDB179602B4A22 /* AppStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateTests.swift; sourceTree = "<group>"; };
 		3B7503E4CD39EA35952236D6 /* SongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongProvider.swift; sourceTree = "<group>"; };
@@ -67,8 +71,10 @@
 		7135AFA5E3EF1D4AAEA0392D /* TranslationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationItem.swift; sourceTree = "<group>"; };
 		740C64B189E675F5B9705D0E /* SlideLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideLineView.swift; sourceTree = "<group>"; };
 		75C383C266D1B8F87634CA00 /* SlideGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroup.swift; sourceTree = "<group>"; };
+		78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLTranslationStepTests.swift; sourceTree = "<group>"; };
 		890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
 		8A956CE0A06EB68F75CBA5D5 /* MockSongProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSongProviderTests.swift; sourceTree = "<group>"; };
+		8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLTranslationStep.swift; sourceTree = "<group>"; };
 		8D8BEC791A8C8E5B789471B3 /* MockSongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSongProvider.swift; sourceTree = "<group>"; };
 		928D490244ABDE64693E6DB0 /* SlideLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideLine.swift; sourceTree = "<group>"; };
 		9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroupView.swift; sourceTree = "<group>"; };
@@ -148,6 +154,7 @@
 				75C383C266D1B8F87634CA00 /* SlideGroup.swift */,
 				928D490244ABDE64693E6DB0 /* SlideLine.swift */,
 				684D79F7089AD52F2770565A /* Song.swift */,
+				2E96CAC4E6576830D6E012F1 /* TranslationEngine.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -164,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				34619DE434DDB179602B4A22 /* AppStateTests.swift */,
+				78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */,
 				C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */,
 				55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */,
 				8A956CE0A06EB68F75CBA5D5 /* MockSongProviderTests.swift */,
@@ -214,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				1C590B47E43098347BB7CDCB /* AppleTranslationStep.swift */,
+				8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */,
 				A20EA8B7E389EF3B3EFD0A8A /* FoundationModelRefinementStep.swift */,
 			);
 			path = Steps;
@@ -310,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */,
+				680AA6BE9D06649F32B25E71 /* DeepLTranslationStepTests.swift in Sources */,
 				74DDAE6E41E479FBECEBA40C /* DiagnoseTests.swift in Sources */,
 				D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */,
 				0BB4A55C541E985781065C5E /* MockSongProviderTests.swift in Sources */,
@@ -326,6 +336,7 @@
 				1E81BADAEA90205DF68A4D3A /* AppState.swift in Sources */,
 				FE4B0FE3EB1E42F6AC917BFA /* AppleTranslationStep.swift in Sources */,
 				734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */,
+				017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */,
 				40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */,
 				A6962FC2DEB5D2CE67BCCD9D /* DiagnoseIssue.swift in Sources */,
 				EF0C486F7D4917018A661D9F /* FoundationModelRefinementStep.swift in Sources */,
@@ -344,6 +355,7 @@
 				9F921A4DE2B54C355681CA7A /* SongListView.swift in Sources */,
 				DB95294103D26EEB620056D7 /* SongProvider.swift in Sources */,
 				B536405302EC5103F9A95B6E /* SongRowView.swift in Sources */,
+				83FC45CB98BACB828B6CD3D1 /* TranslationEngine.swift in Sources */,
 				FE9F77B5D38FE4892D5ABEF8 /* TranslationItem.swift in Sources */,
 				BF306D0FFADB032E39C62614 /* TranslationPipeline.swift in Sources */,
 			);

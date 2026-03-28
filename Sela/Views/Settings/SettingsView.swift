@@ -20,6 +20,13 @@ struct SettingsView: View {
 
 struct GeneralSettingsView: View {
     @AppStorage("libraryPath") private var libraryPath = "~/Documents/ProPresenter/Libraries/Default"
+    @AppStorage("translationEngine") private var selectedEngine = TranslationEngine.apple.rawValue
+    @AppStorage("deeplAPIKey") private var deeplAPIKey = ""
+
+    private var engine: TranslationEngine {
+        get { TranslationEngine(rawValue: selectedEngine) ?? .apple }
+        nonmutating set { selectedEngine = newValue.rawValue }
+    }
 
     var body: some View {
         Form {
@@ -33,6 +40,24 @@ struct GeneralSettingsView: View {
                     Button("Choose...") {
                         chooseFolder()
                     }
+                }
+            }
+
+            Section("Translation Engine") {
+                Picker("Engine", selection: $selectedEngine) {
+                    ForEach(TranslationEngine.allCases, id: \.rawValue) { engine in
+                        Text(engine.displayName).tag(engine.rawValue)
+                    }
+                }
+
+                if engine == .deepl {
+                    SecureField("Enter your API key", text: $deeplAPIKey)
+                        .textFieldStyle(.roundedBorder)
+                    Link(
+                        "Get a free API key at deepl.com",
+                        destination: URL(string: "https://www.deepl.com/pro#developer")!
+                    )
+                    .font(.caption)
                 }
             }
         }

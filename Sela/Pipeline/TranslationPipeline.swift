@@ -21,12 +21,26 @@ struct TranslationPipeline {
         }
     }
 
-    static func `default`(session: TranslationSession) -> TranslationPipeline {
+    static func make(
+        engine: TranslationEngine,
+        session: TranslationSession? = nil,
+        deeplAPIKey: String = ""
+    ) -> TranslationPipeline {
         var pipeline = TranslationPipeline()
-        pipeline.steps.append(AppleTranslationStep(session: session))
+
+        switch engine {
+        case .apple:
+            if let session {
+                pipeline.steps.append(AppleTranslationStep(session: session))
+            }
+        case .deepl:
+            pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey))
+        }
+
         if #available(macOS 26, *) {
             pipeline.steps.append(FoundationModelRefinementStep())
         }
+
         return pipeline
     }
 }

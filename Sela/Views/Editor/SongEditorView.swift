@@ -6,6 +6,9 @@ struct SongEditorView: View {
     let song: Song
     @FocusState private var focusedLineID: String?
 
+    @AppStorage("translationEngine") private var selectedEngine = TranslationEngine.apple.rawValue
+    @AppStorage("deeplAPIKey") private var deeplAPIKey = ""
+
     @State private var translationConfig: TranslationSession.Configuration?
     @State private var translationStatus: String?
     @State private var showRetranslateConfirmation = false
@@ -73,7 +76,8 @@ struct SongEditorView: View {
             Text(translationError ?? "")
         }
         .translationTask(translationConfig) { session in
-            await runPipeline(with: session)
+            let pipeline = TranslationPipeline.make(engine: .apple, session: session)
+            await runPipeline(pipeline)
         }
         .onChange(of: appState.translationRequest) { _, request in
             guard let request else { return }
@@ -94,19 +98,29 @@ struct SongEditorView: View {
         }
     }
 
+    private var engine: TranslationEngine {
+        TranslationEngine(rawValue: selectedEngine) ?? .apple
+    }
+
     private func triggerTranslation(for request: TranslationRequest) {
         let lines = resolveLines(for: request)
         guard !lines.isEmpty else { return }
 
         pendingLineIDs = Set(lines.map(\.id))
 
-        if translationConfig == nil {
-            translationConfig = .init(
-                source: Locale.Language(identifier: "en"),
-                target: Locale.Language(identifier: "nl")
-            )
-        } else {
-            translationConfig?.invalidate()
+        switch engine {
+        case .apple:
+            if translationConfig == nil {
+                translationConfig = .init(
+                    source: Locale.Language(identifier: "en"),
+                    target: Locale.Language(identifier: "nl")
+                )
+            } else {
+                translationConfig?.invalidate()
+            }
+        case .deepl:
+            let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: deeplAPIKey)
+            Task { await runPipeline(pipeline) }
         }
     }
 
@@ -125,11 +139,9 @@ struct SongEditorView: View {
         }
     }
 
-    private func runPipeline(with session: TranslationSession) async {
+    private func runPipeline(_ pipeline: TranslationPipeline) async {
         var items = buildItems()
         guard !items.isEmpty else { return }
-
-        let pipeline = TranslationPipeline.default(session: session)
 
         do {
             try await pipeline.run(&items) { status in
