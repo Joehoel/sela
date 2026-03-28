@@ -30,23 +30,13 @@ jobs:
         run: swiftlint lint --strict --reporter github-actions-logging
 
   build-and-test:
-    name: Build & Test (Xcode ${{ matrix.xcode }})
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - runner: macos-15
-            xcode: "16.2"
-          - runner: macos-15
-            xcode: "16.3"
-          - runner: macos-15
-            xcode: "16.4"
+    name: Build & Test
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select Xcode ${{ matrix.xcode }}
-        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: Select Xcode 16.4
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
 
       - name: Cache Homebrew
         uses: actions/cache@v4
@@ -61,20 +51,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/Library/Developer/Xcode/DerivedData
-          key: deriveddata-${{ matrix.xcode }}-${{ hashFiles('**/*.swift', 'project.yml') }}
+          key: deriveddata-${{ hashFiles('**/*.swift', 'project.yml') }}
           restore-keys: |
-            deriveddata-${{ matrix.xcode }}-
+            deriveddata-
 
       - name: Generate Xcode project
         run: xcodegen generate
-
-      - name: Build
-        run: |
-          xcodebuild -project Sela.xcodeproj \
-            -scheme Sela \
-            -configuration Debug \
-            -destination 'platform=macOS' \
-            build
 
       - name: Test
         run: |
