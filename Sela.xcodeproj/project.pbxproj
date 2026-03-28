@@ -69,6 +69,7 @@
 		CA357B628CDEF369FCA666B9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684D79F7089AD52F2770565A /* Song.swift */; };
 		D2016D67BE01B39137579B6C /* font.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AD3A3B87B9324C144E5DB4 /* font.pb.swift */; };
 		D370C957F764E828DF83CE38 /* collectionElementType.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2106723A82BCFAB0EE6DAE07 /* collectionElementType.pb.swift */; };
+		D37510F385ACA9113A00E995 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EFE3978F9DCDE6792F59055 /* Assets.xcassets */; };
 		D4535654432B620A5555DA39 /* presentation.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4D43D75288C3669D78F31C /* presentation.pb.swift */; };
 		D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543174EB7507BF1E048A727 /* SongTests.swift */; };
 		D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */; };
@@ -130,6 +131,7 @@
 		35E72BEF9EB5AA4463962379 /* GlossaryReplacementStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryReplacementStep.swift; sourceTree = "<group>"; };
 		38264B7F390F372EF66744DE /* version.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = version.pb.swift; sourceTree = "<group>"; };
 		3B7503E4CD39EA35952236D6 /* SongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongProvider.swift; sourceTree = "<group>"; };
+		3EFE3978F9DCDE6792F59055 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		472795C3D5548B470F45EB9A /* customOptions.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customOptions.pb.swift; sourceTree = "<group>"; };
 		48FACE2FA6A16E4BDB051C82 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ACCEAB5F13A4FE3932E3956 /* applicationInfo.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = applicationInfo.pb.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 		4DC3C69D03DF27C60197E61A /* Sela */ = {
 			isa = PBXGroup;
 			children = (
+				3EFE3978F9DCDE6792F59055 /* Assets.xcassets */,
 				E5620769B923ADA75805EA7F /* ContentView.swift */,
 				CE540DAB80598BE53C26424F /* SelaApp.swift */,
 				BEF3043B46B784D74A82E7FB /* Mock */,
@@ -462,6 +465,7 @@
 			buildConfigurationList = 1ACD88F8AB07334DD6AB7C66 /* Build configuration list for PBXNativeTarget "Sela" */;
 			buildPhases = (
 				B7BEB56F534A0B9680EA9A5E /* Sources */,
+				3F35E60509B47A8E5E170F62 /* Resources */,
 				1E2DD1B23871C85E907C2435 /* Frameworks */,
 			);
 			buildRules = (
@@ -511,6 +515,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3F35E60509B47A8E5E170F62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D37510F385ACA9113A00E995 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B31D289A661FDED3E9DA5DA9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;

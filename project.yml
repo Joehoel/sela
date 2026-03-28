@@ -32,6 +32,7 @@ targets:
         GENERATE_INFOPLIST_FILE: true
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGNING_REQUIRED: false
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 
   SelaTests:
     type: bundle.unit-test

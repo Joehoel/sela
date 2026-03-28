@@ -1,0 +1,78 @@
+{
+  "images": [
+    {
+      "size": "16x16",
+      "expected-size": "16",
+      "filename": "16x16b.png",
+      "idiom": "mac",
+      "scale": "1x"
+    },
+    {
+      "size": "16x16",
+      "expected-size": "32",
+      "filename": "32x32b.png",
+      "idiom": "mac",
+      "scale": "2x"
+    },
+    {
+      "size": "32x32",
+      "expected-size": "32",
+      "filename": "32x32b.png",
+      "idiom": "mac",
+      "scale": "1x"
+    },
+    {
+      "size": "32x32",
+      "expected-size": "64",
+      "filename": "64x64b.png",
+      "idiom": "mac",
+      "scale": "2x"
+    },
+    {
+      "size": "128x128",
+      "expected-size": "128",
+      "filename": "128x128b.png",
+      "idiom": "mac",
+      "scale": "1x"
+    },
+    {
+      "size": "128x128",
+      "expected-size": "256",
+      "filename": "256x256b.png",
+      "idiom": "mac",
+      "scale": "2x"
+    },
+    {
+      "size": "256x256",
+      "expected-size": "256",
+      "filename": "256x256b.png",
+      "idiom": "mac",
+      "scale": "1x"
+    },
+    {
+      "size": "256x256",
+      "expected-size": "512",
+      "filename": "512x512b.png",
+      "idiom": "mac",
+      "scale": "2x"
+    },
+    {
+      "size": "512x512",
+      "expected-size": "512",
+      "filename": "512x512b.png",
+      "idiom": "mac",
+      "scale": "1x"
+    },
+    {
+      "size": "512x512",
+      "expected-size": "1024",
+      "filename": "1024x1024b.png",
+      "idiom": "mac",
+      "scale": "2x"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}
