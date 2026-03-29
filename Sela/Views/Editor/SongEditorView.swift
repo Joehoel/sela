@@ -15,10 +15,6 @@ struct SongEditorView: View {
     @AppStorage("deeplAPIKey") private var deeplAPIKey = ""
 
     @State private var controller: EditorController
-    @State private var translationConfig: TranslationSession.Configuration?
-    @State private var translationStatus: String?
-    @State private var showRetranslateConfirmation = false
-    @State private var translationError: String?
 
     init(song: Song) {
         self.song = song
@@ -34,7 +30,7 @@ struct SongEditorView: View {
                         focusedLineID: $focusedLineID,
                         onAdvance: { controller.advanceFromLine($0) },
                         onRetreat: { controller.retreatFromLine($0) },
-                        onTranslateSlide: { translateSlide($0) }
+                        onTranslateSlide: { controller.translateSlide($0) }
                     )
                 }
             }
@@ -43,43 +39,41 @@ struct SongEditorView: View {
         .navigationTitle(song.title)
         .navigationSubtitle(song.author)
         .toolbar { toolbarContent }
-        .alert("Retranslate All Slides?", isPresented: $showRetranslateConfirmation) {
+        .alert("Retranslate All Slides?", isPresented: $controller.showRetranslateConfirmation) {
             Button("Retranslate", role: .destructive) {
-                triggerTranslation(for: .allSlides)
+                controller.triggerTranslation(for: .allSlides)
             }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This will overwrite all existing translations, including manual edits.")
         }
-        .alert("Translation Failed", isPresented: .init(
-            get: { translationError != nil },
-            set: { if !$0 { translationError = nil } }
-        )) {
-            Button("OK") { translationError = nil }
+        .alert("Translation Failed", isPresented: hasTranslationError) {
+            Button("OK") { controller.dismissTranslationError() }
         } message: {
-            Text(translationError ?? "")
+            Text(controller.translationError ?? "")
         }
         .alert("Save Failed", isPresented: hasSaveError) {
             Button("OK") { controller.saveError = nil }
         } message: {
             Text(controller.saveError ?? "")
         }
-        .translationTask(translationConfig) { session in
-            let glossary = GlossaryEntry.load()
-            let pipeline = TranslationPipeline.make(engine: .apple, session: session, glossary: glossary)
-            await runPipeline(pipeline)
+        .translationTask(controller.translationConfig) { session in
+            await controller.handleAppleSession(session)
         }
         .onChange(of: appState.translationRequest) { _, request in
             guard let request else { return }
-            requestTranslation(request)
+            controller.requestTranslation(request)
+            appState.translationRequest = nil
         }
         .onReceive(NotificationCenter.default.publisher(for: .saveSong)) { _ in
             Task { await controller.performSave() }
         }
-        .onAppear {
-            controller.save = { [appState, song] in
-                try await appState.save(song)
-            }
+        .onAppear { wireDependencies() }
+        .onChange(of: selectedEngine) { _, val in
+            controller.engine = TranslationEngine(rawValue: val) ?? .apple
+        }
+        .onChange(of: deeplAPIKey) { _, val in
+            controller.deeplAPIKey = val
         }
         .onChange(of: controller.focusedLineID) { _, newValue in
             focusedLineID = newValue
@@ -89,122 +83,20 @@ struct SongEditorView: View {
         }
     }
 
-    // MARK: - Translation
-
-    private func requestTranslation(_ request: TranslationRequest) {
-        appState.translationRequest = nil
-
-        switch request {
-        case .allSlides:
-            showRetranslateConfirmation = true
-        case .emptySlides, .lines:
-            triggerTranslation(for: request)
+    private func wireDependencies() {
+        controller.engine = TranslationEngine(rawValue: selectedEngine) ?? .apple
+        controller.deeplAPIKey = deeplAPIKey
+        controller.save = { [appState, song] in
+            try await appState.save(song)
         }
     }
 
-    private var engine: TranslationEngine {
-        TranslationEngine(rawValue: selectedEngine) ?? .apple
-    }
-
-    private func triggerTranslation(for request: TranslationRequest) {
-        let lines = resolveLines(for: request)
-        guard !lines.isEmpty else { return }
-
-        pendingLineIDs = Set(lines.map(\.id))
-
-        switch engine {
-        case .apple:
-            if translationConfig == nil {
-                translationConfig = .init(
-                    source: Locale.Language(identifier: "en"),
-                    target: Locale.Language(identifier: "nl")
-                )
-            } else {
-                translationConfig?.invalidate()
-            }
-        case .deepl:
-            let glossary = GlossaryEntry.load()
-            let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: deeplAPIKey, glossary: glossary)
-            Task { await runPipeline(pipeline) }
-        }
-    }
-
-    @State private var pendingLineIDs: Set<String> = []
-
-    private func resolveLines(for request: TranslationRequest) -> [SlideLine] {
-        let allLines = song.slideGroups.flatMap(\.slides).flatMap(\.lines)
-        switch request {
-        case .emptySlides:
-            return allLines.filter(\.translation.isEmpty)
-        case .allSlides:
-            return allLines
-        case let .lines(ids):
-            let idSet = Set(ids)
-            return allLines.filter { idSet.contains($0.id) }
-        }
-    }
-
-    private func runPipeline(_ pipeline: TranslationPipeline) async {
-        var items = buildItems()
-        guard !items.isEmpty else { return }
-
-        do {
-            try await pipeline.run(&items) { status in
-                Task { @MainActor in
-                    translationStatus = status
-                }
-            }
-
-            guard !Task.isCancelled else { return }
-
-            await MainActor.run {
-                writeBack(items)
-                translationStatus = nil
-            }
-        } catch {
-            guard !Task.isCancelled else { return }
-            await MainActor.run {
-                translationStatus = nil
-                translationError = error.localizedDescription
-            }
-        }
-    }
-
-    private func buildItems() -> [TranslationItem] {
-        var items: [TranslationItem] = []
-        for group in song.slideGroups {
-            for slide in group.slides {
-                for line in slide.lines where pendingLineIDs.contains(line.id) {
-                    items.append(TranslationItem(
-                        sourceText: line.original,
-                        lineID: line.id,
-                        groupName: group.name
-                    ))
-                }
-            }
-        }
-        return items
-    }
-
-    private func writeBack(_ items: [TranslationItem]) {
-        let lookup = Dictionary(items.map { ($0.lineID, $0.currentText) }, uniquingKeysWith: { _, last in last })
-        for group in song.slideGroups {
-            for slide in group.slides {
-                for line in slide.lines {
-                    if let translated = lookup[line.id] {
-                        line.translation = translated
-                    }
-                }
-            }
-        }
-        pendingLineIDs = []
-        debounceSave()
-    }
+    // MARK: - Toolbar
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItemGroup(placement: .primaryAction) {
-            if let status = translationStatus {
+            if let status = controller.translationStatus {
                 ProgressView()
                     .controlSize(.small)
                 Text(status)
@@ -225,13 +117,13 @@ struct SongEditorView: View {
             }
 
             Button {
-                requestTranslation(.emptySlides)
+                controller.requestTranslation(.emptySlides)
             } label: {
                 Label("Translate", systemImage: "translate")
             }
             .keyboardShortcut("t")
             .help("Translate empty slides (⌘T)")
-            .disabled(translationStatus != nil)
+            .disabled(controller.translationStatus != nil)
 
             Button {
                 appState.isInspectorPresented.toggle()
@@ -244,24 +136,20 @@ struct SongEditorView: View {
         }
     }
 
+    // MARK: - Bindings
+
+    private var hasTranslationError: Binding<Bool> {
+        Binding(
+            get: { controller.translationError != nil },
+            set: { if !$0 { controller.dismissTranslationError() } }
+        )
+    }
+
     private var hasSaveError: Binding<Bool> {
         Binding(
             get: { controller.saveError != nil },
             set: { if !$0 { controller.saveError = nil } }
         )
-    }
-
-    // MARK: - Save
-
-    private func debounceSave() {
-        controller.debounceSave()
-    }
-
-    // MARK: - Slide-level translation
-
-    private func translateSlide(_ slide: Slide) {
-        let lineIDs = slide.lines.map(\.id)
-        requestTranslation(.lines(lineIDs))
     }
 }
 
