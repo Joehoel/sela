@@ -17,6 +17,8 @@ import Foundation
         let name = "Refining…"
 
         func process(_ items: inout [TranslationItem]) async throws {
+            print("[Sela] FoundationModelRefinementStep running with \(items.count) items")
+
             let session = LanguageModelSession {
                 """
                 You are refining Dutch translations of English worship songs.
@@ -32,15 +34,25 @@ import Foundation
 
             let prompt = buildPrompt(from: items)
 
-            let response = try await session.respond(
-                to: prompt,
-                generating: TranslationLines.self
-            )
+            let response: LanguageModelSession.Response<TranslationLines>
+            do {
+                response = try await session.respond(
+                    to: prompt,
+                    generating: TranslationLines.self
+                )
+            } catch {
+                print("[Sela] FoundationModel respond failed: \(error)")
+                return
+            }
 
             let refined = response.content.lines
 
-            guard refined.count == items.count else { return }
+            guard refined.count == items.count else {
+                print("[Sela] Line count mismatch: got \(refined.count), expected \(items.count)")
+                return
+            }
 
+            print("[Sela] FoundationModel refinement applied successfully")
             for (index, text) in refined.enumerated() {
                 items[index].currentText = text
             }

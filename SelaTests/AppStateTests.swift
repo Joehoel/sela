@@ -68,4 +68,56 @@ struct AppStateTests {
 
         #expect(state.selectedSong == nil)
     }
+
+    // MARK: - Hidden songs
+
+    @Test("hidden songs are excluded from category lists")
+    func hiddenSongsExcluded() {
+        let state = AppState()
+        state.songs = makeSongs()
+        state.songs[0].isHidden = true
+
+        #expect(state.untranslatedSongs.isEmpty)
+        #expect(state.hiddenSongs.count == 1)
+        #expect(state.hiddenSongs.first?.title == "Untranslated Song")
+    }
+
+    @Test("hiddenSongs returns only hidden songs")
+    func hiddenSongsList() {
+        let state = AppState()
+        state.songs = makeSongs()
+
+        #expect(state.hiddenSongs.isEmpty)
+
+        state.songs[1].isHidden = true
+        #expect(state.hiddenSongs.count == 1)
+        #expect(state.hiddenSongs.first?.title == "Partial Song")
+    }
+
+    @Test("hidden song IDs persist via hiddenSongIDs")
+    func hiddenSongPersistence() {
+        let state = AppState()
+        state.songs = makeSongs()
+
+        state.hideSong(state.songs[0])
+        #expect(state.hiddenSongIDs.contains(state.songs[0].id))
+
+        state.showSong(state.songs[0])
+        #expect(!state.hiddenSongIDs.contains(state.songs[0].id))
+    }
+
+    @Test("restoreHiddenState applies persisted IDs to loaded songs")
+    func restoreHiddenState() {
+        let state = AppState()
+        let songs = makeSongs()
+
+        // Simulate: persist an ID before songs load
+        state.hiddenSongIDs.insert(songs[2].id)
+        state.songs = songs
+        state.restoreHiddenState()
+
+        #expect(state.songs[2].isHidden)
+        #expect(!state.songs[0].isHidden)
+        #expect(!state.songs[1].isHidden)
+    }
 }

@@ -9,6 +9,7 @@ class Song: Identifiable {
     var category: String
     var slideGroups: [SlideGroup]
     var filePath: URL?
+    var isHidden: Bool = false
 
     var hasTranslation: Bool {
         slideGroups.contains { group in
@@ -67,6 +68,16 @@ class Song: Identifiable {
             }
         }
         return result
+    }
+
+    func clearTranslations() {
+        for group in slideGroups {
+            for slide in group.slides {
+                for line in slide.lines {
+                    line.translation = ""
+                }
+            }
+        }
     }
 
     init(

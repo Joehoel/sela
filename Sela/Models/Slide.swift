@@ -7,6 +7,10 @@ class Slide: Identifiable {
     var lines: [SlideLine]
     var isTranslatable: Bool
 
+    var hasContent: Bool {
+        lines.contains { !$0.original.isEmpty }
+    }
+
     var hasTranslation: Bool {
         lines.contains { !$0.translation.isEmpty }
     }
