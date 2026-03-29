@@ -22,23 +22,40 @@ struct SongEditorView: View {
     }
 
     var body: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 24) {
-                ForEach(song.slideGroups.filter { !$0.contentSlides.isEmpty }) { group in
-                    SlideGroupView(
-                        group: group,
-                        focusedLineID: $focusedLineID,
-                        onAdvance: { controller.advanceFromLine($0) },
-                        onRetreat: { controller.retreatFromLine($0) },
-                        onTranslateSlide: { controller.translateSlide($0) }
-                    )
+        @Bindable var appState = appState
+
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 24) {
+                    ForEach(song.slideGroups.filter { !$0.contentSlides.isEmpty }) { group in
+                        SlideGroupView(
+                            group: group,
+                            focusedLineID: $focusedLineID,
+                            onAdvance: { controller.advanceFromLine($0) },
+                            onRetreat: { controller.retreatFromLine($0) },
+                            onTranslateSlide: { controller.translateSlide($0) }
+                        )
+                    }
+                }
+                .padding(20)
+            }
+            .onChange(of: controller.focusedLineID) { _, lineID in
+                focusedLineID = lineID
+                guard let lineID else { return }
+                withAnimation {
+                    proxy.scrollTo(lineID, anchor: .center)
                 }
             }
-            .padding(20)
         }
         .navigationTitle(song.title)
         .navigationSubtitle(song.author)
         .toolbar { toolbarContent }
+        .inspector(isPresented: $appState.isInspectorPresented) {
+            DiagnoseInspector(song: song) { issue in
+                controller.focusedLineID = issue.lineID
+            }
+            .inspectorColumnWidth(min: 200, ideal: 260, max: 340)
+        }
         .alert("Retranslate All Slides?", isPresented: $controller.showRetranslateConfirmation) {
             Button("Retranslate", role: .destructive) {
                 controller.triggerTranslation(for: .allSlides)
@@ -74,9 +91,6 @@ struct SongEditorView: View {
         }
         .onChange(of: deeplAPIKey) { _, val in
             controller.deeplAPIKey = val
-        }
-        .onChange(of: controller.focusedLineID) { _, newValue in
-            focusedLineID = newValue
         }
         .onChange(of: focusedLineID) { _, newValue in
             controller.focusedLineID = newValue

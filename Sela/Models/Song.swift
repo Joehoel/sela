@@ -44,6 +44,7 @@ class Song: Identifiable {
                     if originalLines != translationLines {
                         result.append(DiagnoseIssue(
                             id: line.id,
+                            lineID: line.id,
                             groupName: group.name,
                             slideIndex: slideIndex,
                             severity: .warning,
@@ -56,6 +57,7 @@ class Song: Identifiable {
                     if originalEnds != translationEnds {
                         result.append(DiagnoseIssue(
                             id: "\(line.id)-punct",
+                            lineID: line.id,
                             groupName: group.name,
                             slideIndex: slideIndex,
                             severity: .info,

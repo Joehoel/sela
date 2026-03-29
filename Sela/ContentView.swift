@@ -12,10 +12,6 @@ struct ContentView: View {
         } detail: {
             if let song = appState.selectedSong {
                 SongEditorView(song: song)
-                    .inspector(isPresented: $appState.isInspectorPresented) {
-                        DiagnoseInspector(song: song)
-                            .inspectorColumnWidth(min: 200, ideal: 260, max: 340)
-                    }
             } else {
                 ContentUnavailableView(
                     "Select a Song",

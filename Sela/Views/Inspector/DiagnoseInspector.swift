@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DiagnoseInspector: View {
     let song: Song
+    var onSelectIssue: ((DiagnoseIssue) -> Void)?
 
     var body: some View {
         List {
@@ -16,6 +17,8 @@ struct DiagnoseInspector: View {
                 Section("Issues") {
                     ForEach(song.diagnoseIssues, id: \.id) { issue in
                         IssueRowView(issue: issue)
+                            .contentShape(Rectangle())
+                            .onTapGesture { onSelectIssue?(issue) }
                     }
                 }
             } else if song.hasTranslation {
