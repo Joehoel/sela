@@ -2,15 +2,22 @@ import SwiftUI
 
 struct SongListView: View {
     @Environment(AppState.self) private var appState
+    @State private var isHiddenExpanded = false
 
     var body: some View {
         @Bindable var appState = appState
 
         List(selection: $appState.selectedSongID) {
+            if appState.isLoading, appState.songs.isEmpty {
+                ProgressView("Loading songs…")
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 40)
+            }
             if !appState.inProgressSongs.isEmpty {
                 Section("In Progress") {
                     ForEach(appState.inProgressSongs) { song in
                         SongRowView(song: song)
+                            .contextMenu { songContextMenu(for: song) }
                     }
                 }
             }
@@ -18,6 +25,7 @@ struct SongListView: View {
                 Section("Untranslated") {
                     ForEach(appState.untranslatedSongs) { song in
                         SongRowView(song: song)
+                            .contextMenu { songContextMenu(for: song) }
                     }
                 }
             }
@@ -25,6 +33,15 @@ struct SongListView: View {
                 Section("Translated") {
                     ForEach(appState.translatedSongs) { song in
                         SongRowView(song: song)
+                            .contextMenu { songContextMenu(for: song) }
+                    }
+                }
+            }
+            if !appState.hiddenSongs.isEmpty {
+                Section("Hidden", isExpanded: $isHiddenExpanded) {
+                    ForEach(appState.hiddenSongs) { song in
+                        SongRowView(song: song)
+                            .contextMenu { hiddenSongContextMenu(for: song) }
                     }
                 }
             }
@@ -32,6 +49,24 @@ struct SongListView: View {
         .listStyle(.sidebar)
         .navigationTitle("Songs")
         .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
+    }
+
+    private func songContextMenu(for song: Song) -> some View {
+        Button("Clear All Translations") {
+            song.clearTranslations()
+            Task { try? await appState.save(song) }
+        }
+        .disabled(!song.hasTranslation)
+
+        Button("Hide") {
+            appState.hideSong(song)
+        }
+    }
+
+    private func hiddenSongContextMenu(for song: Song) -> some View {
+        Button("Show") {
+            appState.showSong(song)
+        }
     }
 }
 

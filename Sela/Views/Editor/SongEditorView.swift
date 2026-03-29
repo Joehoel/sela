@@ -14,21 +14,26 @@ struct SongEditorView: View {
     @AppStorage("translationEngine") private var selectedEngine = TranslationEngine.apple.rawValue
     @AppStorage("deeplAPIKey") private var deeplAPIKey = ""
 
+    @State private var controller: EditorController
     @State private var translationConfig: TranslationSession.Configuration?
     @State private var translationStatus: String?
     @State private var showRetranslateConfirmation = false
     @State private var translationError: String?
-    @State private var saveTask: Task<Void, Never>?
+
+    init(song: Song) {
+        self.song = song
+        self._controller = State(initialValue: EditorController(song: song))
+    }
 
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 24) {
-                ForEach(song.slideGroups) { group in
+                ForEach(song.slideGroups.filter { !$0.contentSlides.isEmpty }) { group in
                     SlideGroupView(
                         group: group,
                         focusedLineID: $focusedLineID,
-                        onAdvance: { advanceFromLine($0) },
-                        onRetreat: { retreatFromLine($0) },
+                        onAdvance: { controller.advanceFromLine($0) },
+                        onRetreat: { controller.retreatFromLine($0) },
                         onTranslateSlide: { translateSlide($0) }
                     )
                 }
@@ -37,34 +42,7 @@ struct SongEditorView: View {
         }
         .navigationTitle(song.title)
         .navigationSubtitle(song.author)
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                if let status = translationStatus {
-                    ProgressView()
-                        .controlSize(.small)
-                    Text(status)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                Button {
-                    requestTranslation(.emptySlides)
-                } label: {
-                    Label("Translate", systemImage: "translate")
-                }
-                .keyboardShortcut("t")
-                .help("Translate empty slides (⌘T)")
-                .disabled(translationStatus != nil)
-
-                Button {
-                    appState.isInspectorPresented.toggle()
-                } label: {
-                    Label("Diagnose", systemImage: "sidebar.trailing")
-                }
-                .keyboardShortcut("d")
-                .help("Toggle diagnose inspector (⌘D)")
-            }
-        }
+        .toolbar { toolbarContent }
         .alert("Retranslate All Slides?", isPresented: $showRetranslateConfirmation) {
             Button("Retranslate", role: .destructive) {
                 triggerTranslation(for: .allSlides)
@@ -81,6 +59,11 @@ struct SongEditorView: View {
         } message: {
             Text(translationError ?? "")
         }
+        .alert("Save Failed", isPresented: hasSaveError) {
+            Button("OK") { controller.saveError = nil }
+        } message: {
+            Text(controller.saveError ?? "")
+        }
         .translationTask(translationConfig) { session in
             let glossary = GlossaryEntry.load()
             let pipeline = TranslationPipeline.make(engine: .apple, session: session, glossary: glossary)
@@ -91,7 +74,18 @@ struct SongEditorView: View {
             requestTranslation(request)
         }
         .onReceive(NotificationCenter.default.publisher(for: .saveSong)) { _ in
-            saveSong()
+            Task { await controller.performSave() }
+        }
+        .onAppear {
+            controller.save = { [appState, song] in
+                try await appState.save(song)
+            }
+        }
+        .onChange(of: controller.focusedLineID) { _, newValue in
+            focusedLineID = newValue
+        }
+        .onChange(of: focusedLineID) { _, newValue in
+            controller.focusedLineID = newValue
         }
     }
 
@@ -193,7 +187,7 @@ struct SongEditorView: View {
     }
 
     private func writeBack(_ items: [TranslationItem]) {
-        let lookup = Dictionary(uniqueKeysWithValues: items.map { ($0.lineID, $0.currentText) })
+        let lookup = Dictionary(items.map { ($0.lineID, $0.currentText) }, uniquingKeysWith: { _, last in last })
         for group in song.slideGroups {
             for slide in group.slides {
                 for line in slide.lines {
@@ -207,22 +201,60 @@ struct SongEditorView: View {
         debounceSave()
     }
 
-    // MARK: - Save
+    @ToolbarContentBuilder
+    private var toolbarContent: some ToolbarContent {
+        ToolbarItemGroup(placement: .primaryAction) {
+            if let status = translationStatus {
+                ProgressView()
+                    .controlSize(.small)
+                Text(status)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
 
-    private func debounceSave() {
-        saveTask?.cancel()
-        saveTask = Task {
-            try? await Task.sleep(for: .seconds(2))
-            guard !Task.isCancelled else { return }
-            saveSong()
+            if controller.isSaving {
+                ProgressView()
+                    .controlSize(.small)
+                    .help("Saving…")
+            } else {
+                Button { Task { await controller.performSave() } } label: {
+                    Label("Save", systemImage: "externaldrive")
+                }
+                .help(controller.isDirty ? "Save (⌘S)" : "All changes saved")
+                .disabled(!controller.isDirty)
+            }
+
+            Button {
+                requestTranslation(.emptySlides)
+            } label: {
+                Label("Translate", systemImage: "translate")
+            }
+            .keyboardShortcut("t")
+            .help("Translate empty slides (⌘T)")
+            .disabled(translationStatus != nil)
+
+            Button {
+                appState.isInspectorPresented.toggle()
+            } label: {
+                Label("Diagnose", systemImage: "sidebar.trailing")
+            }
+            .badge(song.diagnoseIssues.count)
+            .keyboardShortcut("d")
+            .help("Toggle diagnose inspector (⌘D)")
         }
     }
 
-    private func saveSong() {
-        saveTask?.cancel()
-        Task {
-            try? await appState.save(song)
-        }
+    private var hasSaveError: Binding<Bool> {
+        Binding(
+            get: { controller.saveError != nil },
+            set: { if !$0 { controller.saveError = nil } }
+        )
+    }
+
+    // MARK: - Save
+
+    private func debounceSave() {
+        controller.debounceSave()
     }
 
     // MARK: - Slide-level translation
@@ -230,26 +262,6 @@ struct SongEditorView: View {
     private func translateSlide(_ slide: Slide) {
         let lineIDs = slide.lines.map(\.id)
         requestTranslation(.lines(lineIDs))
-    }
-
-    // MARK: - Navigation
-
-    private var allLineIDs: [String] {
-        song.slideGroups.flatMap(\.slides).flatMap(\.lines).map(\.id)
-    }
-
-    private func advanceFromLine(_ lineID: String) {
-        let ids = allLineIDs
-        guard let index = ids.firstIndex(of: lineID) else { return }
-        let next = (index + 1) % ids.count
-        focusedLineID = ids[next]
-    }
-
-    private func retreatFromLine(_ lineID: String) {
-        let ids = allLineIDs
-        guard let index = ids.firstIndex(of: lineID) else { return }
-        let prev = (index - 1 + ids.count) % ids.count
-        focusedLineID = ids[prev]
     }
 }
 

@@ -14,7 +14,7 @@ struct SlideGroupView: View {
                 .foregroundStyle(.secondary)
 
             VStack(spacing: 8) {
-                ForEach(group.slides) { slide in
+                ForEach(group.contentSlides) { slide in
                     ForEach(slide.lines) { line in
                         SlideLineView(
                             line: line,

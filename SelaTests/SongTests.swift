@@ -82,4 +82,40 @@ struct SongTests {
         #expect(song.slideCount == 0)
         #expect(!song.hasTranslation)
     }
+
+    // MARK: - clearTranslations
+
+    @Test("clearTranslations removes all translation text")
+    func clearTranslations() {
+        let song = Song(
+            title: "Test",
+            slideGroups: [
+                SlideGroup(name: "V1", slides: [
+                    Slide(lines: [SlideLine(original: "A", translation: "X")]),
+                    Slide(lines: [SlideLine(original: "B", translation: "Y")]),
+                ]),
+                SlideGroup(name: "Chorus", slides: [
+                    Slide(lines: [SlideLine(original: "C", translation: "Z")]),
+                ]),
+            ]
+        )
+        #expect(song.hasTranslation)
+        song.clearTranslations()
+        #expect(!song.hasTranslation)
+        #expect(song.translationProgress == 0)
+    }
+
+    @Test("clearTranslations on untranslated song is safe")
+    func clearTranslationsNoop() {
+        let song = Song(
+            title: "Test",
+            slideGroups: [
+                SlideGroup(name: "V1", slides: [
+                    Slide(lines: [SlideLine(original: "A")]),
+                ]),
+            ]
+        )
+        song.clearTranslations()
+        #expect(!song.hasTranslation)
+    }
 }
