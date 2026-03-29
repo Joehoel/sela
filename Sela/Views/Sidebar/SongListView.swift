@@ -52,14 +52,16 @@ struct SongListView: View {
     }
 
     private func songContextMenu(for song: Song) -> some View {
-        Button("Clear All Translations") {
-            song.clearTranslations()
-            Task { try? await appState.save(song) }
-        }
-        .disabled(!song.hasTranslation)
+        Group {
+            Button("Clear All Translations") {
+                song.clearTranslations()
+                Task { try? await appState.save(song) }
+            }
+            .disabled(!song.hasTranslation)
 
-        Button("Hide") {
-            appState.hideSong(song)
+            Button("Hide") {
+                appState.hideSong(song)
+            }
         }
     }
 

@@ -74,6 +74,7 @@ struct GeneralSettingsView: View {
         panel.directoryURL = URL(fileURLWithPath: (libraryPath as NSString).expandingTildeInPath)
 
         if panel.runModal() == .OK, let url = panel.url {
+            BookmarkManager.saveBookmark(for: url)
             libraryPath = url.path
         }
     }

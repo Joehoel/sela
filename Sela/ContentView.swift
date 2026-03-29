@@ -26,7 +26,9 @@ struct ContentView: View {
         }
         .searchable(text: $appState.searchText, isPresented: $appState.isSearchFocused, placement: .sidebar, prompt: "Search songs")
         .task(id: libraryPath) {
-            let url = URL(fileURLWithPath: (libraryPath as NSString).expandingTildeInPath)
+            let url = BookmarkManager.resolveBookmark()
+                ?? URL(fileURLWithPath: (libraryPath as NSString).expandingTildeInPath)
+            _ = url.startAccessingSecurityScopedResource()
             let provider = ProPresenterSongProvider(libraryURL: url)
             await appState.loadSongs(from: provider)
         }

@@ -93,6 +93,7 @@
 		FFCC78AFCFC02FDB7784E329 /* version.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38264B7F390F372EF66744DE /* version.pb.swift */; };
 		B2A1F0E9D8C7B6A5F4E3D2C1 /* EditorControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4A5B6C7D8E9F0A1B2 /* EditorControllerTests.swift */; };
 		C2B1A0F9E8D7C6B5A4F3E2D1 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3A4B5C6D7E8F9A0B1C2 /* EditorController.swift */; };
+		E2D1C0B9A8F7E6D5C4B3A2F1 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A2B3C4D5E6F7A8B9C0D1E2 /* BookmarkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +194,7 @@
 		FF2673101A91E1B71DF5A0CE /* ProPresenterReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterReader.swift; sourceTree = "<group>"; };
 		C1D2E3F4A5B6C7D8E9F0A1B2 /* EditorControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorControllerTests.swift; sourceTree = "<group>"; };
 		D1E2F3A4B5C6D7E8F9A0B1C2 /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
+		F1A2B3C4D5E6F7A8B9C0D1E2 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,6 +299,7 @@ E1F2A3B4C5D6E7F8A9B0C1D2 /* Controllers */,
 			isa = PBXGroup;
 			children = (
 				890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */,
+				F1A2B3C4D5E6F7A8B9C0D1E2 /* BookmarkManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -580,6 +583,7 @@ E1F2A3B4C5D6E7F8A9B0C1D2 /* Controllers */,
 			buildActionMask = 2147483647;
 			files = (
 				1E81BADAEA90205DF68A4D3A /* AppState.swift in Sources */,
+				E2D1C0B9A8F7E6D5C4B3A2F1 /* BookmarkManager.swift in Sources */,
 				C2B1A0F9E8D7C6B5A4F3E2D1 /* EditorController.swift in Sources */,
 				FE4B0FE3EB1E42F6AC917BFA /* AppleTranslationStep.swift in Sources */,
 				734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */,
