@@ -144,7 +144,7 @@ struct EditorControllerTests {
         let lines = controller.resolveLines(for: .emptySlides)
 
         #expect(lines.count == 2)
-        #expect(lines.allSatisfy(\.translation.isEmpty))
+        #expect(lines.filter { !$0.translation.isEmpty }.isEmpty)
     }
 
     @Test("resolveLines for allSlides returns every line")
