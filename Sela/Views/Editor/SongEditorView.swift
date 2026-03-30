@@ -118,18 +118,6 @@ struct SongEditorView: View {
                     .foregroundStyle(.secondary)
             }
 
-            if controller.isSaving {
-                ProgressView()
-                    .controlSize(.small)
-                    .help("Saving…")
-            } else {
-                Button { Task { await controller.performSave() } } label: {
-                    Label("Save", systemImage: "externaldrive")
-                }
-                .help(controller.isDirty ? "Save (⌘S)" : "All changes saved")
-                .disabled(!controller.isDirty)
-            }
-
             Button {
                 controller.requestTranslation(.emptySlides)
             } label: {
