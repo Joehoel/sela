@@ -221,8 +221,10 @@ struct EditorControllerTests {
     func requestEmpty() {
         let song = makeSong()
         let controller = EditorController(song: song)
-        controller.engine = .deepl
-        controller.deeplAPIKey = "test"
+        let prefs = UserPreferences()
+        prefs.translationEngine = .deepl
+        prefs.deeplAPIKey = "test"
+        controller.preferences = prefs
 
         controller.requestTranslation(.emptySlides)
 
@@ -244,8 +246,10 @@ struct EditorControllerTests {
     func translateSlideTest() {
         let song = makeSong()
         let controller = EditorController(song: song)
-        controller.engine = .deepl
-        controller.deeplAPIKey = "test"
+        let prefs = UserPreferences()
+        prefs.translationEngine = .deepl
+        prefs.deeplAPIKey = "test"
+        controller.preferences = prefs
         let slide = song.slideGroups[0].slides[0]
 
         controller.translateSlide(slide)

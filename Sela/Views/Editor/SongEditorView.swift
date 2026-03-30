@@ -8,11 +8,9 @@ extension Notification.Name {
 
 struct SongEditorView: View {
     @Environment(AppState.self) private var appState
+    @Environment(UserPreferences.self) private var preferences
     let song: Song
     @FocusState private var focusedLineID: String?
-
-    @AppStorage("translationEngine") private var selectedEngine = TranslationEngine.apple.rawValue
-    @AppStorage("deeplAPIKey") private var deeplAPIKey = ""
 
     @State private var controller: EditorController
 
@@ -51,7 +49,7 @@ struct SongEditorView: View {
         .navigationSubtitle(song.author)
         .toolbar { toolbarContent }
         .inspector(isPresented: $appState.isInspectorPresented) {
-            DiagnoseInspector(song: song) { issue in
+            DiagnoseInspector(song: song, issues: controller.diagnoseIssues) { issue in
                 controller.focusedLineID = issue.lineID
             }
             .inspectorColumnWidth(min: 200, ideal: 260, max: 340)
@@ -85,23 +83,14 @@ struct SongEditorView: View {
         .onReceive(NotificationCenter.default.publisher(for: .saveSong)) { _ in
             Task { await controller.performSave() }
         }
-        .onAppear { wireDependencies() }
-        .onChange(of: selectedEngine) { _, val in
-            controller.engine = TranslationEngine(rawValue: val) ?? .apple
-        }
-        .onChange(of: deeplAPIKey) { _, val in
-            controller.deeplAPIKey = val
+        .onAppear {
+            controller.preferences = preferences
+            controller.save = { [appState, song] in
+                try await appState.save(song)
+            }
         }
         .onChange(of: focusedLineID) { _, newValue in
             controller.focusedLineID = newValue
-        }
-    }
-
-    private func wireDependencies() {
-        controller.engine = TranslationEngine(rawValue: selectedEngine) ?? .apple
-        controller.deeplAPIKey = deeplAPIKey
-        controller.save = { [appState, song] in
-            try await appState.save(song)
         }
     }
 
@@ -132,7 +121,7 @@ struct SongEditorView: View {
             } label: {
                 Label("Diagnose", systemImage: "sidebar.trailing")
             }
-            .badge(song.diagnoseIssues.count)
+            .badge(controller.diagnoseIssues.count)
             .keyboardShortcut("d")
             .help("Toggle diagnose inspector (⌘D)")
         }
@@ -160,6 +149,7 @@ struct SongEditorView: View {
         SongEditorView(song: MockSongProvider.buildMyLife)
     }
     .environment(AppState())
+    .environment(UserPreferences())
     .frame(width: 600, height: 700)
 }
 
@@ -168,5 +158,6 @@ struct SongEditorView: View {
         SongEditorView(song: MockSongProvider.wayMaker)
     }
     .environment(AppState())
+    .environment(UserPreferences())
     .frame(width: 600, height: 700)
 }

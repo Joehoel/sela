@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DiagnoseInspector: View {
     let song: Song
+    let issues: [DiagnoseIssue]
     var onSelectIssue: ((DiagnoseIssue) -> Void)?
 
     var body: some View {
@@ -13,9 +14,9 @@ struct DiagnoseInspector: View {
                 }
             }
 
-            if !song.diagnoseIssues.isEmpty {
+            if !issues.isEmpty {
                 Section("Issues") {
-                    ForEach(song.diagnoseIssues, id: \.id) { issue in
+                    ForEach(issues, id: \.id) { issue in
                         IssueRowView(issue: issue)
                             .contentShape(Rectangle())
                             .onTapGesture { onSelectIssue?(issue) }
@@ -61,11 +62,15 @@ struct IssueRowView: View {
 }
 
 #Preview("With Issues") {
-    DiagnoseInspector(song: MockSongProvider.buildMyLife)
-        .frame(width: 260, height: 400)
+    let song = MockSongProvider.buildMyLife
+    DiagnoseInspector(
+        song: song,
+        issues: DiagnosticsEngine.diagnose(song: song, rules: DiagnosticRules.all)
+    )
+    .frame(width: 260, height: 400)
 }
 
 #Preview("No Translation") {
-    DiagnoseInspector(song: MockSongProvider.wayMaker)
+    DiagnoseInspector(song: MockSongProvider.wayMaker, issues: [])
         .frame(width: 260, height: 400)
 }

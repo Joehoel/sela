@@ -13,26 +13,26 @@ struct SettingsView: View {
                 .tabItem {
                     Label("Glossary", systemImage: "book")
                 }
+
+            DiagnosticSettingsView()
+                .tabItem {
+                    Label("Diagnostics", systemImage: "stethoscope")
+                }
         }
         .frame(width: 500, height: 450)
     }
 }
 
 struct GeneralSettingsView: View {
-    @AppStorage("libraryPath") private var libraryPath = "~/Documents/ProPresenter/Libraries/Default"
-    @AppStorage("translationEngine") private var selectedEngine = TranslationEngine.apple.rawValue
-    @AppStorage("deeplAPIKey") private var deeplAPIKey = ""
-
-    private var engine: TranslationEngine {
-        get { TranslationEngine(rawValue: selectedEngine) ?? .apple }
-        nonmutating set { selectedEngine = newValue.rawValue }
-    }
+    @Environment(UserPreferences.self) private var preferences
 
     var body: some View {
+        @Bindable var preferences = preferences
+
         Form {
             Section("ProPresenter Library") {
                 HStack {
-                    Text(libraryPath)
+                    Text(preferences.libraryPath)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                         .truncationMode(.middle)
@@ -44,14 +44,14 @@ struct GeneralSettingsView: View {
             }
 
             Section("Translation Engine") {
-                Picker("Engine", selection: $selectedEngine) {
+                Picker("Engine", selection: $preferences.translationEngine) {
                     ForEach(TranslationEngine.allCases, id: \.rawValue) { engine in
-                        Text(engine.displayName).tag(engine.rawValue)
+                        Text(engine.displayName).tag(engine)
                     }
                 }
 
-                if engine == .deepl {
-                    SecureField("Enter your API key", text: $deeplAPIKey)
+                if preferences.translationEngine == .deepl {
+                    SecureField("Enter your API key", text: $preferences.deeplAPIKey)
                         .textFieldStyle(.roundedBorder)
                     Link(
                         "Get a free API key at deepl.com",
@@ -71,11 +71,11 @@ struct GeneralSettingsView: View {
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
-        panel.directoryURL = URL(fileURLWithPath: (libraryPath as NSString).expandingTildeInPath)
+        panel.directoryURL = URL(fileURLWithPath: (preferences.libraryPath as NSString).expandingTildeInPath)
 
         if panel.runModal() == .OK, let url = panel.url {
             BookmarkManager.saveBookmark(for: url)
-            libraryPath = url.path
+            preferences.libraryPath = url.path
         }
     }
 }

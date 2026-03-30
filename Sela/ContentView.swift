@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(AppState.self) private var appState
-    @AppStorage("libraryPath") private var libraryPath = "~/Documents/ProPresenter/Libraries/Default"
+    @Environment(UserPreferences.self) private var preferences
 
     var body: some View {
         @Bindable var appState = appState
@@ -21,9 +21,9 @@ struct ContentView: View {
             }
         }
         .searchable(text: $appState.searchText, isPresented: $appState.isSearchFocused, placement: .sidebar, prompt: "Search songs")
-        .task(id: libraryPath) {
+        .task(id: preferences.libraryPath) {
             let url = BookmarkManager.resolveBookmark()
-                ?? URL(fileURLWithPath: (libraryPath as NSString).expandingTildeInPath)
+                ?? URL(fileURLWithPath: (preferences.libraryPath as NSString).expandingTildeInPath)
             _ = url.startAccessingSecurityScopedResource()
             let provider = ProPresenterSongProvider(libraryURL: url)
             await appState.loadSongs(from: provider)
@@ -34,5 +34,6 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environment(AppState())
+        .environment(UserPreferences())
         .frame(width: 900, height: 600)
 }

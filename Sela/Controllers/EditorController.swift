@@ -25,10 +25,17 @@ final class EditorController {
     private(set) var translationConfig: TranslationSession.Configuration?
     private var pendingLineIDs: Set<String> = []
 
-    // MARK: - Engine config (synced from view's @AppStorage)
+    // MARK: - Preferences (set on appear)
 
-    var engine: TranslationEngine = .apple
-    var deeplAPIKey: String = ""
+    var preferences: UserPreferences?
+
+    // MARK: - Diagnostics
+
+    var diagnoseIssues: [DiagnoseIssue] {
+        let enabledIDs = preferences?.enabledRuleIDs ?? Set(DiagnosticRules.defaultEnabledIDs)
+        let rules = DiagnosticRules.all.filter { enabledIDs.contains($0.id) }
+        return DiagnosticsEngine.diagnose(song: song, rules: rules)
+    }
 
     // MARK: - Init
 
@@ -115,6 +122,8 @@ final class EditorController {
 
         pendingLineIDs = Set(lines.map(\.id))
 
+        let engine = preferences?.translationEngine ?? .apple
+
         switch engine {
         case .apple:
             if translationConfig == nil {
@@ -127,7 +136,8 @@ final class EditorController {
             }
         case .deepl:
             let glossary = GlossaryEntry.load()
-            let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: deeplAPIKey, glossary: glossary)
+            let apiKey = preferences?.deeplAPIKey ?? ""
+            let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: apiKey, glossary: glossary)
             Task { await runPipeline(pipeline) }
         }
     }
