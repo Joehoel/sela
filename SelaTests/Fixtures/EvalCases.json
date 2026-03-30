@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Amazing Grace v1",
+    "group": "Verse 1",
+    "english": [
+      "Amazing grace, how sweet the sound",
+      "That saved a wretch like me",
+      "I once was lost, but now am found",
+      "Was blind, but now I see"
+    ],
+    "referenceDutch": [
+      "Genade, zo oneindig groot",
+      "Dat ik, die 't niet verdien",
+      "Het leven vond, want ik was dood",
+      "Was blind, maar nu kan 'k zien"
+    ]
+  },
+  {
+    "name": "10000 Reasons chorus",
+    "group": "Chorus",
+    "english": [
+      "Bless the Lord, O my soul",
+      "O my soul, worship His holy name",
+      "Sing like never before, O my soul",
+      "I'll worship Your holy name"
+    ],
+    "referenceDutch": [
+      "Loof de Heer, o mijn ziel",
+      "O mijn ziel, prijs nu Zijn heilige naam",
+      "Met meer passie dan ooit, o mijn ziel",
+      "Verheerlijk Zijn heilige naam"
+    ]
+  },
+  {
+    "name": "10000 Reasons v1",
+    "group": "Verse 1",
+    "english": [
+      "The sun comes up, it's a new day dawning",
+      "It's time to sing Your song again",
+      "Whatever may pass and whatever lies before me",
+      "Let me be singing when the evening comes"
+    ],
+    "referenceDutch": [
+      "De zon komt op, maakt de morgen wakker",
+      "Mijn dag begint met een lied voor U",
+      "Heer, wat er ook gebeurt en wat mij mag overkomen",
+      "Laat mij nog zingen als de avond valt"
+    ]
+  },
+  {
+    "name": "Way Maker v1",
+    "group": "Verse 1",
+    "english": [
+      "You are here, moving in our midst",
+      "I worship You, I worship You",
+      "You are here, working in this place",
+      "I worship You, I worship You"
+    ],
+    "referenceDutch": [
+      "U bent hier, beweegt in ons midden",
+      "Ik aanbid U, ik aanbid U",
+      "U bent hier, aan het werk op deze plek",
+      "Ik aanbid U, ik aanbid U"
+    ]
+  },
+  {
+    "name": "Way Maker chorus",
+    "group": "Chorus",
+    "english": [
+      "Way maker, miracle worker",
+      "Promise keeper, light in the darkness",
+      "My God, that is who You are"
+    ],
+    "referenceDutch": [
+      "Wegmaker, wonderdoener",
+      "Beloftehouder, licht in de duisternis",
+      "Mijn God, dat is wie U bent"
+    ]
+  }
+]

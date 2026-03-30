@@ -22,6 +22,10 @@ import Foundation
         let isRequired: Bool
         static let timeout: Duration = .seconds(60)
 
+        private var prompt: TranslationPrompt {
+            TranslationPrompt(mode: mode == .translate ? .translate : .refine)
+        }
+
         var name: String {
             switch mode {
             case .translate: "Translating…"
@@ -30,16 +34,17 @@ import Foundation
         }
 
         func process(_ items: inout [TranslationItem]) async throws {
+            let systemPrompt = prompt.systemPrompt(for: items.count)
             let session = LanguageModelSession {
-                systemPrompt(for: items.count)
+                systemPrompt
             }
 
-            let prompt = buildPrompt(from: items)
+            let userPrompt = prompt.buildUserPrompt(from: items)
 
             // Extract just the [String] lines inside the Task to avoid Sendable issues
             let respondTask = Task<[String], Error> {
                 let response = try await session.respond(
-                    to: prompt,
+                    to: userPrompt,
                     generating: TranslationLines.self
                 )
                 return response.content.lines
@@ -63,59 +68,6 @@ import Foundation
             for index in items.indices where index < output.count {
                 items[index].currentText = output[index]
             }
-        }
-
-        private func systemPrompt(for count: Int) -> String {
-            switch mode {
-            case .translate:
-                """
-                You are translating English worship songs to Dutch.
-                Rules:
-                - Use reverent register: "U" (not "jij/je") when addressing God
-                - Keep lines singable: similar syllable count to the original English
-                - Use common Dutch worship vocabulary
-                - Maintain the poetic/lyrical feel
-                - Do not add or remove lines
-                - Return exactly \(count) lines in the same order
-                """
-            case .refine:
-                """
-                You are refining Dutch translations of English worship songs.
-                Rules:
-                - Use reverent register: "U" (not "jij/je") when addressing God
-                - Keep lines singable: similar syllable count to the original English
-                - Use common Dutch worship vocabulary
-                - Maintain the poetic/lyrical feel
-                - Do not add or remove lines
-                - Return exactly \(count) lines in the same order
-                """
-            }
-        }
-
-        private func buildPrompt(from items: [TranslationItem]) -> String {
-            var lines: [String] = []
-
-            switch mode {
-            case .translate:
-                lines.append("Translate the following English worship song lines to Dutch.\n")
-            case .refine:
-                lines.append("Refine the following Dutch translations for use in a worship song.\n")
-            }
-
-            var currentGroup: String?
-            for item in items {
-                if let group = item.groupName, group != currentGroup {
-                    lines.append("[\(group)]")
-                    currentGroup = group
-                }
-                lines.append("EN: \(item.sourceText)")
-                if mode == .refine {
-                    lines.append("NL: \(item.currentText)")
-                }
-                lines.append("")
-            }
-
-            return lines.joined(separator: "\n")
         }
     }
 #endif
