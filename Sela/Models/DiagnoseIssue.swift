@@ -7,7 +7,7 @@ struct DiagnoseIssue {
     let slideIndex: Int
     let severity: Severity
     let message: String
-    var fix: (@MainActor (SlideLine) -> String)?
+    var fix: (@MainActor (SlideLine) -> String?)?
 
     enum Severity {
         case warning, info

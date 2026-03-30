@@ -46,8 +46,10 @@ final class EditorController {
     func applyFix(for issue: DiagnoseIssue) {
         guard let fix = issue.fix else { return }
         let allLines = song.slideGroups.flatMap(\.slides).flatMap(\.lines)
-        guard let line = allLines.first(where: { $0.id == issue.lineID }) else { return }
-        line.translation = fix(line)
+        guard let line = allLines.first(where: { $0.id == issue.lineID }),
+              let fixed = fix(line)
+        else { return }
+        line.translation = fixed
         debounceSave()
     }
 

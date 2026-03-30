@@ -232,4 +232,26 @@ struct DiagnoseTests {
         let fixed = SignificantLengthDifferenceRule().fix(line: line)
         #expect(fixed == nil)
     }
+
+    // MARK: - Fix closure safety
+
+    @Test("fix closure returns nil gracefully when issue is already resolved")
+    @MainActor
+    func fixClosureSafeWhenAlreadyFixed() throws {
+        let line = SlideLine(original: "Hello", translation: " Hallo ")
+        let song = Song(title: "Test", slideGroups: [
+            SlideGroup(name: "V1", slides: [
+                Slide(lines: [line]),
+            ]),
+        ])
+        let issues = DiagnosticsEngine.diagnose(song: song, rules: [LeadingTrailingWhitespaceRule()])
+        let issue = try #require(issues.first)
+
+        // Fix the line manually first (simulating another fix or user edit)
+        line.translation = "Hallo"
+
+        // Now invoke the fix closure — should not crash, should return nil
+        let result = issue.fix?(line)
+        #expect(result == nil)
+    }
 }

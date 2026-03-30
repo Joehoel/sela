@@ -12,7 +12,7 @@ enum DiagnosticsEngine {
                             continue
                         }
                         if rule.fix(line: line) != nil {
-                            issue.fix = { line in rule.fix(line: line)! }
+                            issue.fix = { line in rule.fix(line: line) }
                         }
                         result.append(issue)
                     }
