@@ -3,51 +3,60 @@ import Observation
 
 @Observable @MainActor
 final class UserPreferences {
-    var translationEngine: TranslationEngine = UserPreferences.loadEngine() {
+    private let defaults: UserDefaults
+
+    var translationEngine: TranslationEngine {
         didSet {
-            UserDefaults.standard.set(translationEngine.rawValue, forKey: "translationEngine")
+            defaults.set(translationEngine.rawValue, forKey: "translationEngine")
         }
     }
 
-    var deeplAPIKey: String = UserDefaults.standard.string(forKey: "deeplAPIKey") ?? "" {
+    var deeplAPIKey: String {
         didSet {
-            UserDefaults.standard.set(deeplAPIKey, forKey: "deeplAPIKey")
+            defaults.set(deeplAPIKey, forKey: "deeplAPIKey")
         }
     }
 
-    var libraryPath: String = UserDefaults.standard.string(forKey: "libraryPath")
-        ?? "~/Documents/ProPresenter/Libraries/Default"
-    {
+    var libraryPath: String {
         didSet {
-            UserDefaults.standard.set(libraryPath, forKey: "libraryPath")
+            defaults.set(libraryPath, forKey: "libraryPath")
         }
     }
 
-    var useFoundationModelRefinement: Bool = UserDefaults.standard.object(forKey: "useFoundationModelRefinement") as? Bool ?? true {
+    var useFoundationModelRefinement: Bool {
         didSet {
-            UserDefaults.standard.set(useFoundationModelRefinement, forKey: "useFoundationModelRefinement")
+            defaults.set(useFoundationModelRefinement, forKey: "useFoundationModelRefinement")
         }
     }
 
-    var enabledRuleIDs: Set<String> = UserPreferences.loadEnabledRuleIDs() {
+    var enabledRuleIDs: Set<String> {
         didSet {
-            UserDefaults.standard.set(Array(enabledRuleIDs), forKey: "enabledRuleIDs")
+            defaults.set(Array(enabledRuleIDs), forKey: "enabledRuleIDs")
         }
     }
 
-    private static func loadEngine() -> TranslationEngine {
-        if let raw = UserDefaults.standard.string(forKey: "translationEngine"),
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+
+        if let raw = defaults.string(forKey: "translationEngine"),
            let engine = TranslationEngine(rawValue: raw)
         {
-            return engine
+            translationEngine = engine
+        } else {
+            translationEngine = .apple
         }
-        return .apple
-    }
 
-    private static func loadEnabledRuleIDs() -> Set<String> {
-        if let array = UserDefaults.standard.stringArray(forKey: "enabledRuleIDs") {
-            return Set(array)
+        deeplAPIKey = defaults.string(forKey: "deeplAPIKey") ?? ""
+
+        libraryPath = defaults.string(forKey: "libraryPath")
+            ?? "~/Documents/ProPresenter/Libraries/Default"
+
+        useFoundationModelRefinement = defaults.object(forKey: "useFoundationModelRefinement") as? Bool ?? true
+
+        if let array = defaults.stringArray(forKey: "enabledRuleIDs") {
+            enabledRuleIDs = Set(array)
+        } else {
+            enabledRuleIDs = Set(DiagnosticRules.defaultEnabledIDs)
         }
-        return Set(DiagnosticRules.defaultEnabledIDs)
     }
 }

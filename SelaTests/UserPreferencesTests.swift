@@ -4,121 +4,91 @@ import Testing
 
 @MainActor
 struct UserPreferencesTests {
-    private let testSuiteKey = "test_deeplAPIKey_\(UUID().uuidString)"
+    private func makeDefaults() -> UserDefaults {
+        let suite = "test.\(UUID().uuidString)"
+        return UserDefaults(suiteName: suite)!
+    }
 
     @Test("deeplAPIKey persists to UserDefaults on set")
     func deeplKeyPersists() {
-        let prefs = UserPreferences()
-        let key = "deeplAPIKey"
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
 
         prefs.deeplAPIKey = "test-key-123"
 
-        let stored = UserDefaults.standard.string(forKey: key)
-        #expect(stored == "test-key-123")
-
-        // Clean up
-        prefs.deeplAPIKey = ""
+        #expect(defaults.string(forKey: "deeplAPIKey") == "test-key-123")
     }
 
     @Test("deeplAPIKey loads persisted value on init")
     func deeplKeyLoads() {
-        let key = "deeplAPIKey"
-        UserDefaults.standard.set("persisted-key", forKey: key)
+        let defaults = makeDefaults()
+        defaults.set("persisted-key", forKey: "deeplAPIKey")
 
-        let prefs = UserPreferences()
+        let prefs = UserPreferences(defaults: defaults)
 
         #expect(prefs.deeplAPIKey == "persisted-key")
-
-        // Clean up
-        UserDefaults.standard.removeObject(forKey: key)
-    }
-
-    @Test("translationEngine persists to UserDefaults on set")
-    func enginePersists() {
-        let prefs = UserPreferences()
-
-        prefs.translationEngine = .deepl
-
-        let stored = UserDefaults.standard.string(forKey: "translationEngine")
-        #expect(stored == "deepl")
-
-        // Clean up
-        prefs.translationEngine = .apple
-    }
-
-    @Test("useFoundationModelRefinement persists to UserDefaults on set")
-    func refinementTogglePersists() {
-        let prefs = UserPreferences()
-
-        prefs.useFoundationModelRefinement = false
-
-        let stored = UserDefaults.standard.bool(forKey: "useFoundationModelRefinement")
-        #expect(stored == false)
-
-        // Clean up
-        prefs.useFoundationModelRefinement = true
     }
 
     @Test("deeplAPIKey survives simulated app restart")
     func deeplKeySurvivesRestart() {
-        // Simulate first launch: user sets key
-        let prefs1 = UserPreferences()
+        let defaults = makeDefaults()
+        let prefs1 = UserPreferences(defaults: defaults)
         prefs1.deeplAPIKey = "my-secret-key"
 
-        // Simulate app restart: new instance loads from UserDefaults
-        let prefs2 = UserPreferences()
+        let prefs2 = UserPreferences(defaults: defaults)
         #expect(prefs2.deeplAPIKey == "my-secret-key")
-
-        // Clean up
-        UserDefaults.standard.removeObject(forKey: "deeplAPIKey")
     }
 
     @Test("deeplAPIKey persists realistic API key strings")
     func deeplKeyPersistsLongStrings() {
-        let key = "deeplAPIKey"
-        UserDefaults.standard.removeObject(forKey: key)
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
 
-        let prefs = UserPreferences()
-
-        // Realistic DeepL API key (typically 36-39 chars with special characters)
         let realisticKey = "a1b2c3d4-e5f6-7890-abcd-ef1234567890:fx"
         prefs.deeplAPIKey = realisticKey
 
-        // Verify it persists
-        let stored = UserDefaults.standard.string(forKey: key)
-        #expect(stored == realisticKey)
-        #expect(stored?.count == realisticKey.count)
+        #expect(defaults.string(forKey: "deeplAPIKey") == realisticKey)
 
-        // Verify it loads on new instance
-        let prefs2 = UserPreferences()
+        let prefs2 = UserPreferences(defaults: defaults)
         #expect(prefs2.deeplAPIKey == realisticKey)
         #expect(prefs2.deeplAPIKey.count == realisticKey.count)
-
-        // Clean up
-        UserDefaults.standard.removeObject(forKey: key)
     }
 
-    @Test("deeplAPIKey persists when mutated via keypath (like @Bindable)")
-    func deeplKeyPersistsViaKeypath() {
-        let key = "deeplAPIKey"
-        UserDefaults.standard.removeObject(forKey: key)
+    @Test("translationEngine persists to UserDefaults on set")
+    func enginePersists() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
 
-        let prefs = UserPreferences()
-        let keyPath = \UserPreferences.deeplAPIKey
+        prefs.translationEngine = .deepl
 
-        // Mutate via WritableKeyPath (how @Bindable sets values)
-        prefs[keyPath: keyPath] = "keypath-test-value-that-is-quite-long-1234567890"
+        #expect(defaults.string(forKey: "translationEngine") == "deepl")
+    }
 
-        let stored = UserDefaults.standard.string(forKey: key)
-        #expect(stored == "keypath-test-value-that-is-quite-long-1234567890")
+    @Test("useFoundationModelRefinement persists to UserDefaults on set")
+    func refinementTogglePersists() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
 
-        // Clean up
-        UserDefaults.standard.removeObject(forKey: key)
+        prefs.useFoundationModelRefinement = false
+
+        #expect(defaults.bool(forKey: "useFoundationModelRefinement") == false)
+    }
+
+    @Test("enabledRuleIDs persists to UserDefaults on set")
+    func ruleIDsPersist() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
+
+        prefs.enabledRuleIDs = ["ruleA", "ruleB"]
+
+        let stored = Set(defaults.stringArray(forKey: "enabledRuleIDs") ?? [])
+        #expect(stored == ["ruleA", "ruleB"])
     }
 
     @Test("EditorController reads deeplAPIKey from preferences")
     func controllerReadsDeeplKey() {
-        let prefs = UserPreferences()
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
         prefs.deeplAPIKey = "controller-test-key"
         prefs.translationEngine = .deepl
 
@@ -130,12 +100,7 @@ struct UserPreferencesTests {
         let controller = EditorController(song: song)
         controller.preferences = prefs
 
-        // The controller should read the key from preferences, not fall back to ""
         #expect(controller.preferences?.deeplAPIKey == "controller-test-key")
         #expect(controller.preferences?.translationEngine == .deepl)
-
-        // Clean up
-        prefs.deeplAPIKey = ""
-        prefs.translationEngine = .apple
     }
 }
