@@ -51,9 +51,13 @@ struct SongEditorView: View {
         .navigationSubtitle(song.author)
         .toolbar { toolbarContent }
         .inspector(isPresented: $appState.isInspectorPresented) {
-            DiagnoseInspector(song: song, issues: controller.diagnoseIssues) { issue in
-                controller.navigateToLine(issue.lineID)
-            }
+            DiagnoseInspector(
+                song: song,
+                issues: controller.diagnoseIssues,
+                onSelectIssue: { controller.navigateToLine($0.lineID) },
+                onFixIssue: { controller.applyFix(for: $0) },
+                onFixAll: { controller.fixAllIssues() }
+            )
             .inspectorColumnWidth(min: 200, ideal: 260, max: 340)
         }
         .alert("Retranslate All Slides?", isPresented: $controller.showRetranslateConfirmation) {

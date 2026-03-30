@@ -43,6 +43,20 @@ final class EditorController {
         return DiagnosticsEngine.diagnose(song: song, rules: rules)
     }
 
+    func applyFix(for issue: DiagnoseIssue) {
+        guard let fix = issue.fix else { return }
+        let allLines = song.slideGroups.flatMap(\.slides).flatMap(\.lines)
+        guard let line = allLines.first(where: { $0.id == issue.lineID }) else { return }
+        line.translation = fix(line)
+        debounceSave()
+    }
+
+    func fixAllIssues() {
+        for issue in diagnoseIssues {
+            applyFix(for: issue)
+        }
+    }
+
     // MARK: - Init
 
     private var debounceTask: Task<Void, Never>?

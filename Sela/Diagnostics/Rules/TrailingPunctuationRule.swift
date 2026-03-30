@@ -21,4 +21,17 @@ struct TrailingPunctuationRule: DiagnosticRule {
             message: originalEnds ? "Missing trailing punctuation" : "Extra trailing punctuation"
         )
     }
+
+    func fix(line: SlideLine) -> String? {
+        let punctuation = ".,!?;:"
+        let originalEnds = line.original.last.map { punctuation.contains($0) } ?? false
+        let translationEnds = line.translation.last.map { punctuation.contains($0) } ?? false
+        guard originalEnds != translationEnds else { return nil }
+
+        if originalEnds, let punct = line.original.last {
+            return line.translation + String(punct)
+        } else {
+            return String(line.translation.dropLast())
+        }
+    }
 }

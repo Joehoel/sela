@@ -7,6 +7,13 @@ protocol DiagnosticRule: Sendable {
     var severity: DiagnoseIssue.Severity { get }
     var enabled: Bool { get }
     func check(line: SlideLine, groupName: String, slideIndex: Int) -> DiagnoseIssue?
+    func fix(line: SlideLine) -> String?
+}
+
+extension DiagnosticRule {
+    func fix(line _: SlideLine) -> String? {
+        nil
+    }
 }
 
 enum DiagnosticRules {

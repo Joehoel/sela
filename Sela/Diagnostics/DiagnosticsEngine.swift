@@ -8,9 +8,13 @@ enum DiagnosticsEngine {
                 for line in slide.lines {
                     guard !line.translation.isEmpty else { continue }
                     for rule in rules {
-                        if let issue = rule.check(line: line, groupName: group.name, slideIndex: slideIndex) {
-                            result.append(issue)
+                        guard var issue = rule.check(line: line, groupName: group.name, slideIndex: slideIndex) else {
+                            continue
                         }
+                        if rule.fix(line: line) != nil {
+                            issue.fix = { line in rule.fix(line: line)! }
+                        }
+                        result.append(issue)
                     }
                 }
             }

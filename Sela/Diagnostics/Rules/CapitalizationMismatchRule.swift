@@ -22,4 +22,18 @@ struct CapitalizationMismatchRule: DiagnosticRule {
                 : "Translation starts with unexpected uppercase"
         )
     }
+
+    func fix(line: SlideLine) -> String? {
+        guard let origFirst = line.original.first,
+              let transFirst = line.translation.first,
+              origFirst.isUppercase != transFirst.isUppercase
+        else { return nil }
+
+        let rest = line.translation.dropFirst()
+        if origFirst.isUppercase {
+            return transFirst.uppercased() + rest
+        } else {
+            return transFirst.lowercased() + rest
+        }
+    }
 }

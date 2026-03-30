@@ -4,6 +4,8 @@ struct DiagnoseInspector: View {
     let song: Song
     let issues: [DiagnoseIssue]
     var onSelectIssue: ((DiagnoseIssue) -> Void)?
+    var onFixIssue: ((DiagnoseIssue) -> Void)?
+    var onFixAll: (() -> Void)?
 
     var body: some View {
         List {
@@ -15,11 +17,21 @@ struct DiagnoseInspector: View {
             }
 
             if !issues.isEmpty {
-                Section("Issues") {
+                Section {
                     ForEach(issues, id: \.id) { issue in
-                        IssueRowView(issue: issue)
+                        IssueRowView(issue: issue, onFix: onFixIssue)
                             .contentShape(Rectangle())
                             .onTapGesture { onSelectIssue?(issue) }
+                    }
+                } header: {
+                    HStack {
+                        Text("Issues")
+                        Spacer()
+                        if hasFixableIssues {
+                            Button("Fix All") { onFixAll?() }
+                                .font(.caption)
+                                .buttonStyle(.borderless)
+                        }
                     }
                 }
             } else if song.hasTranslation {
@@ -39,10 +51,15 @@ struct DiagnoseInspector: View {
     private var translatedCount: Int {
         song.slideGroups.flatMap(\.slides).filter(\.hasTranslation).count
     }
+
+    private var hasFixableIssues: Bool {
+        issues.contains { $0.fix != nil }
+    }
 }
 
 struct IssueRowView: View {
     let issue: DiagnoseIssue
+    var onFix: ((DiagnoseIssue) -> Void)?
 
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
@@ -56,6 +73,18 @@ struct IssueRowView: View {
                     .foregroundStyle(.secondary)
                 Text(issue.message)
                     .font(.caption)
+            }
+
+            if issue.fix != nil {
+                Spacer()
+                Button {
+                    onFix?(issue)
+                } label: {
+                    Image(systemName: "wrench.fill")
+                        .font(.caption2)
+                }
+                .buttonStyle(.borderless)
+                .help("Fix this issue")
             }
         }
     }

@@ -181,4 +181,55 @@ struct DiagnoseTests {
     func lengthRuleDisabledByDefault() {
         #expect(!SignificantLengthDifferenceRule().enabled)
     }
+
+    // MARK: - Fix methods
+
+    @Test("TrailingPunctuationRule fix adds missing punctuation")
+    func fixMissingPunctuation() {
+        let line = SlideLine(original: "Hello.", translation: "Hallo")
+        let fixed = TrailingPunctuationRule().fix(line: line)
+        #expect(fixed == "Hallo.")
+    }
+
+    @Test("TrailingPunctuationRule fix removes extra punctuation")
+    func fixExtraPunctuation() {
+        let line = SlideLine(original: "Hello", translation: "Hallo.")
+        let fixed = TrailingPunctuationRule().fix(line: line)
+        #expect(fixed == "Hallo")
+    }
+
+    @Test("CapitalizationMismatchRule fix uppercases first character")
+    func fixCapitalizationUpper() {
+        let line = SlideLine(original: "Hello", translation: "hallo")
+        let fixed = CapitalizationMismatchRule().fix(line: line)
+        #expect(fixed == "Hallo")
+    }
+
+    @Test("CapitalizationMismatchRule fix lowercases first character")
+    func fixCapitalizationLower() {
+        let line = SlideLine(original: "hello", translation: "Hallo")
+        let fixed = CapitalizationMismatchRule().fix(line: line)
+        #expect(fixed == "hallo")
+    }
+
+    @Test("LeadingTrailingWhitespaceRule fix trims whitespace")
+    func fixWhitespace() {
+        let line = SlideLine(original: "Hello", translation: " Hallo ")
+        let fixed = LeadingTrailingWhitespaceRule().fix(line: line)
+        #expect(fixed == "Hallo")
+    }
+
+    @Test("LineCountMismatchRule has no fix")
+    func lineCountNoFix() {
+        let line = SlideLine(original: "One line", translation: "Two\nlines")
+        let fixed = LineCountMismatchRule().fix(line: line)
+        #expect(fixed == nil)
+    }
+
+    @Test("SignificantLengthDifferenceRule has no fix")
+    func lengthNoFix() {
+        let line = SlideLine(original: "This is a long sentence", translation: "Kort")
+        let fixed = SignificantLengthDifferenceRule().fix(line: line)
+        #expect(fixed == nil)
+    }
 }

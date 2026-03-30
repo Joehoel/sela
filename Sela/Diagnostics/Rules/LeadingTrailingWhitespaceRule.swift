@@ -19,4 +19,10 @@ struct LeadingTrailingWhitespaceRule: DiagnosticRule {
             message: "Translation has leading or trailing whitespace"
         )
     }
+
+    func fix(line: SlideLine) -> String? {
+        let trimmed = line.translation.trimmingCharacters(in: .whitespaces)
+        guard trimmed != line.translation else { return nil }
+        return trimmed
+    }
 }
