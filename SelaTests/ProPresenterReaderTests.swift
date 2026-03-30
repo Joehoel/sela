@@ -24,7 +24,7 @@ struct ProPresenterReaderTests {
 
     @Test("slides contain original text extracted from RTF")
     func slidesHaveOriginalText() throws {
-        let url = fixtureURL("Way Maker.pro")
+        let url = fixtureURL("Welkom.pro")
 
         let (song, _) = try ProPresenterReader.read(from: url)
 
@@ -35,25 +35,24 @@ struct ProPresenterReaderTests {
         }
     }
 
-    @Test("Welkom has translatable slides (2+ text elements per slide)")
+    @Test("Welkom has slides (translatable with 2+ text elements)")
     func translatableSlideDetection() throws {
         let url = fixtureURL("Welkom.pro")
 
         let (song, _) = try ProPresenterReader.read(from: url)
 
         let allSlides = song.slideGroups.flatMap(\.slides)
-        let translatable = allSlides.filter(\.isTranslatable)
-        #expect(!translatable.isEmpty, "Welkom should have translatable slides")
+        #expect(!allSlides.isEmpty, "Welkom should have translatable slides")
     }
 
-    @Test("Way Maker slides without second text element are not translatable")
-    func notTranslatable() throws {
+    @Test("Way Maker has no slides in model (no second text element)")
+    func nonTranslatableExcluded() throws {
         let url = fixtureURL("Way Maker.pro")
 
         let (song, _) = try ProPresenterReader.read(from: url)
 
         let allSlides = song.slideGroups.flatMap(\.slides)
-        #expect(allSlides.allSatisfy { !$0.isTranslatable })
+        #expect(allSlides.isEmpty, "Way Maker slides have no translation element, so they should be excluded")
     }
 
     @Test("model IDs come from proto UUIDs")
@@ -65,6 +64,5 @@ struct ProPresenterReaderTests {
         let (song, _) = try ProPresenterReader.read(from: url)
 
         #expect(song.id == presentation.uuid.string)
-        #expect(song.slideGroups.first?.id == presentation.cueGroups.first?.group.uuid.string)
     }
 }

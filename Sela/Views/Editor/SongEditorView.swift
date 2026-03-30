@@ -25,7 +25,7 @@ struct SongEditorView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24) {
-                    ForEach(song.slideGroups.filter { !$0.contentSlides.isEmpty }) { group in
+                    ForEach(song.slideGroups.filter { !$0.slides.isEmpty }) { group in
                         SlideGroupView(
                             group: group,
                             focusedLineID: $focusedLineID,

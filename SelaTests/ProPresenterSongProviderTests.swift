@@ -35,7 +35,7 @@ struct ProPresenterSongProviderTests {
         #expect(!titles.contains("Way Maker"))
         #expect(titles.contains("Welkom"))
         for song in songs {
-            #expect(song.slideGroups.contains { $0.slides.contains(where: \.isTranslatable) })
+            #expect(song.slideGroups.contains { !$0.slides.isEmpty })
         }
     }
 
@@ -49,9 +49,7 @@ struct ProPresenterSongProviderTests {
         let songs = await provider.loadSongs()
         let song = try #require(songs.first)
 
-        let slide = try #require(
-            song.slideGroups.flatMap(\.slides).first(where: { $0.isTranslatable })
-        )
+        let slide = try #require(song.slideGroups.flatMap(\.slides).first)
         let line = try #require(slide.lines.first)
         line.translation = "Hallo wereld"
 

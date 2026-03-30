@@ -22,7 +22,7 @@ class ProPresenterSongProvider: SongProvider {
             songs.append(song)
         }
         return songs
-            .filter { $0.slideGroups.contains { $0.slides.contains(where: \.isTranslatable) } }
+            .filter { $0.slideGroups.contains { !$0.slides.isEmpty } }
             .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
     }
 

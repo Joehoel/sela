@@ -14,12 +14,11 @@ struct SlideGroupView: View {
                 .foregroundStyle(.secondary)
 
             VStack(spacing: 8) {
-                ForEach(group.contentSlides) { slide in
+                ForEach(group.slides) { slide in
                     ForEach(slide.lines) { line in
                         SlideLineView(
                             line: line,
                             focusedLineID: focusedLineID,
-                            isTranslatable: slide.isTranslatable,
                             onAdvance: onAdvance,
                             onRetreat: onRetreat
                         )

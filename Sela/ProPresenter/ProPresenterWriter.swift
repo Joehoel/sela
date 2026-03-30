@@ -7,7 +7,6 @@ enum ProPresenterWriter {
         for cueIndex in presentation.cues.indices {
             let cueID = presentation.cues[cueIndex].uuid.string
             guard let slide = slideIndex[cueID],
-                  slide.isTranslatable,
                   let line = slide.lines.first,
                   !line.translation.isEmpty
             else { continue }

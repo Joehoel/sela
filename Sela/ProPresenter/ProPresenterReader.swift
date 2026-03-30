@@ -39,17 +39,19 @@ enum ProPresenterReader {
 
     private static func slideFromCue(_ cue: RVData_Cue) -> Slide? {
         var lines: [SlideLine] = []
-        var isTranslatable = false
+        var hasTranslatableElement = false
         for action in cue.actions {
             let elements = action.slide.presentation.baseSlide.elements
             let textElements = elements.filter { $0.element.hasText && !$0.element.text.rtfData.isEmpty }
             guard let first = textElements.first else { continue }
 
             let original = RTFHelper.extractText(from: Data(first.element.text.rtfData))
+            guard !original.isEmpty else { continue }
+
             let second = textElements.count >= 2 ? textElements[1] : nil
             let translation = second.map { RTFHelper.extractText(from: Data($0.element.text.rtfData)) } ?? ""
 
-            if second != nil { isTranslatable = true }
+            if second != nil { hasTranslatableElement = true }
 
             lines.append(SlideLine(
                 id: first.element.uuid.string,
@@ -57,7 +59,7 @@ enum ProPresenterReader {
                 translation: translation
             ))
         }
-        guard !lines.isEmpty else { return nil }
-        return Slide(id: cue.uuid.string, lines: lines, isTranslatable: isTranslatable)
+        guard !lines.isEmpty, hasTranslatableElement else { return nil }
+        return Slide(id: cue.uuid.string, lines: lines)
     }
 }

@@ -18,11 +18,7 @@ struct ProPresenterWriterTests {
         let url = fixtureURL("Welkom.pro")
         var (song, presentation) = try ProPresenterReader.read(from: url)
 
-        // Find a translatable slide and set a translation on its first line
-        let slide = try #require(
-            song.slideGroups.flatMap(\.slides)
-                .first(where: { $0.isTranslatable })
-        )
+        let slide = try #require(song.slideGroups.flatMap(\.slides).first)
         let line = try #require(slide.lines.first)
         line.translation = "Welkom bij ons"
 
@@ -48,8 +44,7 @@ struct ProPresenterWriterTests {
         let originalLines = song.slideGroups.flatMap(\.slides).flatMap(\.lines)
         let originals = originalLines.map { ($0.id, $0.original) }
 
-        // Set a translation on every translatable slide
-        for slide in song.slideGroups.flatMap(\.slides) where slide.isTranslatable {
+        for slide in song.slideGroups.flatMap(\.slides) {
             for line in slide.lines {
                 line.translation = "Test vertaling"
             }
@@ -81,9 +76,8 @@ struct ProPresenterWriterTests {
         var (song, presentation) = try ProPresenterReader.read(from: url)
         let groupCount = song.slideGroups.count
 
-        let translatableSlides = song.slideGroups.flatMap(\.slides)
-            .filter(\.isTranslatable)
-        for (i, slide) in translatableSlides.enumerated() {
+        let allSlides = song.slideGroups.flatMap(\.slides)
+        for (i, slide) in allSlides.enumerated() {
             slide.lines.first?.translation = "Vertaling \(i)"
         }
 
@@ -93,9 +87,8 @@ struct ProPresenterWriterTests {
         let (reread, _) = try ProPresenterReader.read(from: output)
         #expect(reread.slideGroups.count == groupCount)
 
-        let rereadTranslatable = reread.slideGroups.flatMap(\.slides)
-            .filter(\.isTranslatable)
-        for (i, slide) in rereadTranslatable.enumerated() {
+        let rereadSlides = reread.slideGroups.flatMap(\.slides)
+        for (i, slide) in rereadSlides.enumerated() {
             #expect(slide.lines.first?.translation == "Vertaling \(i)")
         }
 
