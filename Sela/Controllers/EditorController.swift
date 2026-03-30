@@ -10,6 +10,12 @@ final class EditorController {
     // MARK: - Navigation
 
     var focusedLineID: String?
+    var scrollRequest: ScrollRequest?
+
+    struct ScrollRequest: Equatable {
+        let lineID: String
+        let token = UUID()
+    }
 
     // MARK: - Save state
 
@@ -50,6 +56,11 @@ final class EditorController {
 
     private var allLineIDs: [String] {
         song.slideGroups.flatMap(\.slides).flatMap(\.lines).map(\.id)
+    }
+
+    func navigateToLine(_ lineID: String) {
+        focusedLineID = lineID
+        scrollRequest = ScrollRequest(lineID: lineID)
     }
 
     func advanceFromLine(_ lineID: String) {

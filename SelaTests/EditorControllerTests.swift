@@ -257,6 +257,49 @@ struct EditorControllerTests {
         #expect(controller.hasPendingLines)
     }
 
+    // MARK: - Scroll Navigation
+
+    @Test("advanceFromLine does not trigger a scroll request")
+    func advanceNoScroll() {
+        let song = makeSong()
+        let controller = EditorController(song: song)
+        let lineA = song.slideGroups[0].slides[0].lines[0]
+
+        controller.advanceFromLine(lineA.id)
+
+        #expect(controller.focusedLineID != nil)
+        #expect(controller.scrollRequest == nil)
+    }
+
+    @Test("navigateToLine triggers a scroll request")
+    func navigateTriggersScroll() {
+        let song = makeSong()
+        let controller = EditorController(song: song)
+        let lineA = song.slideGroups[0].slides[0].lines[0]
+
+        controller.navigateToLine(lineA.id)
+
+        #expect(controller.focusedLineID == lineA.id)
+        #expect(controller.scrollRequest?.lineID == lineA.id)
+    }
+
+    @Test("navigateToLine to the same line twice produces distinct scroll requests")
+    func navigateSameLineTwice() {
+        let song = makeSong()
+        let controller = EditorController(song: song)
+        let lineA = song.slideGroups[0].slides[0].lines[0]
+
+        controller.navigateToLine(lineA.id)
+        let firstToken = controller.scrollRequest?.token
+
+        controller.navigateToLine(lineA.id)
+        let secondToken = controller.scrollRequest?.token
+
+        #expect(firstToken != nil)
+        #expect(secondToken != nil)
+        #expect(firstToken != secondToken)
+    }
+
     // MARK: - Status / Error
 
     @Test("dismissTranslationError clears the error")

@@ -39,9 +39,11 @@ struct SongEditorView: View {
             }
             .onChange(of: controller.focusedLineID) { _, lineID in
                 focusedLineID = lineID
-                guard let lineID else { return }
+            }
+            .onChange(of: controller.scrollRequest) { _, request in
+                guard let request else { return }
                 withAnimation {
-                    proxy.scrollTo(lineID, anchor: .center)
+                    proxy.scrollTo(request.lineID, anchor: .center)
                 }
             }
         }
@@ -50,7 +52,7 @@ struct SongEditorView: View {
         .toolbar { toolbarContent }
         .inspector(isPresented: $appState.isInspectorPresented) {
             DiagnoseInspector(song: song, issues: controller.diagnoseIssues) { issue in
-                controller.focusedLineID = issue.lineID
+                controller.navigateToLine(issue.lineID)
             }
             .inspectorColumnWidth(min: 200, ideal: 260, max: 340)
         }
