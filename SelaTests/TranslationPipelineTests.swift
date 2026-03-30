@@ -22,6 +22,15 @@ struct TranslationPipelineTests {
         }
     }
 
+    struct OptionalFailingStep: TranslationPipelineStep {
+        let name = "Optional Failing"
+        let isRequired = false
+
+        func process(_: inout [TranslationItem]) async throws {
+            throw TestError.intentional
+        }
+    }
+
     enum TestError: Error {
         case intentional
     }
@@ -80,6 +89,43 @@ struct TranslationPipelineTests {
         await #expect(throws: TestError.self) {
             try await pipeline.run(&items)
         }
+    }
+
+    @Test("optional step failure does not propagate")
+    func optionalStepFailure() async throws {
+        var pipeline = TranslationPipeline()
+        pipeline.steps.append(MockStep(name: "Translate") { items in
+            for i in items.indices {
+                items[i].currentText = "Translated"
+            }
+        })
+        pipeline.steps.append(OptionalFailingStep())
+        pipeline.steps.append(MockStep(name: "Glossary") { items in
+            for i in items.indices {
+                items[i].currentText += " (glossary)"
+            }
+        })
+
+        var items = [TranslationItem(sourceText: "Hello", lineID: "1")]
+        try await pipeline.run(&items)
+        #expect(items[0].currentText == "Translated (glossary)")
+    }
+
+    @Test("required step failure stops pipeline")
+    func requiredStepFailure() async throws {
+        var pipeline = TranslationPipeline()
+        pipeline.steps.append(FailingStep())
+        pipeline.steps.append(MockStep(name: "Never reached") { items in
+            for i in items.indices {
+                items[i].currentText = "Should not happen"
+            }
+        })
+
+        var items = [TranslationItem(sourceText: "Hello", lineID: "1")]
+        await #expect(throws: TestError.self) {
+            try await pipeline.run(&items)
+        }
+        #expect(items[0].currentText == "Hello")
     }
 
     @Test("step transforms carry through pipeline")

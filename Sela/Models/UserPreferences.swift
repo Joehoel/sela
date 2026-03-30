@@ -23,6 +23,12 @@ final class UserPreferences {
         }
     }
 
+    var useFoundationModelRefinement: Bool = UserDefaults.standard.object(forKey: "useFoundationModelRefinement") as? Bool ?? true {
+        didSet {
+            UserDefaults.standard.set(useFoundationModelRefinement, forKey: "useFoundationModelRefinement")
+        }
+    }
+
     var enabledRuleIDs: Set<String> = UserPreferences.loadEnabledRuleIDs() {
         didSet {
             UserDefaults.standard.set(Array(enabledRuleIDs), forKey: "enabledRuleIDs")

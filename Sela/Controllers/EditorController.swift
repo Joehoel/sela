@@ -114,7 +114,11 @@ final class EditorController {
 
     func handleAppleSession(_ session: TranslationSession) async {
         let glossary = GlossaryEntry.load()
-        let pipeline = TranslationPipeline.make(engine: .apple, session: session, glossary: glossary)
+        let useRefinement = preferences?.useFoundationModelRefinement ?? false
+        let pipeline = TranslationPipeline.make(
+            engine: .apple, session: session, glossary: glossary,
+            useFoundationModelRefinement: useRefinement
+        )
         await runPipeline(pipeline)
     }
 
@@ -135,6 +139,8 @@ final class EditorController {
 
         let engine = preferences?.translationEngine ?? .apple
 
+        let useRefinement = preferences?.useFoundationModelRefinement ?? false
+
         switch engine {
         case .apple:
             if translationConfig == nil {
@@ -148,7 +154,16 @@ final class EditorController {
         case .deepl:
             let glossary = GlossaryEntry.load()
             let apiKey = preferences?.deeplAPIKey ?? ""
-            let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: apiKey, glossary: glossary)
+            let pipeline = TranslationPipeline.make(
+                engine: .deepl, deeplAPIKey: apiKey, glossary: glossary,
+                useFoundationModelRefinement: useRefinement
+            )
+            Task { await runPipeline(pipeline) }
+        case .foundationModel:
+            let glossary = GlossaryEntry.load()
+            let pipeline = TranslationPipeline.make(
+                engine: .foundationModel, glossary: glossary
+            )
             Task { await runPipeline(pipeline) }
         }
     }

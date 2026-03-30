@@ -46,8 +46,21 @@ struct GeneralSettingsView: View {
             Section("Translation Engine") {
                 Picker("Engine", selection: $preferences.translationEngine) {
                     ForEach(TranslationEngine.allCases, id: \.rawValue) { engine in
-                        Text(engine.displayName).tag(engine)
+                        if engine == .foundationModel, !TranslationEngine.isFoundationModelAvailable {
+                            Text(engine.displayName)
+                                .tag(engine)
+                        } else {
+                            Text(engine.displayName).tag(engine)
+                        }
                     }
+                }
+
+                if !TranslationEngine.isFoundationModelAvailable,
+                   preferences.translationEngine == .foundationModel
+                {
+                    Text("Requires macOS 26 or later")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
                 if preferences.translationEngine == .deepl {
@@ -58,6 +71,17 @@ struct GeneralSettingsView: View {
                         destination: URL(string: "https://www.deepl.com/pro#developer")!
                     )
                     .font(.caption)
+                }
+
+                Toggle("Refine with Apple Intelligence", isOn: $preferences.useFoundationModelRefinement)
+                    .disabled(
+                        preferences.translationEngine == .foundationModel
+                            || !TranslationEngine.isFoundationModelAvailable
+                    )
+                if !TranslationEngine.isFoundationModelAvailable {
+                    Text("Requires macOS 26 or later")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
         }

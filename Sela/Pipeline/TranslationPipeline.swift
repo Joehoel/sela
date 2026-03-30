@@ -4,7 +4,14 @@ import Foundation
 /// A single step in the translation pipeline.
 protocol TranslationPipelineStep {
     var name: String { get }
+    var isRequired: Bool { get }
     func process(_ items: inout [TranslationItem]) async throws
+}
+
+extension TranslationPipelineStep {
+    var isRequired: Bool {
+        true
+    }
 }
 
 /// Runs an ordered sequence of translation steps.
@@ -17,7 +24,11 @@ struct TranslationPipeline {
     ) async throws {
         for step in steps {
             onStatus?(step.name)
-            try await step.process(&items)
+            if step.isRequired {
+                try await step.process(&items)
+            } else {
+                try? await step.process(&items)
+            }
         }
     }
 
@@ -25,10 +36,12 @@ struct TranslationPipeline {
         engine: TranslationEngine,
         session: TranslationSession? = nil,
         deeplAPIKey: String = "",
-        glossary: [GlossaryEntry] = []
+        glossary: [GlossaryEntry] = [],
+        useFoundationModelRefinement: Bool = false
     ) -> TranslationPipeline {
         var pipeline = TranslationPipeline()
 
+        // 1. Primary translator
         switch engine {
         case .apple:
             if let session {
@@ -36,18 +49,28 @@ struct TranslationPipeline {
             }
         case .deepl:
             pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey))
+        case .foundationModel:
+            #if canImport(FoundationModels)
+                if #available(macOS 26, *) {
+                    pipeline.steps.append(FoundationModelStep(mode: .translate, isRequired: true))
+                }
+            #endif
         }
 
+        // 2. Optional FM refinement (only when FM is not the primary translator)
+        if useFoundationModelRefinement, engine != .foundationModel {
+            #if canImport(FoundationModels)
+                if #available(macOS 26, *) {
+                    pipeline.steps.append(FoundationModelStep(mode: .refine, isRequired: false))
+                }
+            #endif
+        }
+
+        // 3. Glossary always runs last
         let activeGlossary = glossary.filter { !$0.replacements.isEmpty }
         if !activeGlossary.isEmpty {
             pipeline.steps.append(GlossaryReplacementStep(entries: activeGlossary))
         }
-
-        #if canImport(FoundationModels)
-            if #available(macOS 26, *) {
-                pipeline.steps.append(FoundationModelRefinementStep())
-            }
-        #endif
 
         return pipeline
     }
