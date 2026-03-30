@@ -300,6 +300,32 @@ struct EditorControllerTests {
         #expect(firstToken != secondToken)
     }
 
+    // MARK: - Diagnostics scoped to song
+
+    @Test("diagnoseIssues reflects the controller's own song, not another")
+    func diagnoseIssuesScopedToSong() {
+        let songA = Song(title: "A", slideGroups: [
+            SlideGroup(name: "V1", slides: [
+                Slide(lines: [SlideLine(original: "Hello.", translation: "Hallo")]),
+            ]),
+        ])
+        let songB = Song(title: "B", slideGroups: [
+            SlideGroup(name: "V1", slides: [
+                Slide(lines: [SlideLine(original: "World", translation: "Wereld")]),
+            ]),
+        ])
+
+        let controllerA = EditorController(song: songA)
+        let controllerB = EditorController(song: songB)
+
+        // Song A has a punctuation mismatch issue; Song B does not
+        #expect(!controllerA.diagnoseIssues.isEmpty)
+        #expect(controllerB.diagnoseIssues.isEmpty)
+
+        // Each controller only sees its own song's issues
+        #expect(controllerA.diagnoseIssues.allSatisfy { $0.groupName == "V1" })
+    }
+
     // MARK: - Status / Error
 
     @Test("dismissTranslationError clears the error")

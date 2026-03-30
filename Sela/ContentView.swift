@@ -12,6 +12,7 @@ struct ContentView: View {
         } detail: {
             if let song = appState.selectedSong {
                 SongEditorView(song: song)
+                    .id(song.id)
             } else {
                 ContentUnavailableView(
                     "Select a Song",
