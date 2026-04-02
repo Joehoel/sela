@@ -34,7 +34,7 @@ struct TranslationPipeline {
 
     static func make(
         engine: TranslationEngine,
-        session: TranslationSession? = nil,
+        session: (any Sendable)? = nil,
         deeplAPIKey: String = "",
         glossary: [GlossaryEntry] = [],
         useFoundationModelRefinement: Bool = false
@@ -44,7 +44,7 @@ struct TranslationPipeline {
         // 1. Primary translator
         switch engine {
         case .apple:
-            if let session {
+            if #available(macOS 15, *), let session = session as? TranslationSession {
                 pipeline.steps.append(AppleTranslationStep(session: session))
             }
         case .deepl:

@@ -28,8 +28,14 @@ final class EditorController {
     private(set) var translationStatus: String?
     private(set) var translationError: String?
     var showRetranslateConfirmation = false
-    private(set) var translationConfig: TranslationSession.Configuration?
+    private var _translationConfig: Any?
     private var pendingLineIDs: Set<String> = []
+
+    @available(macOS 15, *)
+    var translationConfig: TranslationSession.Configuration? {
+        get { _translationConfig as? TranslationSession.Configuration }
+        set { _translationConfig = newValue }
+    }
 
     // MARK: - Preferences (set on appear)
 
@@ -128,6 +134,7 @@ final class EditorController {
         }
     }
 
+    @available(macOS 15, *)
     func handleAppleSession(_ session: TranslationSession) async {
         let glossary = GlossaryEntry.load()
         let useRefinement = preferences?.useFoundationModelRefinement ?? false
@@ -159,13 +166,15 @@ final class EditorController {
 
         switch engine {
         case .apple:
-            if translationConfig == nil {
-                translationConfig = .init(
-                    source: Locale.Language(identifier: "en"),
-                    target: Locale.Language(identifier: "nl")
-                )
-            } else {
-                translationConfig?.invalidate()
+            if #available(macOS 15, *) {
+                if translationConfig == nil {
+                    translationConfig = .init(
+                        source: Locale.Language(identifier: "en"),
+                        target: Locale.Language(identifier: "nl")
+                    )
+                } else {
+                    translationConfig?.invalidate()
+                }
             }
         case .deepl:
             let glossary = GlossaryEntry.load()

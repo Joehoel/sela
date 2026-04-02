@@ -1,6 +1,7 @@
 @preconcurrency import Translation
 
 /// Batch-translates items from English to Dutch using Apple's Translation framework.
+@available(macOS 15, *)
 struct AppleTranslationStep: TranslationPipelineStep {
     let name = "Translating…"
     nonisolated(unsafe) let session: TranslationSession
