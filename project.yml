@@ -2,7 +2,7 @@ name: Sela
 options:
   bundleIdPrefix: com.sela
   deploymentTarget:
-    macOS: "15.0"
+    macOS: "14.0"
   xcodeVersion: "16.0"
   createIntermediateGroups: true
 
@@ -26,7 +26,7 @@ targets:
         MARKETING_VERSION: "0.1.0"
         CURRENT_PROJECT_VERSION: 1
         SWIFT_VERSION: "6.0"
-        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
         INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
         ENABLE_APP_SANDBOX: false
         GENERATE_INFOPLIST_FILE: true
