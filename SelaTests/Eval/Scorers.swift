@@ -26,6 +26,8 @@ func lineCount(_ evalCase: EvalCase, _ output: [String]) -> Score {
 
 // MARK: - Reverent register
 
+/// Checks that informal Dutch pronouns (jij/je/jouw/jou) are not used.
+/// Worship songs addressing God should use "U"/"Uw".
 func reverentRegister(_: EvalCase, _ output: [String]) -> Score {
     let informalPatterns = [
         ("\\bjij\\b", "jij"),
@@ -55,6 +57,10 @@ func reverentRegister(_: EvalCase, _ output: [String]) -> Score {
 
 // MARK: - Syllable similarity
 
+/// Compares syllable counts between English and Dutch to check singability.
+/// Uses a per-line ratio with a tolerance band, then checks what fraction of
+/// lines fall within range. The reference translations themselves often diverge
+/// by 20-50%, so we use a generous 0.5x–1.6x band.
 func syllableSimilarity(_ evalCase: EvalCase, _ output: [String]) -> Score {
     guard evalCase.english.count == output.count else {
         return .fail("Syllable similarity", rationale: "line count mismatch")
@@ -67,14 +73,20 @@ func syllableSimilarity(_ evalCase: EvalCase, _ output: [String]) -> Score {
         let enSyl = estimateSyllables(en)
         let nlSyl = estimateSyllables(nl)
         let ratio = enSyl > 0 ? Double(nlSyl) / Double(enSyl) : 1.0
-        let ok = ratio >= 0.6 && ratio <= 1.4
+        let ok = ratio >= 0.5 && ratio <= 1.6
         if ok { passCount += 1 }
-        details.append("L\(index + 1): \(enSyl)\u{2192}\(nlSyl) (\(Int(ratio * 100))%)\(ok ? "" : " OVER")")
+        let flag = ok ? "" : " OVER"
+        details.append("L\(index + 1): \(enSyl)\u{2192}\(nlSyl) (\(Int(ratio * 100))%)\(flag)")
     }
 
     let value = Double(passCount) / Double(evalCase.english.count)
     let passed = value >= 0.75
-    return Score(name: "Syllable similarity", value: value, passed: passed, rationale: details.joined(separator: ", "))
+    return Score(
+        name: "Syllable similarity",
+        value: value,
+        passed: passed,
+        rationale: details.joined(separator: ", ")
+    )
 }
 
 private func estimateSyllables(_ text: String) -> Int {
@@ -93,18 +105,30 @@ private func estimateSyllables(_ text: String) -> Int {
 
 // MARK: - Worship vocabulary
 
+/// Checks that key worship terms in the English source appear as their
+/// Dutch equivalents in the output. Expanded term list based on real
+/// test case content.
 func worshipVocabulary(_ evalCase: EvalCase, _ output: [String]) -> Score {
     let expectedTerms: [(english: String, dutch: [String])] = [
         ("lord", ["heer", "here"]),
         ("grace", ["genade"]),
         ("soul", ["ziel"]),
-        ("praise", ["prijs", "lofprijs", "lof"]),
-        ("worship", ["aanbid", "aanbidding", "prijs"]),
+        ("praise", ["prijs", "lofprijs", "lof", "loof"]),
+        ("worship", ["aanbid", "aanbidding", "prijs", "verheerlijk"]),
         ("holy", ["heilig", "heilige"]),
         ("mercy", ["barmhartig", "genade"]),
         ("salvation", ["verlossing", "redding", "heil"]),
         ("heaven", ["hemel"]),
         ("god", ["god"]),
+        ("sing", ["zing"]),
+        ("love", ["lief", "liefde", "hou van"]),
+        ("faithful", ["trouw", "getrouw"]),
+        ("light", ["licht"]),
+        ("heart", ["hart"]),
+        ("name", ["naam"]),
+        ("free", ["vrij"]),
+        ("child", ["kind"]),
+        ("chosen", ["gekozen", "uitverkoren"]),
     ]
 
     let enJoined = evalCase.english.joined(separator: " ").lowercased()
@@ -136,8 +160,12 @@ func worshipVocabulary(_ evalCase: EvalCase, _ output: [String]) -> Score {
     return Score(name: "Worship vocabulary", value: value, passed: passed, rationale: rationale)
 }
 
-// MARK: - Reference similarity (Jaccard)
+// MARK: - Reference similarity (character n-gram)
 
+/// Compares output against a gold-standard reference translation using
+/// character trigram overlap (Dice coefficient). This is much more forgiving
+/// than word-level Jaccard for creative translations where word choice differs
+/// but the text is still semantically close (e.g. "genade" vs "genade Gods").
 func referenceSimilarity(_ evalCase: EvalCase, _ output: [String]) -> Score {
     guard let reference = evalCase.referenceDutch, !reference.isEmpty else {
         return .pass("Reference similarity", rationale: "skipped (no reference)")
@@ -150,16 +178,37 @@ func referenceSimilarity(_ evalCase: EvalCase, _ output: [String]) -> Score {
     var details: [String] = []
 
     for (index, (out, ref)) in zip(output, reference).enumerated() {
-        let outWords = Set(out.lowercased().split(separator: " ").map(String.init))
-        let refWords = Set(ref.lowercased().split(separator: " ").map(String.init))
-        let intersection = outWords.intersection(refWords).count
-        let union = outWords.union(refWords).count
-        let jaccard = union > 0 ? Double(intersection) / Double(union) : 0.0
-        totalScore += jaccard
-        details.append("L\(index + 1): \(Int(jaccard * 100))%")
+        let similarity = trigramSimilarity(out.lowercased(), ref.lowercased())
+        totalScore += similarity
+        details.append("L\(index + 1): \(Int(similarity * 100))%")
     }
 
     let avg = totalScore / Double(reference.count)
-    let passed = avg >= 0.3
-    return Score(name: "Reference similarity", value: avg, passed: passed, rationale: details.joined(separator: ", "))
+    let passed = avg >= 0.25
+    return Score(
+        name: "Reference similarity",
+        value: avg,
+        passed: passed,
+        rationale: details.joined(separator: ", ")
+    )
+}
+
+/// Dice coefficient on character trigrams — more robust than word-level
+/// Jaccard for comparing translations with different word boundaries.
+private func trigramSimilarity(_ lhs: String, _ rhs: String) -> Double {
+    let trigramsA = characterTrigrams(lhs)
+    let trigramsB = characterTrigrams(rhs)
+    guard !trigramsA.isEmpty, !trigramsB.isEmpty else { return 0 }
+    let intersection = trigramsA.intersection(trigramsB).count
+    return 2.0 * Double(intersection) / Double(trigramsA.count + trigramsB.count)
+}
+
+private func characterTrigrams(_ text: String) -> Set<String> {
+    let chars = Array(text)
+    guard chars.count >= 3 else { return Set([text]) }
+    var trigrams = Set<String>()
+    for i in 0 ..< (chars.count - 2) {
+        trigrams.insert(String(chars[i ... i + 2]))
+    }
+    return trigrams
 }

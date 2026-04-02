@@ -46,13 +46,24 @@ import Testing
             let translatePrompt = TranslationPrompt(mode: .translate)
             let rawOutput = try await callFM(prompt: translatePrompt, items: evalCase.makeItems())
 
-            var items = c.makeItems()
+            var items = evalCase.makeItems()
             for i in items.indices where i < rawOutput.count {
                 items[i].currentText = rawOutput[i]
             }
 
-            let refinePrompt = TranslationPrompt(mode: .refine)
-            let refined = try await callFM(prompt: refinePrompt, items: items)
+            let refined: [String]
+            do {
+                let refinePrompt = TranslationPrompt(mode: .refine)
+                refined = try await callFM(prompt: refinePrompt, items: items)
+            } catch {
+                Issue.record("FM refused to refine \(evalCase.name): \(error)")
+                // Score the raw translation instead so we still get a report
+                let report = EvalReport(
+                    case: evalCase, mode: "refine (raw, FM refused)", output: rawOutput, scorers: Self.scorers
+                )
+                report.printReport()
+                return
+            }
 
             let report = EvalReport(case: evalCase, mode: "refine", output: refined, scorers: Self.scorers)
             report.printReport()
