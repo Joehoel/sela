@@ -54,6 +54,7 @@ struct SongListView: View {
                 SettingsLink {
                     Label("Settings", systemImage: "gear")
                 }
+                .popoverTip(ChangeEngineTip())
             }
         }
     }

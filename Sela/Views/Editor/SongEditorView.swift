@@ -13,6 +13,7 @@ struct SongEditorView: View {
     @FocusState private var focusedLineID: String?
 
     @State private var controller: EditorController
+    @State private var showSavePopover = false
 
     init(song: Song) {
         self.song = song
@@ -96,6 +97,9 @@ struct SongEditorView: View {
         .onChange(of: focusedLineID) { _, newValue in
             controller.focusedLineID = newValue
         }
+        .onChange(of: controller.showSaveNotice) { _, show in
+            if show { showSavePopover = true }
+        }
     }
 
     // MARK: - Toolbar
@@ -119,6 +123,10 @@ struct SongEditorView: View {
             .keyboardShortcut("t")
             .help("Translate empty slides (⌘T)")
             .disabled(controller.translationStatus != nil)
+            .popover(isPresented: $showSavePopover) {
+                Label("Restart ProPresenter to see changes", systemImage: "arrow.clockwise")
+                    .padding()
+            }
 
             Button {
                 appState.isInspectorPresented.toggle()
@@ -128,6 +136,7 @@ struct SongEditorView: View {
             .badge(controller.diagnoseIssues.count)
             .keyboardShortcut("d")
             .help("Toggle diagnose inspector (⌘D)")
+            .popoverTip(DiagnoseInspectorTip())
         }
     }
 

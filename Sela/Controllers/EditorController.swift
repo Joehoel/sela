@@ -21,7 +21,9 @@ final class EditorController {
 
     private(set) var isDirty = false
     private(set) var isSaving = false
+    private(set) var showSaveNotice = false
     var saveError: String?
+    private var saveNoticeTask: Task<Void, Never>?
 
     // MARK: - Translation state
 
@@ -117,6 +119,13 @@ final class EditorController {
         do {
             try await save()
             isDirty = false
+            showSaveNotice = true
+            saveNoticeTask?.cancel()
+            saveNoticeTask = Task {
+                try? await Task.sleep(for: .seconds(5))
+                guard !Task.isCancelled else { return }
+                showSaveNotice = false
+            }
         } catch {
             saveError = error.localizedDescription
         }
@@ -137,10 +146,11 @@ final class EditorController {
     @available(macOS 15, *)
     func handleAppleSession(_ session: TranslationSession) async {
         let glossary = GlossaryEntry.load()
-        let useRefinement = preferences?.useFoundationModelRefinement ?? false
+        let refinement = preferences?.refinementEngine
+        let geminiKey = preferences?.geminiAPIKey ?? ""
         let pipeline = TranslationPipeline.make(
-            engine: .apple, session: session, glossary: glossary,
-            useFoundationModelRefinement: useRefinement
+            engine: .apple, session: session, geminiAPIKey: geminiKey, glossary: glossary,
+            refinementEngine: refinement
         )
         await runPipeline(pipeline)
     }
@@ -162,7 +172,8 @@ final class EditorController {
 
         let engine = preferences?.translationEngine ?? .apple
 
-        let useRefinement = preferences?.useFoundationModelRefinement ?? false
+        let refinement = preferences?.refinementEngine
+        let geminiKey = preferences?.geminiAPIKey ?? ""
 
         switch engine {
         case .apple:
@@ -179,16 +190,23 @@ final class EditorController {
         case .googleTranslate, .myMemory:
             let glossary = GlossaryEntry.load()
             let pipeline = TranslationPipeline.make(
-                engine: engine, glossary: glossary,
-                useFoundationModelRefinement: useRefinement
+                engine: engine, geminiAPIKey: geminiKey, glossary: glossary,
+                refinementEngine: refinement
             )
             Task { await runPipeline(pipeline) }
         case .deepl:
             let glossary = GlossaryEntry.load()
             let apiKey = preferences?.deeplAPIKey ?? ""
             let pipeline = TranslationPipeline.make(
-                engine: .deepl, deeplAPIKey: apiKey, glossary: glossary,
-                useFoundationModelRefinement: useRefinement
+                engine: .deepl, deeplAPIKey: apiKey, geminiAPIKey: geminiKey, glossary: glossary,
+                refinementEngine: refinement
+            )
+            Task { await runPipeline(pipeline) }
+        case .gemini:
+            let glossary = GlossaryEntry.load()
+            let pipeline = TranslationPipeline.make(
+                engine: .gemini, geminiAPIKey: geminiKey, glossary: glossary,
+                refinementEngine: refinement
             )
             Task { await runPipeline(pipeline) }
         case .foundationModel:
