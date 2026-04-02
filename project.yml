@@ -19,6 +19,16 @@ targets:
       - Sela
     dependencies:
       - package: SwiftProtobuf
+    info:
+      path: Sela/Info.plist
+      properties:
+        LSApplicationCategoryType: public.app-category.utilities
+        CFBundleURLTypes:
+          - CFBundleURLName: com.sela.app
+            CFBundleURLSchemes:
+              - sela
+        NSAppleScriptEnabled: true
+        OSAScriptingDefinition: Sela.sdef
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sela.app
@@ -27,9 +37,7 @@ targets:
         CURRENT_PROJECT_VERSION: 1
         SWIFT_VERSION: "6.0"
         MACOSX_DEPLOYMENT_TARGET: "14.0"
-        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
         ENABLE_APP_SANDBOX: false
-        GENERATE_INFOPLIST_FILE: true
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGNING_REQUIRED: false
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon

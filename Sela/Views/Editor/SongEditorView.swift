@@ -88,6 +88,9 @@ struct SongEditorView: View {
         .onReceive(NotificationCenter.default.publisher(for: .saveSong)) { _ in
             Task { await controller.performSave() }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .fixAllIssues)) { _ in
+            controller.fixAllIssues()
+        }
         .onAppear {
             controller.preferences = preferences
             controller.save = { [appState, song] in

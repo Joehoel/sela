@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="Sela Terminology">
+    <suite name="Sela Suite" code="Sela" description="Sela scripting support">
+
+        <!-- Song class -->
+        <class name="song" code="Song" description="A worship song" plural="songs">
+            <cocoa class="SelaScriptSong"/>
+            <property name="id" code="ID  " type="text" access="r" description="Unique identifier"/>
+            <property name="name" code="pnam" type="text" access="r" description="Song title"/>
+            <property name="author" code="Auth" type="text" access="r" description="Song author"/>
+            <property name="translation progress" code="TrPr" type="real" access="r" description="Translation progress (0.0 to 1.0)"/>
+            <property name="slide count" code="SlCt" type="integer" access="r" description="Total number of slides"/>
+            <property name="translated slide count" code="TrCt" type="integer" access="r" description="Number of translated slides"/>
+        </class>
+
+        <!-- Application class -->
+        <class name="application" code="capp" description="Sela application">
+            <cocoa class="NSApplication"/>
+            <element type="song" access="r">
+                <cocoa key="scriptSongs"/>
+            </element>
+            <property name="current song" code="CrSg" type="song" access="r" description="The currently selected song">
+                <cocoa key="scriptCurrentSong"/>
+            </property>
+        </class>
+
+        <!-- Select Song command -->
+        <command name="select song" code="SelaSeSo" description="Select a song by name">
+            <cocoa class="Sela.SelectSongCommand"/>
+            <direct-parameter type="text" description="Song title to select"/>
+        </command>
+
+        <!-- Translate command -->
+        <command name="translate" code="SelaTrns" description="Translate the current song">
+            <cocoa class="Sela.TranslateCommand"/>
+            <parameter name="with engine" code="Engn" type="text" optional="yes" description="Translation engine (apple, googleTranslate, myMemory, deepl, gemini, foundationModel)"/>
+            <parameter name="scope" code="Scop" type="text" optional="yes" description="Translation scope (empty or all)"/>
+        </command>
+
+        <!-- Save command -->
+        <command name="save current song" code="SelaSave" description="Save the current song">
+            <cocoa class="Sela.SaveCommand"/>
+        </command>
+
+        <!-- Fix All command -->
+        <command name="fix all issues" code="SelaFixA" description="Apply all diagnostic fixes to the current song">
+            <cocoa class="Sela.FixAllCommand"/>
+        </command>
+
+        <!-- Toggle Inspector command -->
+        <command name="toggle inspector" code="SelaInsp" description="Toggle the diagnose inspector panel">
+            <cocoa class="Sela.ToggleInspectorCommand"/>
+        </command>
+
+    </suite>
+</dictionary>
