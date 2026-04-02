@@ -32,6 +32,7 @@ struct TranslationPipeline {
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     static func make(
         engine: TranslationEngine,
         session: (any Sendable)? = nil,
