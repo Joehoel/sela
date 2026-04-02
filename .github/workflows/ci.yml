@@ -17,7 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: realm/SwiftLint@v0.58.2
+      - name: Cache Homebrew
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/Homebrew
+          key: brew-swiftlint-${{ runner.os }}
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: Lint
+        run: swiftlint lint --strict --reporter github-actions-logging
 
   build-and-test:
     name: Build & Test
