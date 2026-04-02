@@ -47,6 +47,10 @@ struct TranslationPipeline {
             if #available(macOS 15, *), let session = session as? TranslationSession {
                 pipeline.steps.append(AppleTranslationStep(session: session))
             }
+        case .googleTranslate:
+            pipeline.steps.append(GoogleTranslateStep())
+        case .myMemory:
+            pipeline.steps.append(MyMemoryTranslationStep())
         case .deepl:
             pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey))
         case .foundationModel:

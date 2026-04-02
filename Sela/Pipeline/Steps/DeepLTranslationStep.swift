@@ -64,6 +64,7 @@ struct DeepLTranslationStep: TranslationPipelineStep {
 
     private func buildRequest(for items: [TranslationItem]) throws -> URLRequest {
         var request = URLRequest(url: Self.endpoint)
+        request.timeoutInterval = 30
         request.httpMethod = "POST"
         request.setValue("DeepL-Auth-Key \(apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")

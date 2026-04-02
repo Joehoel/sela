@@ -176,6 +176,13 @@ final class EditorController {
                     translationConfig?.invalidate()
                 }
             }
+        case .googleTranslate, .myMemory:
+            let glossary = GlossaryEntry.load()
+            let pipeline = TranslationPipeline.make(
+                engine: engine, glossary: glossary,
+                useFoundationModelRefinement: useRefinement
+            )
+            Task { await runPipeline(pipeline) }
         case .deepl:
             let glossary = GlossaryEntry.load()
             let apiKey = preferences?.deeplAPIKey ?? ""
