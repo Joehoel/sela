@@ -36,8 +36,9 @@ struct TranslationPipeline {
         engine: TranslationEngine,
         session: (any Sendable)? = nil,
         deeplAPIKey: String = "",
+        geminiAPIKey: String = "",
         glossary: [GlossaryEntry] = [],
-        useFoundationModelRefinement: Bool = false
+        refinementEngine: RefinementEngine? = nil
     ) -> TranslationPipeline {
         var pipeline = TranslationPipeline()
 
@@ -53,6 +54,8 @@ struct TranslationPipeline {
             pipeline.steps.append(MyMemoryTranslationStep())
         case .deepl:
             pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey))
+        case .gemini:
+            pipeline.steps.append(GeminiTranslationStep(apiKey: geminiAPIKey))
         case .foundationModel:
             #if canImport(FoundationModels)
                 if #available(macOS 26, *) {
@@ -61,13 +64,18 @@ struct TranslationPipeline {
             #endif
         }
 
-        // 2. Optional FM refinement (only when FM is not the primary translator)
-        if useFoundationModelRefinement, engine != .foundationModel {
-            #if canImport(FoundationModels)
-                if #available(macOS 26, *) {
-                    pipeline.steps.append(FoundationModelStep(mode: .refine, isRequired: false))
-                }
-            #endif
+        // 2. Optional refinement (only when FM is not the primary translator)
+        if let refinementEngine, engine != .foundationModel {
+            switch refinementEngine {
+            case .foundationModel:
+                #if canImport(FoundationModels)
+                    if #available(macOS 26, *) {
+                        pipeline.steps.append(FoundationModelStep(mode: .refine, isRequired: false))
+                    }
+                #endif
+            case .gemini:
+                pipeline.steps.append(GeminiTranslationStep(apiKey: geminiAPIKey, mode: .refine))
+            }
         }
 
         // 3. Glossary always runs last

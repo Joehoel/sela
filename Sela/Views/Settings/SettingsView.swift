@@ -73,12 +73,35 @@ struct GeneralSettingsView: View {
                     .font(.caption)
                 }
 
-                Toggle("Refine with Apple Intelligence", isOn: $preferences.useFoundationModelRefinement)
-                    .disabled(
-                        preferences.translationEngine == .foundationModel
-                            || !TranslationEngine.isFoundationModelAvailable
+                if preferences.translationEngine == .gemini {
+                    SecureField("Enter your API key", text: $preferences.geminiAPIKey)
+                        .textFieldStyle(.roundedBorder)
+                    Link(
+                        "Get a free API key at aistudio.google.com",
+                        destination: URL(string: "https://aistudio.google.com/apikey")!
                     )
-                if !TranslationEngine.isFoundationModelAvailable {
+                    .font(.caption)
+                }
+
+                HStack {
+                    Picker("Refinement", selection: refinementBinding) {
+                        Text("None").tag(RefinementEngine?.none)
+                        ForEach(RefinementEngine.allCases, id: \.rawValue) { engine in
+                            Text(engine.displayName).tag(RefinementEngine?.some(engine))
+                        }
+                    }
+                    .disabled(preferences.translationEngine == .foundationModel)
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(.secondary)
+                        .help("""
+                        Runs a second AI pass after the initial translation to improve \
+                        natural phrasing, worship-appropriate vocabulary, singability, \
+                        and reverent register (e.g. "U" instead of "jij").
+                        """)
+                }
+                if !TranslationEngine.isFoundationModelAvailable,
+                   preferences.refinementEngine == .foundationModel
+                {
                     Text("Requires macOS 26 or later")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -87,6 +110,19 @@ struct GeneralSettingsView: View {
         }
         .formStyle(.grouped)
         .padding()
+    }
+
+    private var refinementBinding: Binding<RefinementEngine?> {
+        Binding(
+            get: { preferences.refinementEngine },
+            set: { newValue in
+                // Prevent selecting FM if unavailable
+                if newValue == .foundationModel, !TranslationEngine.isFoundationModelAvailable {
+                    return
+                }
+                preferences.refinementEngine = newValue
+            }
+        )
     }
 
     private func chooseFolder() {

@@ -17,15 +17,21 @@ final class UserPreferences {
         }
     }
 
+    var geminiAPIKey: String {
+        didSet {
+            defaults.set(geminiAPIKey, forKey: "geminiAPIKey")
+        }
+    }
+
     var libraryPath: String {
         didSet {
             defaults.set(libraryPath, forKey: "libraryPath")
         }
     }
 
-    var useFoundationModelRefinement: Bool {
+    var refinementEngine: RefinementEngine? {
         didSet {
-            defaults.set(useFoundationModelRefinement, forKey: "useFoundationModelRefinement")
+            defaults.set(refinementEngine?.rawValue, forKey: "refinementEngine")
         }
     }
 
@@ -47,11 +53,19 @@ final class UserPreferences {
         }
 
         deeplAPIKey = defaults.string(forKey: "deeplAPIKey") ?? ""
+        geminiAPIKey = defaults.string(forKey: "geminiAPIKey") ?? ""
 
         libraryPath = defaults.string(forKey: "libraryPath")
             ?? "~/Documents/ProPresenter/Libraries/Default"
 
-        useFoundationModelRefinement = defaults.object(forKey: "useFoundationModelRefinement") as? Bool ?? true
+        // Migrate from old boolean preference to new enum
+        if let raw = defaults.string(forKey: "refinementEngine") {
+            refinementEngine = RefinementEngine(rawValue: raw)
+        } else if defaults.object(forKey: "useFoundationModelRefinement") as? Bool ?? true {
+            refinementEngine = .foundationModel
+        } else {
+            refinementEngine = nil
+        }
 
         if let array = defaults.stringArray(forKey: "enabledRuleIDs") {
             enabledRuleIDs = Set(array)

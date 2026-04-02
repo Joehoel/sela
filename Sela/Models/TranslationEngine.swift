@@ -5,6 +5,7 @@ enum TranslationEngine: String, CaseIterable {
     case googleTranslate
     case myMemory
     case deepl
+    case gemini
     case foundationModel
 
     var displayName: String {
@@ -13,6 +14,7 @@ enum TranslationEngine: String, CaseIterable {
         case .googleTranslate: "Google Translate"
         case .myMemory: "MyMemory"
         case .deepl: "DeepL"
+        case .gemini: "Google Gemini"
         case .foundationModel: "Apple Intelligence"
         }
     }
@@ -24,5 +26,17 @@ enum TranslationEngine: String, CaseIterable {
             }
         #endif
         return false
+    }
+}
+
+enum RefinementEngine: String, CaseIterable {
+    case foundationModel
+    case gemini
+
+    var displayName: String {
+        switch self {
+        case .foundationModel: "Apple Intelligence"
+        case .gemini: "Google Gemini"
+        }
     }
 }

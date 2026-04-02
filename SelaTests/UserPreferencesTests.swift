@@ -64,14 +64,32 @@ struct UserPreferencesTests {
         #expect(defaults.string(forKey: "translationEngine") == "deepl")
     }
 
-    @Test("useFoundationModelRefinement persists to UserDefaults on set")
-    func refinementTogglePersists() {
+    @Test("refinementEngine persists to UserDefaults on set")
+    func refinementEnginePersists() {
         let defaults = makeDefaults()
         let prefs = UserPreferences(defaults: defaults)
 
-        prefs.useFoundationModelRefinement = false
+        prefs.refinementEngine = .gemini
 
-        #expect(defaults.bool(forKey: "useFoundationModelRefinement") == false)
+        #expect(defaults.string(forKey: "refinementEngine") == "gemini")
+    }
+
+    @Test("refinementEngine migrates from old boolean preference")
+    func refinementEngineMigration() {
+        let defaults = makeDefaults()
+        defaults.set(true, forKey: "useFoundationModelRefinement")
+        let prefs = UserPreferences(defaults: defaults)
+
+        #expect(prefs.refinementEngine == .foundationModel)
+    }
+
+    @Test("refinementEngine migrates to nil when old boolean was false")
+    func refinementEngineMigrationDisabled() {
+        let defaults = makeDefaults()
+        defaults.set(false, forKey: "useFoundationModelRefinement")
+        let prefs = UserPreferences(defaults: defaults)
+
+        #expect(prefs.refinementEngine == nil)
     }
 
     @Test("enabledRuleIDs persists to UserDefaults on set")

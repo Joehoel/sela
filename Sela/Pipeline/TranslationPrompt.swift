@@ -29,6 +29,8 @@ struct TranslationPrompt {
             - Maintain the poetic/lyrical feel
             - Do not add or remove lines
             - Return exactly \(count) lines in the same order
+            - Return only the translated Dutch text, one line per input line
+            - Do not include prefixes like "NL:", labels, group headers, or any other formatting
             """
         case .refine:
             return """
@@ -40,6 +42,8 @@ struct TranslationPrompt {
             - Maintain the poetic/lyrical feel
             - Do not add or remove lines
             - Return exactly \(count) lines in the same order
+            - Return only the refined Dutch text, one line per input line
+            - Do not include prefixes like "NL:", labels, group headers, or any other formatting
             """
         }
     }
