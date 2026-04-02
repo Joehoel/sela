@@ -49,6 +49,13 @@ struct SongListView: View {
         .listStyle(.sidebar)
         .navigationTitle("Songs")
         .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                SettingsLink {
+                    Label("Settings", systemImage: "gear")
+                }
+            }
+        }
     }
 
     private func songContextMenu(for song: Song) -> some View {
