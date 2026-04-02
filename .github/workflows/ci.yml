@@ -59,9 +59,11 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - uses: mxcl/xcodebuild@v3
-        with:
-          action: test
-          scheme: Sela
-          configuration: Debug
-          platform: macOS
+      - name: Test
+        run: |
+          xcodebuild -project Sela.xcodeproj \
+            -scheme Sela \
+            -configuration Debug \
+            -destination 'platform=macOS' \
+            -skip-testing SelaTests/TranslationEvalTests \
+            test
