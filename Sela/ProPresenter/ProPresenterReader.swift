@@ -4,7 +4,11 @@ enum ProPresenterReader {
     static func read(from url: URL) throws -> (Song, RVData_Presentation) {
         let data = try Data(contentsOf: url)
         let presentation = try RVData_Presentation(serializedBytes: data)
+        let song = parse(presentation: presentation, url: url)
+        return (song, presentation)
+    }
 
+    static func parse(presentation: RVData_Presentation, url: URL) -> Song {
         let cuesByID = Dictionary(
             presentation.cues.map { ($0.uuid.string, $0) },
             uniquingKeysWith: { first, _ in first }
@@ -26,15 +30,13 @@ enum ProPresenterReader {
             ? presentation.name
             : presentation.ccli.songTitle
 
-        let song = Song(
+        return Song(
             id: presentation.uuid.string,
             title: title,
             author: presentation.ccli.author,
             slideGroups: slideGroups,
             filePath: url
         )
-
-        return (song, presentation)
     }
 
     private static func slideFromCue(_ cue: RVData_Cue) -> Slide? {

@@ -70,6 +70,32 @@ struct ProPresenterWriterTests {
         try? FileManager.default.removeItem(at: output)
     }
 
+    @Test("save creates .bak backup of original file")
+    func saveCreatesBackup() throws {
+        let url = fixtureURL("Welkom.pro")
+        var (song, presentation) = try ProPresenterReader.read(from: url)
+
+        let output = tempURL()
+        let backupURL = output.appendingPathExtension("bak")
+
+        // Write initial version
+        let originalData = try presentation.serializedData()
+        try originalData.write(to: output)
+
+        // Modify and save — should create backup
+        song.slideGroups.flatMap(\.slides).first?.lines.first?.translation = "Backup test"
+        try ProPresenterWriter.save(song, into: &presentation, at: output)
+
+        #expect(FileManager.default.fileExists(atPath: backupURL.path))
+
+        // Backup should contain the original data
+        let backupData = try Data(contentsOf: backupURL)
+        #expect(backupData == originalData)
+
+        try? FileManager.default.removeItem(at: output)
+        try? FileManager.default.removeItem(at: backupURL)
+    }
+
     @Test("full round-trip: read, modify, save, re-read, verify")
     func fullRoundTrip() throws {
         let url = fixtureURL("Welkom.pro")

@@ -18,6 +18,14 @@ enum ProPresenterWriter {
         }
 
         let data = try presentation.serializedData()
+
+        // Create backup before overwriting
+        let backupURL = url.appendingPathExtension("bak")
+        if FileManager.default.fileExists(atPath: url.path) {
+            try? FileManager.default.removeItem(at: backupURL)
+            try FileManager.default.copyItem(at: url, to: backupURL)
+        }
+
         try data.write(to: url, options: .atomic)
     }
 
