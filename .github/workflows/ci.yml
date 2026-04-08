@@ -52,9 +52,9 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ~/Library/Developer/Xcode/DerivedData
-          key: deriveddata-${{ hashFiles('**/*.swift', 'project.yml') }}
+          key: deriveddata-${{ runner.os }}-${{ hashFiles('**/*.swift', 'project.yml') }}
           restore-keys: |
-            deriveddata-
+            deriveddata-${{ runner.os }}-
 
       - name: Generate Xcode project
         run: xcodegen generate
@@ -67,3 +67,20 @@ jobs:
             -destination 'platform=macOS' \
             -skip-testing SelaTests/TranslationEvalTests \
             test
+
+  cleanup-caches:
+    name: Cleanup old caches
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: [build-and-test]
+    permissions:
+      actions: write
+    steps:
+      - name: Delete old DerivedData caches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh cache list -R $REPO --key deriveddata- --sort created_at --order asc --json id \
+            | jq '.[:-1] | .[].id' \
+            | xargs -I {} gh cache delete {} -R $REPO
