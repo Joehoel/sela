@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00A540CCCE7DC453933EA4E3 /* LyricsDumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */; };
 		017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */; };
+		0262A29D916CFC0582BF9900 /* SelaTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4587C128DE23529FA239D06A /* SelaTips.swift */; };
 		03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */; };
 		0F3D6E3F92FFC62023A74BB6 /* RTFHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AA2EC4E99F1AD3B81955 /* RTFHelper.swift */; };
+		11093A906E6F43376D8B930D /* RTFTextStripperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3645C4CC9BAE606882CA8BE3 /* RTFTextStripperTests.swift */; };
+		13BEA72F0DAE2018E8DBEBD4 /* NSApplicationScripting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313BA21F273A6037712BC6AA /* NSApplicationScripting.swift */; };
 		14FB85340A7B717D0D02B938 /* DiagnosticRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B12E0C09B06EA9B83F61EF /* DiagnosticRule.swift */; };
 		175DEC23CCA02A7B9BEC15A5 /* EvalReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD87FA492FDE638F7D66B6E8 /* EvalReport.swift */; };
 		1769A18654DC8B234A4B1E74 /* action.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C45236E283C677018D1C1 /* action.pb.swift */; };
@@ -23,8 +27,10 @@
 		253011355D03934940BB9185 /* ProPresenterWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61A931DF52744F745DE4115 /* ProPresenterWriter.swift */; };
 		26000D901806EEBE60970C13 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A81F83864242CB8478B21 /* SongEditorView.swift */; };
 		26BB7DF7B7CADBF547BCB661 /* SlideGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */; };
+		2C43ECF143010FFD9841F55F /* MyMemoryTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105AA0D33769BEAA9D8BC993 /* MyMemoryTranslationStep.swift */; };
 		2FFAC5396323D27E4D347CD2 /* Way Maker.pro in Resources */ = {isa = PBXBuildFile; fileRef = 50AC6DF7D38ED3926416B298 /* Way Maker.pro */; };
 		30786AA779E7978A0C826E66 /* effects.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1E2F707342CB6703A1930 /* effects.pb.swift */; };
+		31536426EDE87DE3762576F2 /* TranslateCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1523F841FFBC4FE209884506 /* TranslateCommand.swift */; };
 		3263D771507FB58F43759BDA /* rvtimestamp.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766A0C2C976801F42AC14709 /* rvtimestamp.pb.swift */; };
 		338018F2E410E6D87E33EDC0 /* presentationSlide.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F8AE6509514E2C34A1B12E /* presentationSlide.pb.swift */; };
 		362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B37E6953080F227525BB64 /* SlideTests.swift */; };
@@ -46,13 +52,16 @@
 		5FB48FFFE63F4C53CDC22658 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD73A0E57A05F54A568F93E /* EditorController.swift */; };
 		5FF4EA28EAE1F4DB810C9557 /* uuid.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D207E1F9C1B62B5092040BB9 /* uuid.pb.swift */; };
 		60C80A5695AECC33649F06A5 /* customOptions.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472795C3D5548B470F45EB9A /* customOptions.pb.swift */; };
+		62EB04D0781CDB552DDC9F69 /* FixAllCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91473B4DBBB45EB8DA85B7D /* FixAllCommand.swift */; };
 		678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */; };
 		680AA6BE9D06649F32B25E71 /* DeepLTranslationStepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */; };
 		6DD5A843C49C054E161D6E0A /* DiagnosticSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AD0542777213887CFA76CC /* DiagnosticSettingsView.swift */; };
+		6E22A7F089D413ECBDB6F0B5 /* SaveCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AC6BC7FF76CAE78EE0A617 /* SaveCommand.swift */; };
 		734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5620769B923ADA75805EA7F /* ContentView.swift */; };
 		738BA0D49B4D4C5E481FAB85 /* propSlide.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BAC55881C729DC05DA0E90 /* propSlide.pb.swift */; };
 		74DDAE6E41E479FBECEBA40C /* DiagnoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */; };
 		74FAEE720A3676590F3DA462 /* LeadingTrailingWhitespaceRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA63F36B6CE87A4592ED45C /* LeadingTrailingWhitespaceRule.swift */; };
+		7A8D2E23FCB4F48F876EC61E /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8E729F1D72CB25CA3A263A /* DeepLinkHandler.swift */; };
 		7B36BDA228940DA0805D3ECE /* ProPresenterReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2673101A91E1B71DF5A0CE /* ProPresenterReader.swift */; };
 		8070D7E157EAABD9836694BB /* background.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA42E2F0DE04F57D8E6DCA79 /* background.pb.swift */; };
 		83FC3D389B8DCE093638476C /* SlideLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740C64B189E675F5B9705D0E /* SlideLineView.swift */; };
@@ -61,6 +70,7 @@
 		844FF7AD4F4DF52D5BA2048F /* ProPresenterSongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C5A9588B037D5137C01CBB /* ProPresenterSongProvider.swift */; };
 		85F0A7D20873EFB0B3607F37 /* stage.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B94C403042EB33B0439CC2 /* stage.pb.swift */; };
 		89B6A8D5B982FD8AA25B0458 /* intRange.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01EA1D24BFBA8902A37743C /* intRange.pb.swift */; };
+		8F7BD31392B5C400A5EB9201 /* SelectSongCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F2BFA4EC79A86EB797346E /* SelectSongCommand.swift */; };
 		90363AED7355AD138C87E1E1 /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554B4AA4096F03804218D05B /* Slide.swift */; };
 		93025DE4C5AA35F9E1CD4EFA /* SlideLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928D490244ABDE64693E6DB0 /* SlideLine.swift */; };
 		939E123836CEE0E6A15107EC /* GlossaryEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7CD9AB341EFBFC9E1642BF /* GlossaryEditor.swift */; };
@@ -78,12 +88,15 @@
 		B82C8A282816CD1B85FC4331 /* TrailingPunctuationRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010D187047A18FDF5D53F0B /* TrailingPunctuationRule.swift */; };
 		B87AC2BD0FA1827C37F1E853 /* Amazing Grace.pro in Resources */ = {isa = PBXBuildFile; fileRef = 678E9FD2CD9438937D94EA87 /* Amazing Grace.pro */; };
 		BBE9145ADE2A0631B4DB965B /* templateIdentification.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641CE4FF9AC95E527E5E2B3F /* templateIdentification.pb.swift */; };
+		BBEB0A53EB1FEE7559143850 /* Sela.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 0EA25C605AF3B058BE9656EA /* Sela.sdef */; };
 		BDF018021B493B998C6F99B8 /* ProtoRoundTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F45BDD9E0B39BD2D0E4E2A8 /* ProtoRoundTripTests.swift */; };
 		BF306D0FFADB032E39C62614 /* TranslationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE6F787D4480451253EFFF9 /* TranslationPipeline.swift */; };
 		C06BFEA3C8EF44FCA4740E89 /* EditorControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CF3F5B145136C7980850A8 /* EditorControllerTests.swift */; };
+		C2D5B5EC84C6684412D62CFC /* ToggleInspectorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD292842AE93E49842F6E0 /* ToggleInspectorCommand.swift */; };
 		C648F69728B54BA4867629B9 /* SlideGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C383C266D1B8F87634CA00 /* SlideGroup.swift */; };
 		C8916788AA21D20BCC1EBCE6 /* ProPresenterWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D64B9C5B99E603853D99EA /* ProPresenterWriterTests.swift */; };
 		CA357B628CDEF369FCA666B9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684D79F7089AD52F2770565A /* Song.swift */; };
+		D1A1BE71E4A7068509B1DE98 /* ParsedSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827DB821BA3CF7EBC947D33A /* ParsedSong.swift */; };
 		D2016D67BE01B39137579B6C /* font.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AD3A3B87B9324C144E5DB4 /* font.pb.swift */; };
 		D370C957F764E828DF83CE38 /* collectionElementType.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2106723A82BCFAB0EE6DAE07 /* collectionElementType.pb.swift */; };
 		D37510F385ACA9113A00E995 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EFE3978F9DCDE6792F59055 /* Assets.xcassets */; };
@@ -93,12 +106,14 @@
 		D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */; };
 		D9FD7C815CBA7B3DF626BDCB /* Powerpoint psalternatief 9-2-2024.pro in Resources */ = {isa = PBXBuildFile; fileRef = 1C8C46BAE45601151023A08D /* Powerpoint psalternatief 9-2-2024.pro */; };
 		DB95294103D26EEB620056D7 /* SongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7503E4CD39EA35952236D6 /* SongProvider.swift */; };
+		DC37197C9B5100B0415823F9 /* GeminiTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B561FF219378BAC535C4E8 /* GeminiTranslationStep.swift */; };
 		DEF751EDBB3F6F379758C54C /* RTFHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */; };
 		DFB89CA41C816F0A3CA44C7D /* color.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65994A8B4D08102B939FD782 /* color.pb.swift */; };
 		E8B58E8E8F398D1BEF58DC43 /* slide.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07496D414E32D60849B8041C /* slide.pb.swift */; };
 		EA0D59BAF6ACA1158D351D61 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = E6EC6D9F6314F0971FA8F3AD /* SwiftProtobuf */; };
 		EAF56EE867F67164606F0FB1 /* timers.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807BFE380465161F3E3565E9 /* timers.pb.swift */; };
 		EB665F1EA4CB54BF1A2BC17D /* EvalCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B5DFA5E43BF22CECC61280 /* EvalCase.swift */; };
+		ECAF885BAE8AAD865E5B0A13 /* SelaScriptSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26843B90533B5433CFC5499 /* SelaScriptSong.swift */; };
 		EE317E6ED8564B7A362BD3D0 /* cue.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9DC164B1529D502251DBFD /* cue.pb.swift */; };
 		F00F27073F734FB682AC2161 /* fileProperties.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1491F4FC57A170FA5E19E2 /* fileProperties.pb.swift */; };
 		F05994906903E8AFDCD41241 /* alignmentGuide.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3329E951D4DA2834A3C5A89F /* alignmentGuide.pb.swift */; };
@@ -106,7 +121,9 @@
 		F1D8AE4D0EC8C39A4D026968 /* alphaType.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C84DC16A9366DDAB9569DEE /* alphaType.pb.swift */; };
 		F30E5276DCC62ACC2F50E5A7 /* DiagnosticsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB2116AC74C60E3EA057F78 /* DiagnosticsEngine.swift */; };
 		F49534F903526339F3A8D0CC /* GlossaryReplacementStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E72BEF9EB5AA4463962379 /* GlossaryReplacementStep.swift */; };
+		F603CC41139C60CB524E71FB /* RTFTextStripper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225C77DEF7403128DF6F8E1 /* RTFTextStripper.swift */; };
 		FBD31E4D9501217290736DFD /* 10000 Reasons.pro in Resources */ = {isa = PBXBuildFile; fileRef = DB93782D9E9C1D71CBA7390B /* 10000 Reasons.pro */; };
+		FD20ED70B7648ACD10689008 /* GoogleTranslateStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BA624DF66A8541AD0E9D03 /* GoogleTranslateStep.swift */; };
 		FE4B0FE3EB1E42F6AC917BFA /* AppleTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C590B47E43098347BB7CDCB /* AppleTranslationStep.swift */; };
 		FE9F77B5D38FE4892D5ABEF8 /* TranslationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135AFA5E3EF1D4AAEA0392D /* TranslationItem.swift */; };
 		FFCC78AFCFC02FDB7784E329 /* version.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38264B7F390F372EF66744DE /* version.pb.swift */; };
@@ -130,6 +147,9 @@
 		096ACDC3B99C3619D86CDB36 /* graphicsData.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graphicsData.pb.swift; sourceTree = "<group>"; };
 		0BA9C9365048829C9805BED8 /* It Is Well.pro */ = {isa = PBXFileReference; path = "It Is Well.pro"; sourceTree = "<group>"; };
 		0DE6F787D4480451253EFFF9 /* TranslationPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPipeline.swift; sourceTree = "<group>"; };
+		0EA25C605AF3B058BE9656EA /* Sela.sdef */ = {isa = PBXFileReference; path = Sela.sdef; sourceTree = "<group>"; };
+		105AA0D33769BEAA9D8BC993 /* MyMemoryTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMemoryTranslationStep.swift; sourceTree = "<group>"; };
+		1523F841FFBC4FE209884506 /* TranslateCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateCommand.swift; sourceTree = "<group>"; };
 		1543174EB7507BF1E048A727 /* SongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTests.swift; sourceTree = "<group>"; };
 		15B37E6953080F227525BB64 /* SlideTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTests.swift; sourceTree = "<group>"; };
 		15F8AE6509514E2C34A1B12E /* presentationSlide.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = presentationSlide.pb.swift; sourceTree = "<group>"; };
@@ -145,21 +165,28 @@
 		2E96CAC4E6576830D6E012F1 /* TranslationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEngine.swift; sourceTree = "<group>"; };
 		2EA63F36B6CE87A4592ED45C /* LeadingTrailingWhitespaceRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadingTrailingWhitespaceRule.swift; sourceTree = "<group>"; };
 		2F7A81F83864242CB8478B21 /* SongEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEditorView.swift; sourceTree = "<group>"; };
+		313BA21F273A6037712BC6AA /* NSApplicationScripting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSApplicationScripting.swift; sourceTree = "<group>"; };
 		32725D9B828E779BE960F009 /* input.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = input.pb.swift; sourceTree = "<group>"; };
 		3329E951D4DA2834A3C5A89F /* alignmentGuide.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alignmentGuide.pb.swift; sourceTree = "<group>"; };
 		335A32A8FC3811848ED47D9F /* messages.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messages.pb.swift; sourceTree = "<group>"; };
 		34619DE434DDB179602B4A22 /* AppStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateTests.swift; sourceTree = "<group>"; };
 		35E72BEF9EB5AA4463962379 /* GlossaryReplacementStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryReplacementStep.swift; sourceTree = "<group>"; };
+		3645C4CC9BAE606882CA8BE3 /* RTFTextStripperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTFTextStripperTests.swift; sourceTree = "<group>"; };
 		38264B7F390F372EF66744DE /* version.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = version.pb.swift; sourceTree = "<group>"; };
 		3B7503E4CD39EA35952236D6 /* SongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongProvider.swift; sourceTree = "<group>"; };
 		3EC7AF5527E71251E34EF122 /* UserPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesTests.swift; sourceTree = "<group>"; };
 		3EFE3978F9DCDE6792F59055 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		40BA624DF66A8541AD0E9D03 /* GoogleTranslateStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTranslateStep.swift; sourceTree = "<group>"; };
+		4225C77DEF7403128DF6F8E1 /* RTFTextStripper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTFTextStripper.swift; sourceTree = "<group>"; };
 		43B5DFA5E43BF22CECC61280 /* EvalCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalCase.swift; sourceTree = "<group>"; };
+		4587C128DE23529FA239D06A /* SelaTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaTips.swift; sourceTree = "<group>"; };
 		472795C3D5548B470F45EB9A /* customOptions.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customOptions.pb.swift; sourceTree = "<group>"; };
+		48F2BFA4EC79A86EB797346E /* SelectSongCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSongCommand.swift; sourceTree = "<group>"; };
 		48FACE2FA6A16E4BDB051C82 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ACCEAB5F13A4FE3932E3956 /* applicationInfo.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = applicationInfo.pb.swift; sourceTree = "<group>"; };
 		4AD73A0E57A05F54A568F93E /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
 		4BAA3738084D224196CE7EFB /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
+		4BDD292842AE93E49842F6E0 /* ToggleInspectorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleInspectorCommand.swift; sourceTree = "<group>"; };
 		50AC6DF7D38ED3926416B298 /* Way Maker.pro */ = {isa = PBXFileReference; path = "Way Maker.pro"; sourceTree = "<group>"; };
 		54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTFHelperTests.swift; sourceTree = "<group>"; };
 		55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryEntryTests.swift; sourceTree = "<group>"; };
@@ -185,6 +212,7 @@
 		78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLTranslationStepTests.swift; sourceTree = "<group>"; };
 		7F45BDD9E0B39BD2D0E4E2A8 /* ProtoRoundTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoRoundTripTests.swift; sourceTree = "<group>"; };
 		807BFE380465161F3E3565E9 /* timers.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timers.pb.swift; sourceTree = "<group>"; };
+		827DB821BA3CF7EBC947D33A /* ParsedSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedSong.swift; sourceTree = "<group>"; };
 		890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
 		8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLTranslationStep.swift; sourceTree = "<group>"; };
 		8B29EA87B5B6FA4D1F622F65 /* Build My Life.pro */ = {isa = PBXFileReference; path = "Build My Life.pro"; sourceTree = "<group>"; };
@@ -195,12 +223,16 @@
 		969C5677296305924A9F0CC1 /* LineCountMismatchRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineCountMismatchRule.swift; sourceTree = "<group>"; };
 		979CD8746C6C25A94901FEA3 /* SignificantLengthDifferenceRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignificantLengthDifferenceRule.swift; sourceTree = "<group>"; };
 		9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroupView.swift; sourceTree = "<group>"; };
+		9F8E729F1D72CB25CA3A263A /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		A4A042A9A17373D9035AB04C /* TranslationPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPrompt.swift; sourceTree = "<group>"; };
 		AB81FD317F55FE9BA417AFE2 /* Scorers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorers.swift; sourceTree = "<group>"; };
+		AD59B033D5DE524B2AC37E98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B05A2707330E40BF60C4A949 /* ProPresenterSongProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterSongProviderTests.swift; sourceTree = "<group>"; };
+		B26843B90533B5433CFC5499 /* SelaScriptSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaScriptSong.swift; sourceTree = "<group>"; };
 		B2CC0E6E43D6C206A2F7770D /* hotKey.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hotKey.pb.swift; sourceTree = "<group>"; };
 		B4CF3F5B145136C7980850A8 /* EditorControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorControllerTests.swift; sourceTree = "<group>"; };
 		B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterReaderTests.swift; sourceTree = "<group>"; };
+		B91473B4DBBB45EB8DA85B7D /* FixAllCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixAllCommand.swift; sourceTree = "<group>"; };
 		BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseIssue.swift; sourceTree = "<group>"; };
 		C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryReplacementStepTests.swift; sourceTree = "<group>"; };
 		C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseTests.swift; sourceTree = "<group>"; };
@@ -212,12 +244,15 @@
 		D207E1F9C1B62B5092040BB9 /* uuid.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uuid.pb.swift; sourceTree = "<group>"; };
 		D6AD0542777213887CFA76CC /* DiagnosticSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticSettingsView.swift; sourceTree = "<group>"; };
 		D6BAC55881C729DC05DA0E90 /* propSlide.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = propSlide.pb.swift; sourceTree = "<group>"; };
+		D8B561FF219378BAC535C4E8 /* GeminiTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiTranslationStep.swift; sourceTree = "<group>"; };
 		DB7CD9AB341EFBFC9E1642BF /* GlossaryEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryEditor.swift; sourceTree = "<group>"; };
 		DB93782D9E9C1D71CBA7390B /* 10000 Reasons.pro */ = {isa = PBXFileReference; path = "10000 Reasons.pro"; sourceTree = "<group>"; };
 		DE3951CAAABEDFADE62D3BDE /* TranslationEvalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEvalTests.swift; sourceTree = "<group>"; };
 		DE9DC164B1529D502251DBFD /* cue.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cue.pb.swift; sourceTree = "<group>"; };
+		DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsDumpTests.swift; sourceTree = "<group>"; };
 		DF4D43D75288C3669D78F31C /* presentation.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = presentation.pb.swift; sourceTree = "<group>"; };
 		E01EA1D24BFBA8902A37743C /* intRange.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = intRange.pb.swift; sourceTree = "<group>"; };
+		E1AC6BC7FF76CAE78EE0A617 /* SaveCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveCommand.swift; sourceTree = "<group>"; };
 		E1B944FBFF2E5F68DEB1675E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E5620769B923ADA75805EA7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EA42E2F0DE04F57D8E6DCA79 /* background.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = background.pb.swift; sourceTree = "<group>"; };
@@ -320,6 +355,8 @@
 			children = (
 				3EFE3978F9DCDE6792F59055 /* Assets.xcassets */,
 				E5620769B923ADA75805EA7F /* ContentView.swift */,
+				AD59B033D5DE524B2AC37E98 /* Info.plist */,
+				0EA25C605AF3B058BE9656EA /* Sela.sdef */,
 				CE540DAB80598BE53C26424F /* SelaApp.swift */,
 				37DE692B07F39691E789DD41 /* Controllers */,
 				4CED4849389E2A5AD8DB6AE0 /* Diagnostics */,
@@ -329,6 +366,8 @@
 				FA4F7BF1E1476ABA9060D822 /* ProPresenter */,
 				8AB04E98E4B5C19033C4218E /* Proto */,
 				D8A7862A9E211A663396F633 /* Providers */,
+				BB97C947169951F26C9767B4 /* ScriptCommands */,
+				6E93B031BA44AAF3680CC7B0 /* Tips */,
 				82177D1C2F91ABCE0ACC33E7 /* Utilities */,
 				5342C0925A706F8EEEFE478B /* Views */,
 			);
@@ -361,10 +400,19 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		6E93B031BA44AAF3680CC7B0 /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				4587C128DE23529FA239D06A /* SelaTips.swift */,
+			);
+			path = Tips;
+			sourceTree = "<group>";
+		};
 		82177D1C2F91ABCE0ACC33E7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				597DF055794773CF15E52097 /* BookmarkManager.swift */,
+				9F8E729F1D72CB25CA3A263A /* DeepLinkHandler.swift */,
 				890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */,
 			);
 			path = Utilities;
@@ -426,11 +474,13 @@
 				B4CF3F5B145136C7980850A8 /* EditorControllerTests.swift */,
 				55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */,
 				C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */,
+				DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */,
 				B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */,
 				B05A2707330E40BF60C4A949 /* ProPresenterSongProviderTests.swift */,
 				F9D64B9C5B99E603853D99EA /* ProPresenterWriterTests.swift */,
 				7F45BDD9E0B39BD2D0E4E2A8 /* ProtoRoundTripTests.swift */,
 				54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */,
+				3645C4CC9BAE606882CA8BE3 /* RTFTextStripperTests.swift */,
 				15B37E6953080F227525BB64 /* SlideTests.swift */,
 				1543174EB7507BF1E048A727 /* SongTests.swift */,
 				EAB0B3545374D48015E6C096 /* TranslationPipelineTests.swift */,
@@ -461,6 +511,20 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		BB97C947169951F26C9767B4 /* ScriptCommands */ = {
+			isa = PBXGroup;
+			children = (
+				B91473B4DBBB45EB8DA85B7D /* FixAllCommand.swift */,
+				313BA21F273A6037712BC6AA /* NSApplicationScripting.swift */,
+				E1AC6BC7FF76CAE78EE0A617 /* SaveCommand.swift */,
+				B26843B90533B5433CFC5499 /* SelaScriptSong.swift */,
+				48F2BFA4EC79A86EB797346E /* SelectSongCommand.swift */,
+				4BDD292842AE93E49842F6E0 /* ToggleInspectorCommand.swift */,
+				1523F841FFBC4FE209884506 /* TranslateCommand.swift */,
+			);
+			path = ScriptCommands;
+			sourceTree = "<group>";
+		};
 		BEF3043B46B784D74A82E7FB /* Mock */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,7 +548,10 @@
 				1C590B47E43098347BB7CDCB /* AppleTranslationStep.swift */,
 				8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */,
 				6D0F3C69E24FD4FF9A7C2335 /* FoundationModelStep.swift */,
+				D8B561FF219378BAC535C4E8 /* GeminiTranslationStep.swift */,
 				35E72BEF9EB5AA4463962379 /* GlossaryReplacementStep.swift */,
+				40BA624DF66A8541AD0E9D03 /* GoogleTranslateStep.swift */,
+				105AA0D33769BEAA9D8BC993 /* MyMemoryTranslationStep.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -520,9 +587,11 @@
 		FA4F7BF1E1476ABA9060D822 /* ProPresenter */ = {
 			isa = PBXGroup;
 			children = (
+				827DB821BA3CF7EBC947D33A /* ParsedSong.swift */,
 				FF2673101A91E1B71DF5A0CE /* ProPresenterReader.swift */,
 				C61A931DF52744F745DE4115 /* ProPresenterWriter.swift */,
 				F689AA2EC4E99F1AD3B81955 /* RTFHelper.swift */,
+				4225C77DEF7403128DF6F8E1 /* RTFTextStripper.swift */,
 			);
 			path = ProPresenter;
 			sourceTree = "<group>";
@@ -609,6 +678,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D37510F385ACA9113A00E995 /* Assets.xcassets in Resources */,
+				BBEB0A53EB1FEE7559143850 /* Sela.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,11 +712,13 @@
 				175DEC23CCA02A7B9BEC15A5 /* EvalReport.swift in Sources */,
 				D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */,
 				3AC36DCB4971CD0AA7526DAA /* GlossaryReplacementStepTests.swift in Sources */,
+				00A540CCCE7DC453933EA4E3 /* LyricsDumpTests.swift in Sources */,
 				03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */,
 				22153F73DD478F41689BE450 /* ProPresenterSongProviderTests.swift in Sources */,
 				C8916788AA21D20BCC1EBCE6 /* ProPresenterWriterTests.swift in Sources */,
 				BDF018021B493B998C6F99B8 /* ProtoRoundTripTests.swift in Sources */,
 				DEF751EDBB3F6F379758C54C /* RTFHelperTests.swift in Sources */,
+				11093A906E6F43376D8B930D /* RTFTextStripperTests.swift in Sources */,
 				57B661664080DD86B0B2B957 /* Scorers.swift in Sources */,
 				362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */,
 				D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */,
@@ -666,24 +738,36 @@
 				1C866AF59C68946A20CB92AA /* CapitalizationMismatchRule.swift in Sources */,
 				734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */,
 				017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */,
+				7A8D2E23FCB4F48F876EC61E /* DeepLinkHandler.swift in Sources */,
 				40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */,
 				A6962FC2DEB5D2CE67BCCD9D /* DiagnoseIssue.swift in Sources */,
 				14FB85340A7B717D0D02B938 /* DiagnosticRule.swift in Sources */,
 				6DD5A843C49C054E161D6E0A /* DiagnosticSettingsView.swift in Sources */,
 				F30E5276DCC62ACC2F50E5A7 /* DiagnosticsEngine.swift in Sources */,
 				5FB48FFFE63F4C53CDC22658 /* EditorController.swift in Sources */,
+				62EB04D0781CDB552DDC9F69 /* FixAllCommand.swift in Sources */,
 				5597231192C89889AA900D77 /* FoundationModelStep.swift in Sources */,
+				DC37197C9B5100B0415823F9 /* GeminiTranslationStep.swift in Sources */,
 				939E123836CEE0E6A15107EC /* GlossaryEditor.swift in Sources */,
 				F49534F903526339F3A8D0CC /* GlossaryReplacementStep.swift in Sources */,
+				FD20ED70B7648ACD10689008 /* GoogleTranslateStep.swift in Sources */,
 				678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */,
 				74FAEE720A3676590F3DA462 /* LeadingTrailingWhitespaceRule.swift in Sources */,
 				B4AB040A2E702EDF48B60C01 /* LineCountMismatchRule.swift in Sources */,
 				A37F3CAD6696DC6682217224 /* MockSongProvider.swift in Sources */,
+				2C43ECF143010FFD9841F55F /* MyMemoryTranslationStep.swift in Sources */,
+				13BEA72F0DAE2018E8DBEBD4 /* NSApplicationScripting.swift in Sources */,
+				D1A1BE71E4A7068509B1DE98 /* ParsedSong.swift in Sources */,
 				7B36BDA228940DA0805D3ECE /* ProPresenterReader.swift in Sources */,
 				844FF7AD4F4DF52D5BA2048F /* ProPresenterSongProvider.swift in Sources */,
 				253011355D03934940BB9185 /* ProPresenterWriter.swift in Sources */,
 				0F3D6E3F92FFC62023A74BB6 /* RTFHelper.swift in Sources */,
+				F603CC41139C60CB524E71FB /* RTFTextStripper.swift in Sources */,
+				6E22A7F089D413ECBDB6F0B5 /* SaveCommand.swift in Sources */,
 				F186862D77EE61F6400FD4DC /* SelaApp.swift in Sources */,
+				ECAF885BAE8AAD865E5B0A13 /* SelaScriptSong.swift in Sources */,
+				0262A29D916CFC0582BF9900 /* SelaTips.swift in Sources */,
+				8F7BD31392B5C400A5EB9201 /* SelectSongCommand.swift in Sources */,
 				1E71F41F2B938705D86534AD /* SettingsView.swift in Sources */,
 				D4414B25F463349977A8C4F1 /* SignificantLengthDifferenceRule.swift in Sources */,
 				90363AED7355AD138C87E1E1 /* Slide.swift in Sources */,
@@ -696,7 +780,9 @@
 				9F921A4DE2B54C355681CA7A /* SongListView.swift in Sources */,
 				DB95294103D26EEB620056D7 /* SongProvider.swift in Sources */,
 				B536405302EC5103F9A95B6E /* SongRowView.swift in Sources */,
+				C2D5B5EC84C6684412D62CFC /* ToggleInspectorCommand.swift in Sources */,
 				B82C8A282816CD1B85FC4331 /* TrailingPunctuationRule.swift in Sources */,
+				31536426EDE87DE3762576F2 /* TranslateCommand.swift in Sources */,
 				83FC45CB98BACB828B6CD3D1 /* TranslationEngine.swift in Sources */,
 				FE9F77B5D38FE4892D5ABEF8 /* TranslationItem.swift in Sources */,
 				BF306D0FFADB032E39C62614 /* TranslationPipeline.swift in Sources */,
@@ -799,7 +885,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -838,13 +924,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = NO;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_FILE = Sela/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sela.app;
 				PRODUCT_NAME = Sela;
@@ -916,7 +1001,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -936,13 +1021,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = NO;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_FILE = Sela/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sela.app;
 				PRODUCT_NAME = Sela;
