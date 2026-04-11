@@ -11,6 +11,7 @@ struct SelaApp: App {
     nonisolated(unsafe) static var sharedPreferences: UserPreferences?
 
     init() {
+        SentryConfig.start()
         try? Tips.configure()
     }
 

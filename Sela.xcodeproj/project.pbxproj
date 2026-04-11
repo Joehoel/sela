@@ -11,6 +11,7 @@
 		017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */; };
 		0262A29D916CFC0582BF9900 /* SelaTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4587C128DE23529FA239D06A /* SelaTips.swift */; };
 		03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */; };
+		09777C02C38D55CD1C737D52 /* SentryConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE46F7B6B1B7D5E8BEEA63E /* SentryConfig.swift */; };
 		0F3D6E3F92FFC62023A74BB6 /* RTFHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AA2EC4E99F1AD3B81955 /* RTFHelper.swift */; };
 		11093A906E6F43376D8B930D /* RTFTextStripperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3645C4CC9BAE606882CA8BE3 /* RTFTextStripperTests.swift */; };
 		13BEA72F0DAE2018E8DBEBD4 /* NSApplicationScripting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313BA21F273A6037712BC6AA /* NSApplicationScripting.swift */; };
@@ -38,6 +39,7 @@
 		37E53E9AB043244318B7811F /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597DF055794773CF15E52097 /* BookmarkManager.swift */; };
 		38F647FF6FD7A237794A4721 /* hotKey.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CC0E6E43D6C206A2F7770D /* hotKey.pb.swift */; };
 		3AC36DCB4971CD0AA7526DAA /* GlossaryReplacementStepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */; };
+		3CE57375E48F0E23E426F495 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 4E3464056A60C75D69E29F05 /* Sentry */; };
 		40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B8C4927209E20D2079572C /* DiagnoseInspector.swift */; };
 		475C60497842B77F956A4ECC /* UserPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC7AF5527E71251E34EF122 /* UserPreferencesTests.swift */; };
 		477964E9EF8C5A36C23122A5 /* TranslationPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A042A9A17373D9035AB04C /* TranslationPrompt.swift */; };
@@ -88,6 +90,7 @@
 		B4AB040A2E702EDF48B60C01 /* LineCountMismatchRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969C5677296305924A9F0CC1 /* LineCountMismatchRule.swift */; };
 		B536405302EC5103F9A95B6E /* SongRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE807C04B2DB30418F5958A3 /* SongRowView.swift */; };
 		B58ABABDD31CA9561966DD1C /* Welkom.pro in Resources */ = {isa = PBXBuildFile; fileRef = 087B48C935E1CCEC61E3BB58 /* Welkom.pro */; };
+		B7C224A8E1E6E4547BE40ABE /* SentryScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A927934D1D5851ADD5CD84 /* SentryScrubber.swift */; };
 		B82C8A282816CD1B85FC4331 /* TrailingPunctuationRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010D187047A18FDF5D53F0B /* TrailingPunctuationRule.swift */; };
 		B87AC2BD0FA1827C37F1E853 /* Amazing Grace.pro in Resources */ = {isa = PBXBuildFile; fileRef = 678E9FD2CD9438937D94EA87 /* Amazing Grace.pro */; };
 		BBE9145ADE2A0631B4DB965B /* templateIdentification.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641CE4FF9AC95E527E5E2B3F /* templateIdentification.pb.swift */; };
@@ -112,6 +115,7 @@
 		DC37197C9B5100B0415823F9 /* GeminiTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B561FF219378BAC535C4E8 /* GeminiTranslationStep.swift */; };
 		DEF751EDBB3F6F379758C54C /* RTFHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */; };
 		DFB89CA41C816F0A3CA44C7D /* color.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65994A8B4D08102B939FD782 /* color.pb.swift */; };
+		E19A5C8E97FD057B0842A960 /* SentryConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F11CBAA38E625DBF4591BB3 /* SentryConfigTests.swift */; };
 		E8B58E8E8F398D1BEF58DC43 /* slide.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07496D414E32D60849B8041C /* slide.pb.swift */; };
 		EA0D59BAF6ACA1158D351D61 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = E6EC6D9F6314F0971FA8F3AD /* SwiftProtobuf */; };
 		EAF56EE867F67164606F0FB1 /* timers.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807BFE380465161F3E3565E9 /* timers.pb.swift */; };
@@ -198,10 +202,12 @@
 		597DF055794773CF15E52097 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		59F30C0618B4DD66B9189958 /* LibraryIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryIndex.swift; sourceTree = "<group>"; };
 		5B2A9619500466F93BA9EDDD /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		5F11CBAA38E625DBF4591BB3 /* SentryConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryConfigTests.swift; sourceTree = "<group>"; };
 		6010D187047A18FDF5D53F0B /* TrailingPunctuationRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingPunctuationRule.swift; sourceTree = "<group>"; };
 		61B12E0C09B06EA9B83F61EF /* DiagnosticRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRule.swift; sourceTree = "<group>"; };
 		641CE4FF9AC95E527E5E2B3F /* templateIdentification.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = templateIdentification.pb.swift; sourceTree = "<group>"; };
 		65994A8B4D08102B939FD782 /* color.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = color.pb.swift; sourceTree = "<group>"; };
+		65A927934D1D5851ADD5CD84 /* SentryScrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryScrubber.swift; sourceTree = "<group>"; };
 		678E9FD2CD9438937D94EA87 /* Amazing Grace.pro */ = {isa = PBXFileReference; path = "Amazing Grace.pro"; sourceTree = "<group>"; };
 		680C45236E283C677018D1C1 /* action.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = action.pb.swift; sourceTree = "<group>"; };
 		684D79F7089AD52F2770565A /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
@@ -214,6 +220,7 @@
 		75C383C266D1B8F87634CA00 /* SlideGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroup.swift; sourceTree = "<group>"; };
 		766A0C2C976801F42AC14709 /* rvtimestamp.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rvtimestamp.pb.swift; sourceTree = "<group>"; };
 		78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLTranslationStepTests.swift; sourceTree = "<group>"; };
+		7DE46F7B6B1B7D5E8BEEA63E /* SentryConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryConfig.swift; sourceTree = "<group>"; };
 		7F45BDD9E0B39BD2D0E4E2A8 /* ProtoRoundTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoRoundTripTests.swift; sourceTree = "<group>"; };
 		807BFE380465161F3E3565E9 /* timers.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timers.pb.swift; sourceTree = "<group>"; };
 		827DB821BA3CF7EBC947D33A /* ParsedSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedSong.swift; sourceTree = "<group>"; };
@@ -276,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA0D59BAF6ACA1158D351D61 /* SwiftProtobuf in Frameworks */,
+				3CE57375E48F0E23E426F495 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +300,15 @@
 				6010D187047A18FDF5D53F0B /* TrailingPunctuationRule.swift */,
 			);
 			path = Rules;
+			sourceTree = "<group>";
+		};
+		2015E9509ADEAD401312BFBC /* Observability */ = {
+			isa = PBXGroup;
+			children = (
+				7DE46F7B6B1B7D5E8BEEA63E /* SentryConfig.swift */,
+				65A927934D1D5851ADD5CD84 /* SentryScrubber.swift */,
+			);
+			path = Observability;
 			sourceTree = "<group>";
 		};
 		226A628E5A9BBD603C2FBA29 /* Products */ = {
@@ -368,6 +385,7 @@
 				4CED4849389E2A5AD8DB6AE0 /* Diagnostics */,
 				BEF3043B46B784D74A82E7FB /* Mock */,
 				6A26F0C31AA4C1ED144CD46F /* Models */,
+				2015E9509ADEAD401312BFBC /* Observability */,
 				35D23DD8D4E09991CE83A999 /* Pipeline */,
 				FA4F7BF1E1476ABA9060D822 /* ProPresenter */,
 				8AB04E98E4B5C19033C4218E /* Proto */,
@@ -488,6 +506,7 @@
 				7F45BDD9E0B39BD2D0E4E2A8 /* ProtoRoundTripTests.swift */,
 				54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */,
 				3645C4CC9BAE606882CA8BE3 /* RTFTextStripperTests.swift */,
+				5F11CBAA38E625DBF4591BB3 /* SentryConfigTests.swift */,
 				15B37E6953080F227525BB64 /* SlideTests.swift */,
 				DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */,
 				1543174EB7507BF1E048A727 /* SongTests.swift */,
@@ -642,6 +661,7 @@
 			name = Sela;
 			packageProductDependencies = (
 				E6EC6D9F6314F0971FA8F3AD /* SwiftProtobuf */,
+				4E3464056A60C75D69E29F05 /* Sentry */,
 			);
 			productName = Sela;
 			productReference = 18A59EFBD6EC6088AC45F2FD /* Sela.app */;
@@ -668,6 +688,7 @@
 			mainGroup = C36B583651E4CE312CFFD5D4;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				06B7458ED0328A3527347CD4 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				4A2322AAA5C3DDF5FF89BAD5 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -730,6 +751,7 @@
 				DEF751EDBB3F6F379758C54C /* RTFHelperTests.swift in Sources */,
 				11093A906E6F43376D8B930D /* RTFTextStripperTests.swift in Sources */,
 				57B661664080DD86B0B2B957 /* Scorers.swift in Sources */,
+				E19A5C8E97FD057B0842A960 /* SentryConfigTests.swift in Sources */,
 				362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */,
 				4FAB7C3501F320BEE87DAD8E /* SongLoadStreamTests.swift in Sources */,
 				D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */,
@@ -780,6 +802,8 @@
 				ECAF885BAE8AAD865E5B0A13 /* SelaScriptSong.swift in Sources */,
 				0262A29D916CFC0582BF9900 /* SelaTips.swift in Sources */,
 				8F7BD31392B5C400A5EB9201 /* SelectSongCommand.swift in Sources */,
+				09777C02C38D55CD1C737D52 /* SentryConfig.swift in Sources */,
+				B7C224A8E1E6E4547BE40ABE /* SentryScrubber.swift in Sources */,
 				1E71F41F2B938705D86534AD /* SettingsView.swift in Sources */,
 				D4414B25F463349977A8C4F1 /* SignificantLengthDifferenceRule.swift in Sources */,
 				90363AED7355AD138C87E1E1 /* Slide.swift in Sources */,
@@ -1080,6 +1104,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		06B7458ED0328A3527347CD4 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.2.0;
+			};
+		};
 		4A2322AAA5C3DDF5FF89BAD5 /* XCRemoteSwiftPackageReference "swift-protobuf" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-protobuf.git";
@@ -1091,6 +1123,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4E3464056A60C75D69E29F05 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06B7458ED0328A3527347CD4 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
 		E6EC6D9F6314F0971FA8F3AD /* SwiftProtobuf */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4A2322AAA5C3DDF5FF89BAD5 /* XCRemoteSwiftPackageReference "swift-protobuf" */;

@@ -10,6 +10,9 @@ packages:
   SwiftProtobuf:
     url: https://github.com/apple/swift-protobuf.git
     from: "1.28.0"
+  Sentry:
+    url: https://github.com/getsentry/sentry-cocoa.git
+    from: "9.2.0"
 
 targets:
   Sela:
@@ -19,6 +22,8 @@ targets:
       - Sela
     dependencies:
       - package: SwiftProtobuf
+      - package: Sentry
+        product: Sentry
     info:
       path: Sela/Info.plist
       properties:
