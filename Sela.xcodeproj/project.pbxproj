@@ -43,6 +43,7 @@
 		477964E9EF8C5A36C23122A5 /* TranslationPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A042A9A17373D9035AB04C /* TranslationPrompt.swift */; };
 		4A31420C66516844308FE042 /* layers.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497E4BE4F01B8B919208D53 /* layers.pb.swift */; };
 		4AFBA6BEB715C4D1B0617993 /* graphicsData.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096ACDC3B99C3619D86CDB36 /* graphicsData.pb.swift */; };
+		4FAB7C3501F320BEE87DAD8E /* SongLoadStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */; };
 		510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34619DE434DDB179602B4A22 /* AppStateTests.swift */; };
 		51DFB743F045C8443B740463 /* It Is Well.pro in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9C9365048829C9805BED8 /* It Is Well.pro */; };
 		5597231192C89889AA900D77 /* FoundationModelStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0F3C69E24FD4FF9A7C2335 /* FoundationModelStep.swift */; };
@@ -247,6 +248,7 @@
 		D8B561FF219378BAC535C4E8 /* GeminiTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiTranslationStep.swift; sourceTree = "<group>"; };
 		DB7CD9AB341EFBFC9E1642BF /* GlossaryEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryEditor.swift; sourceTree = "<group>"; };
 		DB93782D9E9C1D71CBA7390B /* 10000 Reasons.pro */ = {isa = PBXFileReference; path = "10000 Reasons.pro"; sourceTree = "<group>"; };
+		DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLoadStreamTests.swift; sourceTree = "<group>"; };
 		DE3951CAAABEDFADE62D3BDE /* TranslationEvalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEvalTests.swift; sourceTree = "<group>"; };
 		DE9DC164B1529D502251DBFD /* cue.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cue.pb.swift; sourceTree = "<group>"; };
 		DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsDumpTests.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */,
 				3645C4CC9BAE606882CA8BE3 /* RTFTextStripperTests.swift */,
 				15B37E6953080F227525BB64 /* SlideTests.swift */,
+				DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */,
 				1543174EB7507BF1E048A727 /* SongTests.swift */,
 				EAB0B3545374D48015E6C096 /* TranslationPipelineTests.swift */,
 				3EC7AF5527E71251E34EF122 /* UserPreferencesTests.swift */,
@@ -721,6 +724,7 @@
 				11093A906E6F43376D8B930D /* RTFTextStripperTests.swift in Sources */,
 				57B661664080DD86B0B2B957 /* Scorers.swift in Sources */,
 				362436F66B9217E832D4BDCA /* SlideTests.swift in Sources */,
+				4FAB7C3501F320BEE87DAD8E /* SongLoadStreamTests.swift in Sources */,
 				D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */,
 				582061E73C46E05336B00F1D /* TranslationEvalTests.swift in Sources */,
 				AB347F062243484C0C3FC893 /* TranslationPipelineTests.swift in Sources */,

@@ -9,7 +9,7 @@ struct SongListView: View {
 
         List(selection: $appState.selectedSongID) {
             if appState.isLoading, appState.songs.isEmpty {
-                ProgressView("Loading songs…")
+                loadingIndicator
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 40)
             }
@@ -59,6 +59,25 @@ struct SongListView: View {
         }
     }
 
+    @ViewBuilder
+    private var loadingIndicator: some View {
+        if appState.totalCount > 0 {
+            VStack(spacing: 8) {
+                ProgressView(
+                    value: Double(appState.loadedCount),
+                    total: Double(appState.totalCount)
+                )
+                .progressViewStyle(.linear)
+                .frame(maxWidth: 200)
+                Text("Loading \(appState.loadedCount) of \(appState.totalCount)…")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        } else {
+            ProgressView("Loading songs…")
+        }
+    }
+
     private func songContextMenu(for song: Song) -> some View {
         Group {
             Button("Clear All Translations") {
@@ -82,12 +101,12 @@ struct SongListView: View {
 
 #Preview {
     let state = AppState()
-    NavigationSplitView {
+    state.songs = MockSongProvider.allSongs
+    return NavigationSplitView {
         SongListView()
     } detail: {
         Text("Select a song")
     }
     .environment(state)
-    .task { await state.loadSongs(from: MockSongProvider()) }
     .frame(width: 700, height: 500)
 }

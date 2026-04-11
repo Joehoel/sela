@@ -28,7 +28,7 @@ struct ProPresenterSongProviderTests {
         defer { try? FileManager.default.removeItem(at: dir) }
 
         let provider = ProPresenterSongProvider(libraryURL: dir)
-        let songs = await provider.loadSongs()
+        let songs = await provider.loadSongsArray()
 
         // Way Maker has no translatable slides (no second text element), so it's excluded
         let titles = Set(songs.map(\.title))
@@ -46,7 +46,7 @@ struct ProPresenterSongProviderTests {
         defer { try? FileManager.default.removeItem(at: dir) }
 
         let provider = ProPresenterSongProvider(libraryURL: dir)
-        let songs = await provider.loadSongs()
+        let songs = await provider.loadSongsArray()
         let song = try #require(songs.first)
 
         let slide = try #require(song.slideGroups.flatMap(\.slides).first)
@@ -57,7 +57,7 @@ struct ProPresenterSongProviderTests {
 
         // Re-load from disk
         let provider2 = ProPresenterSongProvider(libraryURL: dir)
-        let reloaded = await provider2.loadSongs()
+        let reloaded = await provider2.loadSongsArray()
         let reloadedSong = try #require(reloaded.first)
         let reloadedLine = try #require(
             reloadedSong.slideGroups.flatMap(\.slides).flatMap(\.lines)
@@ -75,7 +75,7 @@ struct ProPresenterSongProviderTests {
         defer { try? FileManager.default.removeItem(at: dir) }
 
         let provider = ProPresenterSongProvider(libraryURL: dir)
-        let songs = await provider.loadSongs()
+        let songs = await provider.loadSongsArray()
 
         #expect(songs.isEmpty)
     }

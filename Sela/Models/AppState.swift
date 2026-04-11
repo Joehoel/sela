@@ -10,6 +10,8 @@ class AppState {
     var isSearchFocused = false
     var translationRequest: TranslationRequest?
     var isLoading = false
+    var loadedCount: Int = 0
+    var totalCount: Int = 0
     var provider: (any SongProvider)?
     var hiddenSongIDs: Set<String> = Set(UserDefaults.standard.stringArray(forKey: "hiddenSongIDs") ?? []) {
         didSet {
@@ -65,8 +67,32 @@ class AppState {
 
     func loadSongs(from provider: any SongProvider) async {
         self.provider = provider
+        songs = []
+        loadedCount = 0
+        totalCount = 0
         isLoading = true
-        songs = await provider.loadSongs()
+
+        for await event in provider.loadSongs() {
+            if Task.isCancelled { break }
+            switch event {
+            case let .started(total):
+                totalCount = total
+            case let .parsed(parsed, loaded):
+                loadedCount = loaded
+                // Match the pre-streaming filter: drop songs whose slide
+                // groups are all empty (intros, countdowns, media slides).
+                if parsed.slideGroups.contains(where: { !$0.slides.isEmpty }) {
+                    songs.append(Song(parsed: parsed))
+                }
+            }
+        }
+
+        // Sort once after the stream completes. Appending in parse order
+        // during load avoids mid-stream reshuffling; the sort here is a
+        // single O(N log N) pass over the final list.
+        songs.sort {
+            $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending
+        }
         restoreHiddenState()
         isLoading = false
     }

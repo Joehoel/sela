@@ -8,25 +8,30 @@ class ProPresenterSongProvider: SongProvider {
         self.libraryURL = libraryURL
     }
 
-    func loadSongs() async -> [Song] {
-        let urls = Self.enumerateProFiles(in: libraryURL)
-        guard !urls.isEmpty else { return [] }
+    func loadSongs() -> AsyncStream<SongLoadEvent> {
+        let libraryURL = self.libraryURL
+        return AsyncStream<SongLoadEvent> { continuation in
+            let task = Task.detached(priority: .userInitiated) {
+                let urls = Self.enumerateProFiles(in: libraryURL)
+                continuation.yield(.started(total: urls.count))
 
-        // Heavy work — file read + protobuf decode + RTF strip + DTO build —
-        // runs on the cooperative thread pool via a bounded TaskGroup. We
-        // seed `concurrency` workers, then `group.next()` drains one result
-        // and enqueues the next file. This keeps memory flat (no unbounded
-        // fan-out) and avoids TaskGroup's known quirks with thousands of
-        // queued tasks.
-        let concurrency = max(2, ProcessInfo.processInfo.activeProcessorCount)
-        let parsed = await Self.parseConcurrently(urls: urls, concurrency: concurrency)
+                guard !urls.isEmpty else {
+                    continuation.finish()
+                    return
+                }
 
-        // Convert Sendable DTOs → @Observable model graph on the main actor.
-        let songs = parsed.map { Song(parsed: $0) }
-
-        return songs
-            .filter { $0.slideGroups.contains { !$0.slides.isEmpty } }
-            .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+                let concurrency = max(2, ProcessInfo.processInfo.activeProcessorCount)
+                await Self.streamParsedSongs(
+                    urls: urls,
+                    concurrency: concurrency,
+                    continuation: continuation
+                )
+                continuation.finish()
+            }
+            continuation.onTermination = { _ in
+                task.cancel()
+            }
+        }
     }
 
     func save(_ song: Song) async throws {
@@ -42,7 +47,7 @@ class ProPresenterSongProvider: SongProvider {
 
     // MARK: - File discovery
 
-    private static func enumerateProFiles(in root: URL) -> [URL] {
+    private nonisolated static func enumerateProFiles(in root: URL) -> [URL] {
         guard let enumerator = FileManager.default.enumerator(
             at: root,
             includingPropertiesForKeys: [.isRegularFileKey],
@@ -56,34 +61,37 @@ class ProPresenterSongProvider: SongProvider {
         return urls
     }
 
-    // MARK: - Bounded concurrent parse
+    // MARK: - Bounded concurrent streaming parse
 
-    private nonisolated static func parseConcurrently(
+    private nonisolated static func streamParsedSongs(
         urls: [URL],
-        concurrency: Int
-    ) async -> [ParsedSong] {
-        await withTaskGroup(of: ParsedSong?.self, returning: [ParsedSong].self) { group in
+        concurrency: Int,
+        continuation: AsyncStream<SongLoadEvent>.Continuation
+    ) async {
+        await withTaskGroup(of: ParsedSong?.self) { group in
             var iter = urls.makeIterator()
-            var results: [ParsedSong] = []
-            results.reserveCapacity(urls.count)
+            var loaded = 0
 
-            // Seed the group with up to `concurrency` tasks.
+            // Seed workers
             for _ in 0 ..< concurrency {
                 guard let url = iter.next() else { break }
                 group.addTask { Self.parseOne(url: url) }
             }
 
-            // Drain one, enqueue one, until both the iterator and the group
-            // are empty. This is the `group.next()` bounded-concurrency pattern.
+            // Drain-and-refill: `group.next()` bounded concurrency pattern
             while let result = await group.next() {
-                if Task.isCancelled { break }
-                if let result { results.append(result) }
+                if Task.isCancelled {
+                    group.cancelAll()
+                    break
+                }
+                if let result {
+                    loaded += 1
+                    continuation.yield(.parsed(result, loaded: loaded))
+                }
                 if let url = iter.next() {
                     group.addTask { Self.parseOne(url: url) }
                 }
             }
-
-            return results
         }
     }
 

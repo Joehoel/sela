@@ -1,15 +1,11 @@
 import Foundation
 
-struct MockSongProvider: SongProvider {
-    func loadSongs() async -> [Song] {
-        [
-            Self.wayMaker,
-            Self.buildMyLife,
-            Self.greatAreYouLord,
-            Self.tenThousandReasons,
-            Self.amazingGrace,
-            Self.blessedBeYourName,
-        ]
+/// Hard-coded sample songs used exclusively by SwiftUI previews.
+/// Not a `SongProvider` anymore — the load path goes through
+/// `ProPresenterSongProvider` and its streaming API.
+enum MockSongProvider {
+    static var allSongs: [Song] {
+        [wayMaker, buildMyLife, greatAreYouLord, tenThousandReasons, amazingGrace, blessedBeYourName]
     }
 }
 
