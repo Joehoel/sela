@@ -12,6 +12,7 @@ struct SelaApp: App {
 
     init() {
         SentryConfig.start()
+        SelaMetrics.appLaunched()
         try? Tips.configure()
     }
 

@@ -1,4 +1,5 @@
 import Foundation
+@preconcurrency import Sentry
 
 @MainActor
 class ProPresenterSongProvider: SongProvider {
@@ -20,9 +21,17 @@ class ProPresenterSongProvider: SongProvider {
     func loadSongs() -> AsyncStream<SongLoadEvent> {
         let libraryURL = self.libraryURL
         let indexURL = self.indexURL
+        SelaMetrics.libraryLoadStarted()
+        let transaction = SentrySDK.startTransaction(
+            name: "library.load",
+            operation: "file.load",
+            bindToScope: false
+        )
+        let startTime = Date()
         return AsyncStream<SongLoadEvent> { continuation in
             let task = Task.detached(priority: .userInitiated) { [weak self] in
                 let urls = Self.enumerateProFiles(in: libraryURL)
+                transaction.setData(value: urls.count, key: "files.total")
                 continuation.yield(.started(total: urls.count))
 
                 guard !urls.isEmpty else {
@@ -30,6 +39,13 @@ class ProPresenterSongProvider: SongProvider {
                     // library is now empty.
                     try? LibraryIndex().save(to: indexURL)
                     await Self.publish(stats: LoadStats(), to: self)
+                    SelaMetrics.libraryLoadCompleted(
+                        durationMs: startTime.msSince,
+                        fileCount: 0,
+                        cacheHits: 0,
+                        cacheMisses: 0
+                    )
+                    transaction.finish()
                     continuation.finish()
                     return
                 }
@@ -43,8 +59,20 @@ class ProPresenterSongProvider: SongProvider {
                     continuation: continuation
                 )
 
-                if !Task.isCancelled {
+                if Task.isCancelled {
+                    SelaMetrics.libraryLoadCancelled()
+                    transaction.finish(status: .cancelled)
+                } else {
                     try? result.index.save(to: indexURL)
+                    SelaMetrics.libraryLoadCompleted(
+                        durationMs: startTime.msSince,
+                        fileCount: urls.count,
+                        cacheHits: result.stats.cacheHits,
+                        cacheMisses: result.stats.cacheMisses
+                    )
+                    transaction.setData(value: result.stats.cacheHits, key: "cache.hits")
+                    transaction.setData(value: result.stats.cacheMisses, key: "cache.misses")
+                    transaction.finish()
                 }
                 await Self.publish(stats: result.stats, to: self)
                 continuation.finish()
@@ -61,9 +89,20 @@ class ProPresenterSongProvider: SongProvider {
         // Re-read fresh from disk so unknown proto fields are preserved and
         // any external edits to the file are merged with our translation
         // changes rather than clobbered by a stale in-memory cache.
-        let data = try Data(contentsOf: filePath)
-        var presentation = try RVData_Presentation(serializedBytes: data)
-        try ProPresenterWriter.save(song, into: &presentation, at: filePath)
+        do {
+            let data = try Data(contentsOf: filePath)
+            var presentation = try RVData_Presentation(serializedBytes: data)
+            try ProPresenterWriter.save(song, into: &presentation, at: filePath)
+            SelaMetrics.saveSucceeded()
+        } catch let error as CocoaError where error.code == .fileReadNoSuchFile {
+            SelaMetrics.saveFailed(reason: .io)
+            SentrySDK.capture(error: error)
+            throw error
+        } catch {
+            SelaMetrics.saveFailed(reason: .write)
+            SentrySDK.capture(error: error)
+            throw error
+        }
     }
 
     // MARK: - File discovery

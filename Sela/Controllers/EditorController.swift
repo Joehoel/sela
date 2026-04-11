@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+@preconcurrency import Sentry
 @preconcurrency import Translation
 
 @Observable @MainActor
@@ -282,6 +283,17 @@ final class EditorController {
         var items = buildItems()
         guard !items.isEmpty else { return }
 
+        let engine = (preferences?.translationEngine ?? .apple).rawValue
+        let startTime = Date()
+        SelaMetrics.translationRequested(engine: engine, lineCount: items.count)
+
+        let transaction = SentrySDK.startTransaction(
+            name: "translation.pipeline",
+            operation: "translate",
+            bindToScope: true
+        )
+        transaction.setTag(value: engine, key: "engine")
+
         do {
             try await pipeline.run(&items) { status in
                 Task { @MainActor in
@@ -289,14 +301,38 @@ final class EditorController {
                 }
             }
 
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled else {
+                transaction.finish(status: .cancelled)
+                return
+            }
 
             writeBack(items)
             translationStatus = nil
+            SelaMetrics.translationCompleted(engine: engine, durationMs: startTime.msSince)
+            transaction.finish()
         } catch {
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled else {
+                transaction.finish(status: .cancelled)
+                return
+            }
             translationStatus = nil
             translationError = error.localizedDescription
+            SelaMetrics.translationFailed(engine: engine, reason: Self.classify(error))
+            SentrySDK.capture(error: error)
+            transaction.finish(status: .internalError)
         }
+    }
+
+    private static func classify(_ error: Error) -> SelaMetrics.TranslationFailureReason {
+        let nsError = error as NSError
+        if nsError.domain == NSURLErrorDomain { return .network }
+        let description = nsError.localizedDescription.lowercased()
+        if description.contains("api key") || description.contains("401") || description.contains("403") {
+            return .auth
+        }
+        if description.contains("decode") || description.contains("parse") || description.contains("json") {
+            return .parse
+        }
+        return .other
     }
 }

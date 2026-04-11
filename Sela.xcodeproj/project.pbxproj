@@ -12,6 +12,8 @@
 		0262A29D916CFC0582BF9900 /* SelaTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4587C128DE23529FA239D06A /* SelaTips.swift */; };
 		03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */; };
 		09777C02C38D55CD1C737D52 /* SentryConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE46F7B6B1B7D5E8BEEA63E /* SentryConfig.swift */; };
+		0A4336F8C271E5B145D2DED2 /* Date+Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C808BD06B515FEA40F8CDA /* Date+Metrics.swift */; };
+		0EE31056D0E5F034920F223A /* SelaMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E1A73B302A068DEAC38A8A /* SelaMetrics.swift */; };
 		0F3D6E3F92FFC62023A74BB6 /* RTFHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F689AA2EC4E99F1AD3B81955 /* RTFHelper.swift */; };
 		11093A906E6F43376D8B930D /* RTFTextStripperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3645C4CC9BAE606882CA8BE3 /* RTFTextStripperTests.swift */; };
 		13BEA72F0DAE2018E8DBEBD4 /* NSApplicationScripting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313BA21F273A6037712BC6AA /* NSApplicationScripting.swift */; };
@@ -188,6 +190,7 @@
 		43B5DFA5E43BF22CECC61280 /* EvalCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalCase.swift; sourceTree = "<group>"; };
 		4587C128DE23529FA239D06A /* SelaTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaTips.swift; sourceTree = "<group>"; };
 		472795C3D5548B470F45EB9A /* customOptions.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customOptions.pb.swift; sourceTree = "<group>"; };
+		47E1A73B302A068DEAC38A8A /* SelaMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaMetrics.swift; sourceTree = "<group>"; };
 		48F2BFA4EC79A86EB797346E /* SelectSongCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSongCommand.swift; sourceTree = "<group>"; };
 		48FACE2FA6A16E4BDB051C82 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ACCEAB5F13A4FE3932E3956 /* applicationInfo.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = applicationInfo.pb.swift; sourceTree = "<group>"; };
@@ -268,6 +271,7 @@
 		E1AC6BC7FF76CAE78EE0A617 /* SaveCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveCommand.swift; sourceTree = "<group>"; };
 		E1B944FBFF2E5F68DEB1675E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E5620769B923ADA75805EA7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E9C808BD06B515FEA40F8CDA /* Date+Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Metrics.swift"; sourceTree = "<group>"; };
 		EA42E2F0DE04F57D8E6DCA79 /* background.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = background.pb.swift; sourceTree = "<group>"; };
 		EAB0B3545374D48015E6C096 /* TranslationPipelineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPipelineTests.swift; sourceTree = "<group>"; };
 		F689AA2EC4E99F1AD3B81955 /* RTFHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTFHelper.swift; sourceTree = "<group>"; };
@@ -305,6 +309,8 @@
 		2015E9509ADEAD401312BFBC /* Observability */ = {
 			isa = PBXGroup;
 			children = (
+				E9C808BD06B515FEA40F8CDA /* Date+Metrics.swift */,
+				47E1A73B302A068DEAC38A8A /* SelaMetrics.swift */,
 				7DE46F7B6B1B7D5E8BEEA63E /* SentryConfig.swift */,
 				65A927934D1D5851ADD5CD84 /* SentryScrubber.swift */,
 			);
@@ -770,6 +776,7 @@
 				37E53E9AB043244318B7811F /* BookmarkManager.swift in Sources */,
 				1C866AF59C68946A20CB92AA /* CapitalizationMismatchRule.swift in Sources */,
 				734AD2B96B2894FE9A310FBC /* ContentView.swift in Sources */,
+				0A4336F8C271E5B145D2DED2 /* Date+Metrics.swift in Sources */,
 				017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */,
 				7A8D2E23FCB4F48F876EC61E /* DeepLinkHandler.swift in Sources */,
 				40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */,
@@ -799,6 +806,7 @@
 				F603CC41139C60CB524E71FB /* RTFTextStripper.swift in Sources */,
 				6E22A7F089D413ECBDB6F0B5 /* SaveCommand.swift in Sources */,
 				F186862D77EE61F6400FD4DC /* SelaApp.swift in Sources */,
+				0EE31056D0E5F034920F223A /* SelaMetrics.swift in Sources */,
 				ECAF885BAE8AAD865E5B0A13 /* SelaScriptSong.swift in Sources */,
 				0262A29D916CFC0582BF9900 /* SelaTips.swift in Sources */,
 				8F7BD31392B5C400A5EB9201 /* SelectSongCommand.swift in Sources */,
