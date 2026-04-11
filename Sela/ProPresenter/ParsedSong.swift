@@ -6,7 +6,7 @@ import Foundation
 /// are reference types and not Sendable, so library-load work is done off
 /// the main actor on these value-type DTOs, then converted to model types on
 /// the main actor in a single cheap pass.
-struct ParsedSong {
+struct ParsedSong: Codable {
     let id: String
     let title: String
     let author: String
@@ -14,18 +14,18 @@ struct ParsedSong {
     let filePath: URL
 }
 
-struct ParsedSlideGroup {
+struct ParsedSlideGroup: Codable {
     let id: String
     let name: String
     let slides: [ParsedSlide]
 }
 
-struct ParsedSlide {
+struct ParsedSlide: Codable {
     let id: String
     let lines: [ParsedLine]
 }
 
-struct ParsedLine {
+struct ParsedLine: Codable {
     let id: String
     let original: String
     let translation: String

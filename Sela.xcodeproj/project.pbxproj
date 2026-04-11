@@ -43,6 +43,7 @@
 		477964E9EF8C5A36C23122A5 /* TranslationPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A042A9A17373D9035AB04C /* TranslationPrompt.swift */; };
 		4A31420C66516844308FE042 /* layers.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497E4BE4F01B8B919208D53 /* layers.pb.swift */; };
 		4AFBA6BEB715C4D1B0617993 /* graphicsData.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096ACDC3B99C3619D86CDB36 /* graphicsData.pb.swift */; };
+		4EC3E9A87A244F2E03C36601 /* LibraryIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FCBAB41BE2450B0A3740CE /* LibraryIndexTests.swift */; };
 		4FAB7C3501F320BEE87DAD8E /* SongLoadStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */; };
 		510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34619DE434DDB179602B4A22 /* AppStateTests.swift */; };
 		51DFB743F045C8443B740463 /* It Is Well.pro in Resources */ = {isa = PBXBuildFile; fileRef = 0BA9C9365048829C9805BED8 /* It Is Well.pro */; };
@@ -76,6 +77,7 @@
 		93025DE4C5AA35F9E1CD4EFA /* SlideLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928D490244ABDE64693E6DB0 /* SlideLine.swift */; };
 		939E123836CEE0E6A15107EC /* GlossaryEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7CD9AB341EFBFC9E1642BF /* GlossaryEditor.swift */; };
 		990026931374C784C2C43C28 /* musicKeyScale.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C7DAF99E987B151E229B1A /* musicKeyScale.pb.swift */; };
+		99A119BBB3797F78BE026187 /* LibraryIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F30C0618B4DD66B9189958 /* LibraryIndex.swift */; };
 		9F921A4DE2B54C355681CA7A /* SongListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAA3738084D224196CE7EFB /* SongListView.swift */; };
 		A37F3CAD6696DC6682217224 /* MockSongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8BEC791A8C8E5B789471B3 /* MockSongProvider.swift */; };
 		A6962FC2DEB5D2CE67BCCD9D /* DiagnoseIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */; };
@@ -194,6 +196,7 @@
 		554B4AA4096F03804218D05B /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
 		55918FD808ADE4539BF65984 /* EvalCases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = EvalCases.json; sourceTree = "<group>"; };
 		597DF055794773CF15E52097 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
+		59F30C0618B4DD66B9189958 /* LibraryIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryIndex.swift; sourceTree = "<group>"; };
 		5B2A9619500466F93BA9EDDD /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		6010D187047A18FDF5D53F0B /* TrailingPunctuationRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingPunctuationRule.swift; sourceTree = "<group>"; };
 		61B12E0C09B06EA9B83F61EF /* DiagnosticRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRule.swift; sourceTree = "<group>"; };
@@ -232,6 +235,7 @@
 		B26843B90533B5433CFC5499 /* SelaScriptSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaScriptSong.swift; sourceTree = "<group>"; };
 		B2CC0E6E43D6C206A2F7770D /* hotKey.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hotKey.pb.swift; sourceTree = "<group>"; };
 		B4CF3F5B145136C7980850A8 /* EditorControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorControllerTests.swift; sourceTree = "<group>"; };
+		B6FCBAB41BE2450B0A3740CE /* LibraryIndexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryIndexTests.swift; sourceTree = "<group>"; };
 		B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterReaderTests.swift; sourceTree = "<group>"; };
 		B91473B4DBBB45EB8DA85B7D /* FixAllCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixAllCommand.swift; sourceTree = "<group>"; };
 		BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnoseIssue.swift; sourceTree = "<group>"; };
@@ -476,6 +480,7 @@
 				B4CF3F5B145136C7980850A8 /* EditorControllerTests.swift */,
 				55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */,
 				C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */,
+				B6FCBAB41BE2450B0A3740CE /* LibraryIndexTests.swift */,
 				DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */,
 				B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */,
 				B05A2707330E40BF60C4A949 /* ProPresenterSongProviderTests.swift */,
@@ -590,6 +595,7 @@
 		FA4F7BF1E1476ABA9060D822 /* ProPresenter */ = {
 			isa = PBXGroup;
 			children = (
+				59F30C0618B4DD66B9189958 /* LibraryIndex.swift */,
 				827DB821BA3CF7EBC947D33A /* ParsedSong.swift */,
 				FF2673101A91E1B71DF5A0CE /* ProPresenterReader.swift */,
 				C61A931DF52744F745DE4115 /* ProPresenterWriter.swift */,
@@ -715,6 +721,7 @@
 				175DEC23CCA02A7B9BEC15A5 /* EvalReport.swift in Sources */,
 				D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */,
 				3AC36DCB4971CD0AA7526DAA /* GlossaryReplacementStepTests.swift in Sources */,
+				4EC3E9A87A244F2E03C36601 /* LibraryIndexTests.swift in Sources */,
 				00A540CCCE7DC453933EA4E3 /* LyricsDumpTests.swift in Sources */,
 				03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */,
 				22153F73DD478F41689BE450 /* ProPresenterSongProviderTests.swift in Sources */,
@@ -757,6 +764,7 @@
 				FD20ED70B7648ACD10689008 /* GoogleTranslateStep.swift in Sources */,
 				678EBC7DA7171BEC93384F5D /* KeyboardShortcuts.swift in Sources */,
 				74FAEE720A3676590F3DA462 /* LeadingTrailingWhitespaceRule.swift in Sources */,
+				99A119BBB3797F78BE026187 /* LibraryIndex.swift in Sources */,
 				B4AB040A2E702EDF48B60C01 /* LineCountMismatchRule.swift in Sources */,
 				A37F3CAD6696DC6682217224 /* MockSongProvider.swift in Sources */,
 				2C43ECF143010FFD9841F55F /* MyMemoryTranslationStep.swift in Sources */,
