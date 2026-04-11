@@ -44,8 +44,8 @@ jobs:
           path: ~/Library/Caches/Homebrew
           key: brew-xcodegen-${{ runner.os }}
 
-      - name: Install xcodegen
-        run: brew install xcodegen
+      - name: Install xcodegen and sentry-cli
+        run: brew install xcodegen getsentry/tools/sentry-cli
 
       - name: Generate Xcode project
         run: xcodegen generate
@@ -84,6 +84,20 @@ jobs:
             MARKETING_VERSION="${{ steps.version.outputs.version }}" \
             CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
             ENABLE_HARDENED_RUNTIME=YES
+
+      - name: Upload dSYMs to Sentry
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: de-nieuwe-psalmberijming
+          SENTRY_PROJECT: sela
+        run: |
+          if [ -z "$SENTRY_AUTH_TOKEN" ]; then
+            echo "SENTRY_AUTH_TOKEN not set — skipping dSYM upload"
+            exit 0
+          fi
+          sentry-cli debug-files upload \
+            --include-sources \
+            build/Sela.xcarchive
 
       - name: Export archive
         run: |
