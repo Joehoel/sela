@@ -20,6 +20,12 @@ jobs:
     runs-on: macos-26
     permissions:
       contents: write
+    env:
+      # softprops/action-gh-release still ships on node20 as of v2.6.1. Opt
+      # every JS action in this job into node24 so the workflow stops
+      # printing deprecation warnings and keeps working past the June 2026
+      # hard cutoff. Safe per GitHub's deprecation guidance.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
     steps:
       - uses: actions/checkout@v6
 
@@ -51,7 +57,7 @@ jobs:
         run: xcodegen generate
 
       - name: Import signing certificate
-        uses: apple-actions/import-codesign-certs@v3
+        uses: apple-actions/import-codesign-certs@v6
         with:
           p12-file-base64: ${{ secrets.APPLE_CERTIFICATE_P12 }}
           p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
