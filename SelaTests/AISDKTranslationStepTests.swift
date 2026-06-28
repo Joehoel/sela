@@ -239,9 +239,9 @@ private final class PromptCapture: @unchecked Sendable {
     private let lock = NSLock()
     private var prompt: LanguageModelV3Prompt = []
 
-    func store(_ p: LanguageModelV3Prompt) {
+    func store(_ value: LanguageModelV3Prompt) {
         lock.lock(); defer { lock.unlock() }
-        prompt = p
+        prompt = value
     }
 
     func allText() -> String {

@@ -89,6 +89,8 @@ struct AISDKTranslationStep: TranslationPipelineStep {
         let userPrompt = prompt.buildUserPrompt(from: items)
 
         let object: TranslationResult
+        // Preserve the custom backends' already-friendly errors; only map the
+        // opaque SDK/LLM-provider errors.
         do {
             object = try await generateObject(
                 model: .v3(model),
@@ -98,15 +100,17 @@ struct AISDKTranslationStep: TranslationPipelineStep {
                 providerOptions: providerOptions,
                 settings: CallSettings(temperature: temperature)
             ).object
-        }
-        // Preserve the custom backends' already-friendly errors; only map the
-        // opaque SDK/LLM-provider errors.
-        catch let error as DeepLError { throw error }
-        catch let error as GoogleTranslateError { throw error }
-        catch let error as MyMemoryError { throw error }
-        catch let error as AppleTranslationError { throw error }
-        catch let error as AISDKModelError { throw error }
-        catch {
+        } catch let error as DeepLError {
+            throw error
+        } catch let error as GoogleTranslateError {
+            throw error
+        } catch let error as MyMemoryError {
+            throw error
+        } catch let error as AppleTranslationError {
+            throw error
+        } catch let error as AISDKModelError {
+            throw error
+        } catch {
             throw AISDKTranslationError.classify(error) ?? error
         }
 

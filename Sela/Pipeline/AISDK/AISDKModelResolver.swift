@@ -23,6 +23,7 @@ enum AISDKModelError: LocalizedError {
 /// provider per call with the user-entered API key (no env vars). Key validation
 /// is lazy — an invalid key surfaces on the first request, not here.
 enum AISDKModelResolver {
+    // swiftlint:disable:next cyclomatic_complexity
     static func model(
         for engine: TranslationEngine,
         apiKey: String,

@@ -55,8 +55,8 @@ struct MyMemoryLanguageModelTests {
     @Test("translates each numbered line and preserves its number")
     func translateMapsByNumber() async throws {
         let model = MyMemoryLanguageModel { request in
-            let q = request.url?.query ?? ""
-            let translated = q.contains("Hello") ? "Hallo" : "Wereld"
+            let query = request.url?.query ?? ""
+            let translated = query.contains("Hello") ? "Hallo" : "Wereld"
             let json = "{\"responseData\":{\"translatedText\":\"\(translated)\"},\"quotaFinished\":false}"
             return (Data(json.utf8), Self.okResponse)
         }

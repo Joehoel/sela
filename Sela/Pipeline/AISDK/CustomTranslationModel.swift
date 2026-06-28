@@ -131,7 +131,7 @@ enum CustomTranslationOutput {
 
     static func encode(_ result: TranslationResult) throws -> String {
         let data = try JSONEncoder().encode(result)
-        return String(decoding: data, as: UTF8.self)
+        return String(bytes: data, encoding: .utf8) ?? ""
     }
 }
 

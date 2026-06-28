@@ -31,7 +31,7 @@ struct TranslationPipeline {
         }
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     static func make(
         engine: TranslationEngine,
         deeplAPIKey: String = "",
