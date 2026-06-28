@@ -3,6 +3,7 @@ import SwiftUI
 struct SlideGroupView: View {
     let group: SlideGroup
     var focusedLineID: FocusState<String?>.Binding
+    let issueLineIDs: Set<String>
     let onAdvance: (String) -> Void
     let onRetreat: (String) -> Void
     let onTranslateSlide: (Slide) -> Void
@@ -19,6 +20,7 @@ struct SlideGroupView: View {
                         SlideLineView(
                             line: line,
                             focusedLineID: focusedLineID,
+                            hasIssue: issueLineIDs.contains(line.id),
                             onAdvance: onAdvance,
                             onRetreat: onRetreat
                         )

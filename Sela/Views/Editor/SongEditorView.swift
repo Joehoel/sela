@@ -20,6 +20,12 @@ struct SongEditorView: View {
         self._controller = State(initialValue: EditorController(song: song))
     }
 
+    /// Line IDs that currently have one or more diagnostics, used to tint their
+    /// rows. Recomputes with `diagnoseIssues`, so it tracks edits live.
+    private var issueLineIDs: Set<String> {
+        Set(controller.diagnoseIssues.map(\.lineID))
+    }
+
     var body: some View {
         @Bindable var appState = appState
 
@@ -30,6 +36,7 @@ struct SongEditorView: View {
                         SlideGroupView(
                             group: group,
                             focusedLineID: $focusedLineID,
+                            issueLineIDs: issueLineIDs,
                             onAdvance: { controller.advanceFromLine($0) },
                             onRetreat: { controller.retreatFromLine($0) },
                             onTranslateSlide: { controller.translateSlide($0) }

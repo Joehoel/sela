@@ -157,11 +157,11 @@
 		0497E4BE4F01B8B919208D53 /* layers.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layers.pb.swift; sourceTree = "<group>"; };
 		05A99E3843277952FFCDC54F /* SelaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SelaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07496D414E32D60849B8041C /* slide.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = slide.pb.swift; sourceTree = "<group>"; };
-		087B48C935E1CCEC61E3BB58 /* Welkom.pro */ = {isa = PBXFileReference; path = Welkom.pro; sourceTree = "<group>"; };
+		087B48C935E1CCEC61E3BB58 /* Welkom.pro */ = {isa = PBXFileReference; lastKnownFileType = file; path = Welkom.pro; sourceTree = "<group>"; };
 		096ACDC3B99C3619D86CDB36 /* graphicsData.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graphicsData.pb.swift; sourceTree = "<group>"; };
-		0BA9C9365048829C9805BED8 /* It Is Well.pro */ = {isa = PBXFileReference; path = "It Is Well.pro"; sourceTree = "<group>"; };
+		0BA9C9365048829C9805BED8 /* It Is Well.pro */ = {isa = PBXFileReference; lastKnownFileType = file; path = "It Is Well.pro"; sourceTree = "<group>"; };
 		0DE6F787D4480451253EFFF9 /* TranslationPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPipeline.swift; sourceTree = "<group>"; };
-		0EA25C605AF3B058BE9656EA /* Sela.sdef */ = {isa = PBXFileReference; path = Sela.sdef; sourceTree = "<group>"; };
+		0EA25C605AF3B058BE9656EA /* Sela.sdef */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Sela.sdef; sourceTree = "<group>"; };
 		105AA0D33769BEAA9D8BC993 /* MyMemoryTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMemoryTranslationStep.swift; sourceTree = "<group>"; };
 		1523F841FFBC4FE209884506 /* TranslateCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateCommand.swift; sourceTree = "<group>"; };
 		1543174EB7507BF1E048A727 /* SongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTests.swift; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 		1B1491F4FC57A170FA5E19E2 /* fileProperties.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fileProperties.pb.swift; sourceTree = "<group>"; };
 		1C590B47E43098347BB7CDCB /* AppleTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTranslationStep.swift; sourceTree = "<group>"; };
 		1C84DC16A9366DDAB9569DEE /* alphaType.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alphaType.pb.swift; sourceTree = "<group>"; };
-		1C8C46BAE45601151023A08D /* Powerpoint psalternatief 9-2-2024.pro */ = {isa = PBXFileReference; path = "Powerpoint psalternatief 9-2-2024.pro"; sourceTree = "<group>"; };
+		1C8C46BAE45601151023A08D /* Powerpoint psalternatief 9-2-2024.pro */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Powerpoint psalternatief 9-2-2024.pro"; sourceTree = "<group>"; };
 		1EB2116AC74C60E3EA057F78 /* DiagnosticsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticsEngine.swift; sourceTree = "<group>"; };
 		2106723A82BCFAB0EE6DAE07 /* collectionElementType.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = collectionElementType.pb.swift; sourceTree = "<group>"; };
 		28B2A470C66A4990ED5CC36D /* DevFixtureFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevFixtureFactoryTests.swift; sourceTree = "<group>"; };
@@ -205,7 +205,7 @@
 		4BAA3738084D224196CE7EFB /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		4BDD292842AE93E49842F6E0 /* ToggleInspectorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleInspectorCommand.swift; sourceTree = "<group>"; };
 		4C2BE54995357A5CA6941C90 /* DevLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevLibrary.swift; sourceTree = "<group>"; };
-		50AC6DF7D38ED3926416B298 /* Way Maker.pro */ = {isa = PBXFileReference; path = "Way Maker.pro"; sourceTree = "<group>"; };
+		50AC6DF7D38ED3926416B298 /* Way Maker.pro */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Way Maker.pro"; sourceTree = "<group>"; };
 		54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTFHelperTests.swift; sourceTree = "<group>"; };
 		55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryEntryTests.swift; sourceTree = "<group>"; };
 		554B4AA4096F03804218D05B /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
@@ -220,7 +220,7 @@
 		641CE4FF9AC95E527E5E2B3F /* templateIdentification.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = templateIdentification.pb.swift; sourceTree = "<group>"; };
 		65994A8B4D08102B939FD782 /* color.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = color.pb.swift; sourceTree = "<group>"; };
 		65A927934D1D5851ADD5CD84 /* SentryScrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryScrubber.swift; sourceTree = "<group>"; };
-		678E9FD2CD9438937D94EA87 /* Amazing Grace.pro */ = {isa = PBXFileReference; path = "Amazing Grace.pro"; sourceTree = "<group>"; };
+		678E9FD2CD9438937D94EA87 /* Amazing Grace.pro */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazing Grace.pro"; sourceTree = "<group>"; };
 		680C45236E283C677018D1C1 /* action.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = action.pb.swift; sourceTree = "<group>"; };
 		684D79F7089AD52F2770565A /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		688D76E936AA3F70A3327B7C /* CapitalizationMismatchRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalizationMismatchRule.swift; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 		827DB821BA3CF7EBC947D33A /* ParsedSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedSong.swift; sourceTree = "<group>"; };
 		890FF8E0BF59D128761D4321 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
 		8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLTranslationStep.swift; sourceTree = "<group>"; };
-		8B29EA87B5B6FA4D1F622F65 /* Build My Life.pro */ = {isa = PBXFileReference; path = "Build My Life.pro"; sourceTree = "<group>"; };
+		8B29EA87B5B6FA4D1F622F65 /* Build My Life.pro */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Build My Life.pro"; sourceTree = "<group>"; };
 		8D8BEC791A8C8E5B789471B3 /* MockSongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSongProvider.swift; sourceTree = "<group>"; };
 		91B94C403042EB33B0439CC2 /* stage.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stage.pb.swift; sourceTree = "<group>"; };
 		928D490244ABDE64693E6DB0 /* SlideLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideLine.swift; sourceTree = "<group>"; };
@@ -271,7 +271,7 @@
 		D6BAC55881C729DC05DA0E90 /* propSlide.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = propSlide.pb.swift; sourceTree = "<group>"; };
 		D8B561FF219378BAC535C4E8 /* GeminiTranslationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiTranslationStep.swift; sourceTree = "<group>"; };
 		DB7CD9AB341EFBFC9E1642BF /* GlossaryEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryEditor.swift; sourceTree = "<group>"; };
-		DB93782D9E9C1D71CBA7390B /* 10000 Reasons.pro */ = {isa = PBXFileReference; path = "10000 Reasons.pro"; sourceTree = "<group>"; };
+		DB93782D9E9C1D71CBA7390B /* 10000 Reasons.pro */ = {isa = PBXFileReference; lastKnownFileType = file; path = "10000 Reasons.pro"; sourceTree = "<group>"; };
 		DD1F5B19C0B050213B256FB6 /* DevFixtureFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevFixtureFactory.swift; sourceTree = "<group>"; };
 		DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLoadStreamTests.swift; sourceTree = "<group>"; };
 		DE3951CAAABEDFADE62D3BDE /* TranslationEvalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEvalTests.swift; sourceTree = "<group>"; };
@@ -703,9 +703,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
+				LastUpgradeCheck = 2620;
 			};
 			buildConfigurationList = F10DF246BF47A7D8D1C26F9A /* Build configuration list for PBXProject "Sela" */;
 			developmentRegion = en;
@@ -940,9 +938,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -963,6 +963,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -974,6 +975,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -995,6 +997,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = NO;
 				INFOPLIST_FILE = Sela/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1015,6 +1018,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1062,9 +1066,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1078,6 +1084,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
@@ -1092,6 +1099,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = NO;
 				INFOPLIST_FILE = Sela/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
