@@ -50,7 +50,8 @@ enum DevLibrary {
     }
 
     /// Copies every `.pro` file from `source` into `destination` (creating it as
-    /// needed), overwriting any existing copies. Exposed for testing.
+    /// needed), overwriting any existing copies, and adds a translation box to
+    /// single-box slides so more fixtures are usable. Exposed for testing.
     static func seed(into destination: URL, from source: URL) {
         let fm = FileManager.default
         try? fm.createDirectory(at: destination, withIntermediateDirectories: true)
@@ -59,7 +60,19 @@ enum DevLibrary {
             let target = destination.appendingPathComponent(file.lastPathComponent)
             try? fm.removeItem(at: target)
             try? fm.copyItem(at: file, to: target)
+            makeTranslatable(target)
         }
+    }
+
+    /// Adds translation boxes to a seeded fixture in place so it surfaces
+    /// editable lines. Decodes with default options to preserve unknown fields.
+    private static func makeTranslatable(_ url: URL) {
+        guard let data = try? Data(contentsOf: url),
+              var presentation = try? RVData_Presentation(serializedBytes: data)
+        else { return }
+        let added = DevFixtureFactory.addTranslationBoxes(to: &presentation)
+        guard added > 0, let output = try? presentation.serializedData() else { return }
+        try? output.write(to: url)
     }
 
     private static func containsProFiles(_ directory: URL) -> Bool {
