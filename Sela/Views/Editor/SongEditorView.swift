@@ -132,8 +132,33 @@ struct SongEditorView: View {
             .help("Translate empty slides (⌘T)")
             .disabled(controller.translationStatus != nil)
             .popover(isPresented: $showSavePopover) {
-                Label("Restart ProPresenter to see changes", systemImage: "arrow.clockwise")
-                    .padding()
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("Restart ProPresenter to see your changes", systemImage: "arrow.clockwise")
+                        .font(.callout)
+
+                    Button {
+                        Task { await controller.restartProPresenter() }
+                    } label: {
+                        if controller.isRestartingProPresenter {
+                            ProgressView()
+                                .controlSize(.small)
+                        } else {
+                            Text("Restart ProPresenter")
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(controller.isRestartingProPresenter)
+
+                    if let restartError = controller.restartError {
+                        Text(restartError)
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .padding()
+                .frame(width: 280)
             }
 
             Button {

@@ -337,4 +337,30 @@ struct EditorControllerTests {
 
         #expect(controller.translationError == nil)
     }
+
+    // MARK: - ProPresenter restart
+
+    @Test("restartProPresenter dismisses the save notice on success")
+    func restartSucceeds() async {
+        let controller = EditorController(song: makeSong())
+        controller.proPresenterRestarter = ProPresenterRestarter { _ in nil }
+        await controller.performSave() // sets showSaveNotice = true
+
+        await controller.restartProPresenter()
+
+        #expect(controller.restartError == nil)
+        #expect(controller.showSaveNotice == false)
+        #expect(controller.isRestartingProPresenter == false)
+    }
+
+    @Test("restartProPresenter surfaces a friendly error on failure")
+    func restartFails() async {
+        let controller = EditorController(song: makeSong())
+        controller.proPresenterRestarter = ProPresenterRestarter { _ in "Not authorized" }
+
+        await controller.restartProPresenter()
+
+        #expect(controller.restartError?.contains("Not authorized") == true)
+        #expect(controller.isRestartingProPresenter == false)
+    }
 }

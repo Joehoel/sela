@@ -25,6 +25,14 @@ final class EditorController {
     var saveError: String?
     private var saveNoticeTask: Task<Void, Never>?
 
+    // MARK: - ProPresenter restart state
+
+    private(set) var isRestartingProPresenter = false
+    var restartError: String?
+
+    /// Performs the actual quit+relaunch. Injectable so tests don't touch the app.
+    var proPresenterRestarter = ProPresenterRestarter.live
+
     // MARK: - Translation state
 
     private(set) var translationStatus: String?
@@ -123,6 +131,25 @@ final class EditorController {
             saveError = error.localizedDescription
         }
         isSaving = false
+    }
+
+    // MARK: - ProPresenter restart
+
+    /// Quits and relaunches ProPresenter so it reloads the saved song files.
+    /// Dismisses the save notice on success and surfaces a friendly error on
+    /// failure (e.g. denied Automation permission).
+    func restartProPresenter() async {
+        guard !isRestartingProPresenter else { return }
+        isRestartingProPresenter = true
+        restartError = nil
+        do {
+            try await proPresenterRestarter.restart()
+            showSaveNotice = false
+            saveNoticeTask?.cancel()
+        } catch {
+            restartError = error.localizedDescription
+        }
+        isRestartingProPresenter = false
     }
 
     // MARK: - Translation

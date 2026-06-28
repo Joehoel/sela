@@ -47,6 +47,7 @@ targets:
               - sela
         NSAppleScriptEnabled: true
         OSAScriptingDefinition: Sela.sdef
+        NSAppleEventsUsageDescription: "Sela restarts ProPresenter so it reloads the translated song files you just saved."
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sela.app
