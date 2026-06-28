@@ -1,7 +1,6 @@
 import Foundation
 import Observation
 @preconcurrency import Sentry
-@preconcurrency import Translation
 
 @Observable @MainActor
 final class EditorController {
@@ -31,14 +30,7 @@ final class EditorController {
     private(set) var translationStatus: String?
     private(set) var translationError: String?
     var showRetranslateConfirmation = false
-    private var _translationConfig: Any?
     private var pendingLineIDs: Set<String> = []
-
-    @available(macOS 15, *)
-    var translationConfig: TranslationSession.Configuration? {
-        get { _translationConfig as? TranslationSession.Configuration }
-        set { _translationConfig = newValue }
-    }
 
     // MARK: - Preferences (set on appear)
 
@@ -144,18 +136,6 @@ final class EditorController {
         }
     }
 
-    @available(macOS 15, *)
-    func handleAppleSession(_ session: TranslationSession) async {
-        let glossary = GlossaryEntry.load()
-        let refinement = preferences?.refinementEngine
-        let geminiKey = preferences?.geminiAPIKey ?? ""
-        let pipeline = TranslationPipeline.make(
-            engine: .apple, session: session, geminiAPIKey: geminiKey, glossary: glossary,
-            refinementEngine: refinement, refinementModel: preferences?.resolvedRefinementModel
-        )
-        await runPipeline(pipeline)
-    }
-
     func translateSlide(_ slide: Slide) {
         let lineIDs = slide.lines.map(\.id)
         requestTranslation(.lines(lineIDs))
@@ -175,22 +155,13 @@ final class EditorController {
 
         let refinement = preferences?.refinementEngine
         let geminiKey = preferences?.geminiAPIKey ?? ""
+        let openAIKey = preferences?.openAIAPIKey ?? ""
+        let anthropicKey = preferences?.anthropicAPIKey ?? ""
         let translationModel = preferences?.resolvedTranslationModel
         let refinementModel = preferences?.resolvedRefinementModel
 
         switch engine {
-        case .apple:
-            if #available(macOS 15, *) {
-                if translationConfig == nil {
-                    translationConfig = .init(
-                        source: Locale.Language(identifier: "en"),
-                        target: Locale.Language(identifier: "nl")
-                    )
-                } else {
-                    translationConfig?.invalidate()
-                }
-            }
-        case .googleTranslate, .myMemory:
+        case .apple, .googleTranslate, .myMemory:
             let glossary = GlossaryEntry.load()
             let pipeline = TranslationPipeline.make(
                 engine: engine, geminiAPIKey: geminiKey, glossary: glossary,
@@ -212,6 +183,22 @@ final class EditorController {
             let pipeline = TranslationPipeline.make(
                 engine: .gemini, geminiAPIKey: geminiKey, glossary: glossary,
                 refinementEngine: refinement,
+                translationModel: translationModel, refinementModel: refinementModel
+            )
+            Task { await runPipeline(pipeline) }
+        case .openAI:
+            let glossary = GlossaryEntry.load()
+            let pipeline = TranslationPipeline.make(
+                engine: .openAI, geminiAPIKey: geminiKey, openAIAPIKey: openAIKey,
+                glossary: glossary, refinementEngine: refinement,
+                translationModel: translationModel, refinementModel: refinementModel
+            )
+            Task { await runPipeline(pipeline) }
+        case .anthropic:
+            let glossary = GlossaryEntry.load()
+            let pipeline = TranslationPipeline.make(
+                engine: .anthropic, geminiAPIKey: geminiKey, anthropicAPIKey: anthropicKey,
+                glossary: glossary, refinementEngine: refinement,
                 translationModel: translationModel, refinementModel: refinementModel
             )
             Task { await runPipeline(pipeline) }

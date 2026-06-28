@@ -54,6 +54,44 @@ struct UserPreferencesTests {
         #expect(prefs2.deeplAPIKey.count == realisticKey.count)
     }
 
+    @Test("openAIAPIKey persists and survives restart")
+    func openAIKeyPersists() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
+        prefs.openAIAPIKey = "sk-openai-123"
+        #expect(defaults.string(forKey: "openAIAPIKey") == "sk-openai-123")
+
+        let prefs2 = UserPreferences(defaults: defaults)
+        #expect(prefs2.openAIAPIKey == "sk-openai-123")
+    }
+
+    @Test("anthropicAPIKey persists and survives restart")
+    func anthropicKeyPersists() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
+        prefs.anthropicAPIKey = "sk-ant-123"
+        #expect(defaults.string(forKey: "anthropicAPIKey") == "sk-ant-123")
+
+        let prefs2 = UserPreferences(defaults: defaults)
+        #expect(prefs2.anthropicAPIKey == "sk-ant-123")
+    }
+
+    @Test("resolvedTranslationModel resolves an OpenAI selection")
+    func resolvedModelOpenAI() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+        prefs.translationEngine = .openAI
+        prefs.translationModelID = "gpt-5"
+        #expect(prefs.resolvedTranslationModel?.id == "gpt-5")
+    }
+
+    @Test("resolvedTranslationModel falls back to the Anthropic default for a bad selection")
+    func resolvedModelAnthropicFallback() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+        prefs.translationEngine = .anthropic
+        prefs.translationModelID = "gpt-5" // not an Anthropic id
+        #expect(prefs.resolvedTranslationModel?.id == TranslationEngine.anthropic.defaultModel?.id)
+    }
+
     @Test("translationEngine persists to UserDefaults on set")
     func enginePersists() {
         let defaults = makeDefaults()

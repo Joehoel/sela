@@ -9,6 +9,9 @@ import Testing
         @Tag static var eval: Self
     }
 
+    /// Drives Apple Intelligence (on-device FoundationModels) through the unified
+    /// `AISDKTranslationStep` — the same path the app uses — and scores the output.
+    /// Requires an Apple-Intelligence-capable host; skipped otherwise.
     @Suite(.tags(.eval))
     struct TranslationEvalTests {
         static let cases = EvalCase.loadAll()
@@ -25,8 +28,7 @@ import Testing
         func translate(_ evalCase: EvalCase) async throws {
             guard #available(macOS 26, *) else { return }
 
-            let prompt = TranslationPrompt(mode: .translate)
-            let output = try await callFM(prompt: prompt, items: evalCase.makeItems())
+            let output = try await runFM(mode: .translate, items: evalCase.makeItems())
 
             let report = EvalReport(case: evalCase, mode: "translate", output: output, scorers: Self.scorers)
             report.printReport()
@@ -42,22 +44,18 @@ import Testing
         func refine(_ evalCase: EvalCase) async throws {
             guard #available(macOS 26, *) else { return }
 
-            // First translate, then refine
-            let translatePrompt = TranslationPrompt(mode: .translate)
-            let rawOutput = try await callFM(prompt: translatePrompt, items: evalCase.makeItems())
-
+            // First translate, then refine the same items.
             var items = evalCase.makeItems()
+            let rawOutput = try await runFM(mode: .translate, items: items)
             for i in items.indices where i < rawOutput.count {
                 items[i].currentText = rawOutput[i]
             }
 
             let refined: [String]
             do {
-                let refinePrompt = TranslationPrompt(mode: .refine)
-                refined = try await callFM(prompt: refinePrompt, items: items)
+                refined = try await runFM(mode: .refine, items: items)
             } catch {
                 Issue.record("FM refused to refine \(evalCase.name): \(error)")
-                // Score the raw translation instead so we still get a report
                 let report = EvalReport(
                     case: evalCase, mode: "refine (raw, FM refused)", output: rawOutput, scorers: Self.scorers
                 )
@@ -75,21 +73,14 @@ import Testing
             )
         }
 
-        // MARK: - FM caller
+        // MARK: - FM caller (through the unified step)
 
         @available(macOS 26, *)
-        private func callFM(prompt: TranslationPrompt, items: [TranslationItem]) async throws -> [String] {
-            let systemPrompt = prompt.systemPrompt(for: items.count)
-            let session = LanguageModelSession { systemPrompt }
-            let userPrompt = prompt.buildUserPrompt(from: items)
-
-            let response = try await session.respond(
-                to: userPrompt,
-                generating: TranslationLines.self
-            )
-            var mapped = items
-            TranslationResponseMapper.apply(response.content.lines.joined(separator: "\n"), to: &mapped)
-            return mapped.map(\.currentText)
+        private func runFM(mode: TranslationPrompt.Mode, items: [TranslationItem]) async throws -> [String] {
+            var items = items
+            let step = AISDKTranslationStep(model: FoundationModelLanguageModel(), mode: mode)
+            try await step.process(&items)
+            return items.map(\.currentText)
         }
     }
 #endif

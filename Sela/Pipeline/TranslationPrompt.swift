@@ -27,14 +27,11 @@ struct TranslationPrompt {
             - Keep lines singable: similar syllable count to the original English
             - Use common Dutch worship vocabulary
             - Maintain the poetic/lyrical feel
-            - Do not add or remove lines
-            - Each input line is numbered. Return every translation prefixed with
-              the SAME number, e.g. "3. <Dutch translation>"
-            - The number maps each translation back to its source line, so keep it
-              exact even if you change the order
-            - Return exactly \(count) numbered lines, one per input line
-            - Return only the number and the Dutch text — no "NL:" prefixes,
-              labels, group headers, or other formatting
+            - Translate all \(count) input lines — do not add or remove lines
+            - Each input line is labelled "N. EN: ...". Return one entry per line with:
+                • number: the SAME source line number (mapping is by number, so order doesn't matter)
+                • text: ONLY the Dutch translation — do NOT prefix it with the number,
+                  "N.", "NL:", quotes, labels, or any other formatting
             """
         case .refine:
             return """
@@ -44,14 +41,11 @@ struct TranslationPrompt {
             - Keep lines singable: similar syllable count to the original English
             - Use common Dutch worship vocabulary
             - Maintain the poetic/lyrical feel
-            - Do not add or remove lines
-            - Each input line is numbered. Return every refined line prefixed with
-              the SAME number, e.g. "3. <Dutch translation>"
-            - The number maps each line back to its source, so keep it exact even
-              if you change the order
-            - Return exactly \(count) numbered lines, one per input line
-            - Return only the number and the Dutch text — no "NL:" prefixes,
-              labels, group headers, or other formatting
+            - Refine all \(count) input lines — do not add or remove lines
+            - Each input line is labelled "N. EN/NL: ...". Return one entry per line with:
+                • number: the SAME source line number (mapping is by number, so order doesn't matter)
+                • text: ONLY the refined Dutch translation — do NOT prefix it with the number,
+                  "N.", "NL:", quotes, labels, or any other formatting
             """
         }
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-enum DeepLError: LocalizedError {
+enum DeepLError: LocalizedError, Equatable {
     case missingAPIKey
     case authenticationFailed
     case rateLimitExceeded
@@ -23,26 +23,49 @@ enum DeepLError: LocalizedError {
     }
 }
 
-/// Batch-translates items from English to Dutch using the DeepL API.
-struct DeepLTranslationStep: TranslationPipelineStep {
-    let name = "Translating…"
+/// DeepL as a custom `LanguageModelV3`, routed through the unified
+/// `AISDKTranslationStep` like every other engine. It is not an LLM, so the
+/// shared `CustomTranslationLanguageModel` base turns the numbered prompt into
+/// source lines, calls this `translate(_:)`, and serializes the result into the
+/// structured JSON the step expects.
+///
+/// DeepL keeps its `api-free` endpoint and `model_type` (quality/latency)
+/// selection. The transport is injectable so request building and response/error
+/// mapping can be tested without the network.
+struct DeepLLanguageModel: CustomTranslationLanguageModel {
+    let provider = "deepl"
+    let modelId: String
+
     let apiKey: String
     /// DeepL `model_type` (e.g. "latency_optimized", "quality_optimized").
     /// `nil` uses DeepL's account default.
     let modelType: String?
 
-    init(apiKey: String, modelType: String? = nil) {
+    /// Sends a request and returns the raw body + response. Injectable for tests;
+    /// defaults to `URLSession.shared`.
+    private let transport: @Sendable (URLRequest) async throws -> (Data, URLResponse)
+
+    init(
+        apiKey: String,
+        modelType: String? = nil,
+        transport: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = { request in
+            try await URLSession.shared.data(for: request)
+        }
+    ) {
         self.apiKey = apiKey
         self.modelType = modelType
+        self.modelId = modelType ?? "default"
+        self.transport = transport
     }
 
     private static let endpoint = URL(string: "https://api-free.deepl.com/v2/translate")!
 
-    func process(_ items: inout [TranslationItem]) async throws {
+    func translate(_ lines: [CustomTranslationPrompt.SourceLine]) async throws -> [TranslationLine] {
         guard !apiKey.isEmpty else { throw DeepLError.missingAPIKey }
+        guard !lines.isEmpty else { return [] }
 
-        let request = try buildRequest(for: items)
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let request = try buildRequest(for: lines.map(\.text))
+        let (data, response) = try await transport(request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw DeepLError.invalidResponse
@@ -61,22 +84,25 @@ struct DeepLTranslationStep: TranslationPipelineStep {
 
         let decoded = try JSONDecoder().decode(DeepLResponse.self, from: data)
 
-        guard decoded.translations.count == items.count else {
+        guard decoded.translations.count == lines.count else {
             throw DeepLError.invalidResponse
         }
 
-        for (index, translation) in decoded.translations.enumerated() {
-            items[index].currentText = translation.text
+        // DeepL preserves request order, so zip translations back onto the source
+        // lines' numbers — the unified step then maps by number.
+        return zip(lines, decoded.translations).map { line, translation in
+            TranslationLine(number: line.number, text: translation.text)
         }
     }
 
-    private func buildRequest(for items: [TranslationItem]) throws -> URLRequest {
+    /// Builds the authenticated, form-encoded POST. Exposed for testing.
+    func buildRequest(for sourceTexts: [String]) throws -> URLRequest {
         var request = URLRequest(url: Self.endpoint)
         request.timeoutInterval = 30
         request.httpMethod = "POST"
         request.setValue("DeepL-Auth-Key \(apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpBody = Self.formBody(for: items.map(\.sourceText), modelType: modelType).data(using: .utf8)
+        request.httpBody = Self.formBody(for: sourceTexts, modelType: modelType).data(using: .utf8)
         return request
     }
 
@@ -92,7 +118,7 @@ struct DeepLTranslationStep: TranslationPipelineStep {
     }
 
     private static func urlEncode(_ string: String) -> String {
-        string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? string
+        string.addingPercentEncoding(withAllowedCharacters: .translationQueryValue) ?? string
     }
 }
 

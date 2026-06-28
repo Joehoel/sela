@@ -23,6 +23,18 @@ final class UserPreferences {
         }
     }
 
+    var openAIAPIKey: String {
+        didSet {
+            defaults.set(openAIAPIKey, forKey: "openAIAPIKey")
+        }
+    }
+
+    var anthropicAPIKey: String {
+        didSet {
+            defaults.set(anthropicAPIKey, forKey: "anthropicAPIKey")
+        }
+    }
+
     var libraryPath: String {
         didSet {
             defaults.set(libraryPath, forKey: "libraryPath")
@@ -84,6 +96,8 @@ final class UserPreferences {
 
         deeplAPIKey = defaults.string(forKey: "deeplAPIKey") ?? ""
         geminiAPIKey = defaults.string(forKey: "geminiAPIKey") ?? ""
+        openAIAPIKey = defaults.string(forKey: "openAIAPIKey") ?? ""
+        anthropicAPIKey = defaults.string(forKey: "anthropicAPIKey") ?? ""
 
         translationModelID = defaults.string(forKey: "translationModelID") ?? ""
         refinementModelID = defaults.string(forKey: "refinementModelID") ?? ""

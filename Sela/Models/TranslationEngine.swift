@@ -13,6 +13,8 @@ enum TranslationEngine: String, CaseIterable {
     case myMemory
     case deepl
     case gemini
+    case openAI
+    case anthropic
     case foundationModel
 
     var displayName: String {
@@ -22,6 +24,8 @@ enum TranslationEngine: String, CaseIterable {
         case .myMemory: "MyMemory"
         case .deepl: "DeepL"
         case .gemini: "Google Gemini"
+        case .openAI: "OpenAI"
+        case .anthropic: "Anthropic"
         case .foundationModel: "Apple Intelligence"
         }
     }
@@ -29,7 +33,7 @@ enum TranslationEngine: String, CaseIterable {
     /// Whether the engine needs a user-supplied API key to function.
     var requiresAPIKey: Bool {
         switch self {
-        case .deepl, .gemini: true
+        case .deepl, .gemini, .openAI, .anthropic: true
         case .apple, .googleTranslate, .myMemory, .foundationModel: false
         }
     }
@@ -39,6 +43,8 @@ enum TranslationEngine: String, CaseIterable {
         switch self {
         case .gemini: AIModel.gemini
         case .deepl: AIModel.deepl
+        case .openAI: AIModel.openAI
+        case .anthropic: AIModel.anthropic
         case .apple, .googleTranslate, .myMemory, .foundationModel: []
         }
     }
@@ -57,8 +63,12 @@ enum TranslationEngine: String, CaseIterable {
         return false
     }
 
+    /// Apple Translation is headless-only (macOS 26+): the session is built
+    /// directly with `TranslationSession(installedSource:target:)`. Whether the
+    /// engine is actually *offered* also requires the EN→NL pair to be installed —
+    /// see the `appleTranslationInstalled` gate on `isAvailable`.
     static var isAppleTranslationAvailable: Bool {
-        if #available(macOS 15, *) {
+        if #available(macOS 26, *) {
             return true
         }
         return false
@@ -66,19 +76,46 @@ enum TranslationEngine: String, CaseIterable {
 
     /// Whether the engine can currently be used, given the configured API keys
     /// and the host OS. Drives which engines appear in the picker.
-    func isAvailable(hasDeepLKey: Bool, hasGeminiKey: Bool) -> Bool {
+    ///
+    /// `appleTranslationInstalled` is the async-resolved result of
+    /// `AppleTranslationLanguageModel.installedLanguagePairAvailable()`. Apple
+    /// Translation is only offered when macOS 26+ *and* the EN→NL pair is installed,
+    /// because the headless session can't present the download-consent prompt.
+    func isAvailable(
+        hasDeepLKey: Bool,
+        hasGeminiKey: Bool,
+        hasOpenAIKey: Bool = false,
+        hasAnthropicKey: Bool = false,
+        appleTranslationInstalled: Bool = false
+    ) -> Bool {
         switch self {
-        case .apple: Self.isAppleTranslationAvailable
+        case .apple: Self.isAppleTranslationAvailable && appleTranslationInstalled
         case .googleTranslate, .myMemory: true
         case .deepl: hasDeepLKey
         case .gemini: hasGeminiKey
+        case .openAI: hasOpenAIKey
+        case .anthropic: hasAnthropicKey
         case .foundationModel: Self.isFoundationModelAvailable
         }
     }
 
     /// The engines available right now, in declaration order.
-    static func available(hasDeepLKey: Bool, hasGeminiKey: Bool) -> [TranslationEngine] {
-        allCases.filter { $0.isAvailable(hasDeepLKey: hasDeepLKey, hasGeminiKey: hasGeminiKey) }
+    static func available(
+        hasDeepLKey: Bool,
+        hasGeminiKey: Bool,
+        hasOpenAIKey: Bool = false,
+        hasAnthropicKey: Bool = false,
+        appleTranslationInstalled: Bool = false
+    ) -> [TranslationEngine] {
+        allCases.filter {
+            $0.isAvailable(
+                hasDeepLKey: hasDeepLKey,
+                hasGeminiKey: hasGeminiKey,
+                hasOpenAIKey: hasOpenAIKey,
+                hasAnthropicKey: hasAnthropicKey,
+                appleTranslationInstalled: appleTranslationInstalled
+            )
+        }
     }
 }
 
@@ -134,5 +171,19 @@ extension AIModel {
     static let deepl: [AIModel] = [
         AIModel(id: "latency_optimized", displayName: "Latency optimized"),
         AIModel(id: "quality_optimized", displayName: "Quality optimized (next-gen)"),
+    ]
+
+    /// OpenAI models routed through the SDK's Responses API. First entry is the
+    /// default. Ids are open strings — any current OpenAI id passes through.
+    static let openAI: [AIModel] = [
+        AIModel(id: "gpt-5-mini", displayName: "GPT-5 mini"),
+        AIModel(id: "gpt-5", displayName: "GPT-5"),
+    ]
+
+    /// Anthropic models routed through the SDK's Messages API. First entry is the
+    /// default. Ids are open strings — any current Anthropic id passes through.
+    static let anthropic: [AIModel] = [
+        AIModel(id: "claude-sonnet-4-6", displayName: "Claude Sonnet 4.6"),
+        AIModel(id: "claude-haiku-4-5", displayName: "Claude Haiku 4.5"),
     ]
 }

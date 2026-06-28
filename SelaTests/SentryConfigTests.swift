@@ -70,6 +70,16 @@ struct SentryConfigTests {
         #expect(SentryScrubber.shouldDropBreadcrumb(url: "https://api.mymemory.translated.net/get"))
     }
 
+    @Test("swift-ai-sdk Google requests are still scrubbed")
+    func sdkGoogleRequestsDropped() {
+        // The SDK posts to the generativelanguage v1beta endpoint; the lyric
+        // text travels in the request body, so its breadcrumbs must be dropped
+        // exactly like the legacy hand-rolled Gemini step's were.
+        #expect(SentryScrubber.shouldDropBreadcrumb(
+            url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+        ))
+    }
+
     @Test("non-translation URLs do not match the drop filter")
     func unrelatedBreadcrumbsKept() {
         #expect(!SentryScrubber.shouldDropBreadcrumb(url: "https://example.com/ping"))

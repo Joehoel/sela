@@ -26,11 +26,25 @@ struct SettingsView: View {
 struct GeneralSettingsView: View {
     @Environment(UserPreferences.self) private var preferences
 
+    /// Whether the EN→NL Apple Translation pair is installed. Resolved
+    /// asynchronously on appear (macOS 26+); Apple Translation only appears in the
+    /// engine picker once this is `true`, because the headless session can't
+    /// present the download-consent prompt.
+    @State private var appleTranslationInstalled = false
+
     private var hasDeepLKey: Bool { !preferences.deeplAPIKey.isEmpty }
     private var hasGeminiKey: Bool { !preferences.geminiAPIKey.isEmpty }
+    private var hasOpenAIKey: Bool { !preferences.openAIAPIKey.isEmpty }
+    private var hasAnthropicKey: Bool { !preferences.anthropicAPIKey.isEmpty }
 
     private var availableEngines: [TranslationEngine] {
-        TranslationEngine.available(hasDeepLKey: hasDeepLKey, hasGeminiKey: hasGeminiKey)
+        TranslationEngine.available(
+            hasDeepLKey: hasDeepLKey,
+            hasGeminiKey: hasGeminiKey,
+            hasOpenAIKey: hasOpenAIKey,
+            hasAnthropicKey: hasAnthropicKey,
+            appleTranslationInstalled: appleTranslationInstalled
+        )
     }
 
     private var availableRefiners: [RefinementEngine] {
@@ -109,6 +123,18 @@ struct GeneralSettingsView: View {
                     linkTitle: "Get a free API key at aistudio.google.com",
                     url: "https://aistudio.google.com/apikey"
                 )
+                apiKeyField(
+                    title: "OpenAI",
+                    text: $preferences.openAIAPIKey,
+                    linkTitle: "Get an API key at platform.openai.com",
+                    url: "https://platform.openai.com/api-keys"
+                )
+                apiKeyField(
+                    title: "Anthropic",
+                    text: $preferences.anthropicAPIKey,
+                    linkTitle: "Get an API key at console.anthropic.com",
+                    url: "https://console.anthropic.com/settings/keys"
+                )
             } header: {
                 Text("API Keys & Tokens")
             } footer: {
@@ -120,8 +146,12 @@ struct GeneralSettingsView: View {
         .formStyle(.grouped)
         .padding()
         .onAppear { coerceSelections() }
+        .task { await refreshAppleTranslationAvailability() }
+        .onChange(of: appleTranslationInstalled) { _, _ in coerceSelections() }
         .onChange(of: preferences.deeplAPIKey) { _, _ in coerceSelections() }
         .onChange(of: preferences.geminiAPIKey) { _, _ in coerceSelections() }
+        .onChange(of: preferences.openAIAPIKey) { _, _ in coerceSelections() }
+        .onChange(of: preferences.anthropicAPIKey) { _, _ in coerceSelections() }
     }
 
     // MARK: - Reusable rows
@@ -173,6 +203,15 @@ struct GeneralSettingsView: View {
         }
         if let refiner = preferences.refinementEngine, !availableRefiners.contains(refiner) {
             preferences.refinementEngine = nil
+        }
+    }
+
+    /// Resolves whether the EN→NL Apple Translation pair is installed (macOS 26+).
+    private func refreshAppleTranslationAvailability() async {
+        if #available(macOS 26, *) {
+            appleTranslationInstalled = await AppleTranslationLanguageModel.installedLanguagePairAvailable()
+        } else {
+            appleTranslationInstalled = false
         }
     }
 

@@ -1,6 +1,5 @@
 import Combine
 import SwiftUI
-@preconcurrency import Translation
 
 extension Notification.Name {
     static let saveSong = Notification.Name("saveSong")
@@ -86,7 +85,6 @@ struct SongEditorView: View {
         } message: {
             Text(controller.saveError ?? "")
         }
-        .appleTranslationTask(controller: controller)
         .onChange(of: appState.translationRequest) { _, request in
             guard let request else { return }
             controller.requestTranslation(request)
@@ -164,21 +162,6 @@ struct SongEditorView: View {
             get: { controller.saveError != nil },
             set: { if !$0 { controller.saveError = nil } }
         )
-    }
-}
-
-// MARK: - Apple Translation (macOS 15+)
-
-private extension View {
-    @ViewBuilder
-    func appleTranslationTask(controller: EditorController) -> some View {
-        if #available(macOS 15, *) {
-            self.translationTask(controller.translationConfig) { session in
-                await controller.handleAppleSession(session)
-            }
-        } else {
-            self
-        }
     }
 }
 

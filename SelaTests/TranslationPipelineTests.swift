@@ -151,6 +151,147 @@ struct TranslationPipelineTests {
         #expect(items[1].currentText == "WORLD!")
     }
 
+    // MARK: - make() routing
+
+    @Test("Gemini routes through the unified AISDK step")
+    func geminiRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(
+            engine: .gemini,
+            geminiAPIKey: "AIzaTESTKEY",
+            translationModel: AIModel(id: "gemini-2.5-flash", displayName: "Gemini 2.5 Flash")
+        )
+        let aisdkSteps = pipeline.steps.compactMap { $0 as? AISDKTranslationStep }
+        #expect(aisdkSteps.count == 1)
+        #expect(aisdkSteps.first?.mode == .translate)
+    }
+
+    @Test("Gemini refinement routes through the unified AISDK step")
+    func geminiRefinementRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(
+            engine: .deepl,
+            deeplAPIKey: "deepl-key",
+            geminiAPIKey: "AIzaTESTKEY",
+            refinementEngine: .gemini,
+            translationModel: AIModel(id: "latency_optimized", displayName: "Latency optimized"),
+            refinementModel: AIModel(id: "gemini-2.5-flash", displayName: "Gemini 2.5 Flash")
+        )
+        // Primary (DeepL) + refinement (Gemini) both run through the unified step;
+        // no legacy per-engine step remains.
+        let aisdkSteps = pipeline.steps.filter { $0 is AISDKTranslationStep }
+        #expect(aisdkSteps.count == 2)
+        let refine = aisdkSteps.compactMap { $0 as? AISDKTranslationStep }.first { $0.mode == .refine }
+        #expect(refine != nil)
+    }
+
+    @Test("Gemini without a key yields a deferred-failing step, not the old step")
+    func geminiMissingKeyDefersError() async {
+        let pipeline = TranslationPipeline.make(engine: .gemini, geminiAPIKey: "")
+        #expect(pipeline.steps.contains { $0 is FailingTranslationStep })
+
+        var items = [TranslationItem(sourceText: "Hello", lineID: "1")]
+        await #expect(throws: AISDKModelError.self) {
+            try await pipeline.run(&items)
+        }
+    }
+
+    @Test("DeepL routes through the unified AISDK step")
+    func deepLRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(
+            engine: .deepl,
+            deeplAPIKey: "deepl-key",
+            translationModel: AIModel(id: "latency_optimized", displayName: "Latency optimized")
+        )
+        #expect(pipeline.steps.contains { $0 is AISDKTranslationStep })
+    }
+
+    @Test("DeepL without a key yields a deferred-failing step")
+    func deepLMissingKeyDefersError() async {
+        let pipeline = TranslationPipeline.make(engine: .deepl, deeplAPIKey: "")
+        #expect(pipeline.steps.contains { $0 is FailingTranslationStep })
+
+        var items = [TranslationItem(sourceText: "Hello", lineID: "1")]
+        await #expect(throws: DeepLError.self) {
+            try await pipeline.run(&items)
+        }
+    }
+
+    @Test("Google Translate routes through the unified AISDK step, key-free")
+    func googleTranslateRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(engine: .googleTranslate)
+        #expect(pipeline.steps.contains { $0 is AISDKTranslationStep })
+        #expect(!pipeline.steps.contains { $0 is FailingTranslationStep })
+    }
+
+    @Test("MyMemory routes through the unified AISDK step, key-free")
+    func myMemoryRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(engine: .myMemory)
+        #expect(pipeline.steps.contains { $0 is AISDKTranslationStep })
+        #expect(!pipeline.steps.contains { $0 is FailingTranslationStep })
+    }
+
+    @Test("OpenAI routes through the unified AISDK step")
+    func openAIRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(
+            engine: .openAI,
+            openAIAPIKey: "sk-TESTKEY",
+            translationModel: AIModel(id: "gpt-5-mini", displayName: "GPT-5 mini")
+        )
+        #expect(pipeline.steps.contains { $0 is AISDKTranslationStep })
+    }
+
+    @Test("Anthropic routes through the unified AISDK step")
+    func anthropicRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(
+            engine: .anthropic,
+            anthropicAPIKey: "sk-ant-TESTKEY",
+            translationModel: AIModel(id: "claude-sonnet-4-6", displayName: "Claude Sonnet")
+        )
+        #expect(pipeline.steps.contains { $0 is AISDKTranslationStep })
+    }
+
+    @Test("OpenAI without a key yields a deferred-failing step")
+    func openAIMissingKeyDefersError() async {
+        let pipeline = TranslationPipeline.make(engine: .openAI, openAIAPIKey: "")
+        #expect(pipeline.steps.contains { $0 is FailingTranslationStep })
+
+        var items = [TranslationItem(sourceText: "Hello", lineID: "1")]
+        await #expect(throws: AISDKModelError.self) {
+            try await pipeline.run(&items)
+        }
+    }
+
+    @Test("Anthropic without a key yields a deferred-failing step")
+    func anthropicMissingKeyDefersError() async {
+        let pipeline = TranslationPipeline.make(engine: .anthropic, anthropicAPIKey: "")
+        #expect(pipeline.steps.contains { $0 is FailingTranslationStep })
+
+        var items = [TranslationItem(sourceText: "Hello", lineID: "1")]
+        await #expect(throws: AISDKModelError.self) {
+            try await pipeline.run(&items)
+        }
+    }
+
+    @Test("Apple Translation routes through the unified AISDK step when available")
+    func appleTranslationRoutesThroughAISDKStep() {
+        let pipeline = TranslationPipeline.make(engine: .apple)
+        if #available(macOS 26, *) {
+            #expect(pipeline.steps.contains { $0 is AISDKTranslationStep })
+            #expect(!pipeline.steps.contains { $0 is FailingTranslationStep })
+        } else {
+            // Below macOS 26 the headless session is unavailable; the error is
+            // deferred to run time like a missing key.
+            #expect(pipeline.steps.contains { $0 is FailingTranslationStep })
+        }
+    }
+
+    @Test("Apple Intelligence routes through the unified AISDK step when available")
+    func foundationModelRoutesThroughAISDKStep() {
+        guard TranslationEngine.isFoundationModelAvailable else { return }
+        let pipeline = TranslationPipeline.make(engine: .foundationModel)
+        #expect(pipeline.steps.contains { $0 is AISDKTranslationStep })
+        #expect(!pipeline.steps.contains { $0 is FailingTranslationStep })
+    }
+
     // MARK: - TranslationItem tests
 
     @Test("TranslationItem initializes currentText from sourceText")

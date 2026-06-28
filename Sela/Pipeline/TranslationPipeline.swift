@@ -1,5 +1,4 @@
 import Foundation
-@preconcurrency import Translation
 
 /// A single step in the translation pipeline.
 protocol TranslationPipelineStep {
@@ -35,9 +34,10 @@ struct TranslationPipeline {
     // swiftlint:disable:next cyclomatic_complexity
     static func make(
         engine: TranslationEngine,
-        session: (any Sendable)? = nil,
         deeplAPIKey: String = "",
         geminiAPIKey: String = "",
+        openAIAPIKey: String = "",
+        anthropicAPIKey: String = "",
         glossary: [GlossaryEntry] = [],
         refinementEngine: RefinementEngine? = nil,
         translationModel: AIModel? = nil,
@@ -48,42 +48,66 @@ struct TranslationPipeline {
         // 1. Primary translator
         switch engine {
         case .apple:
-            if #available(macOS 15, *), let session = session as? TranslationSession {
-                pipeline.steps.append(AppleTranslationStep(session: session))
-            }
+            pipeline.steps.append(makeAISDKStep(
+                engine: .apple, apiKey: "", modelID: "", mode: .translate
+            ))
         case .googleTranslate:
-            pipeline.steps.append(GoogleTranslateStep())
+            pipeline.steps.append(makeAISDKStep(
+                engine: .googleTranslate, apiKey: "", modelID: "", mode: .translate
+            ))
         case .myMemory:
-            pipeline.steps.append(MyMemoryTranslationStep())
+            pipeline.steps.append(makeAISDKStep(
+                engine: .myMemory, apiKey: "", modelID: "", mode: .translate
+            ))
         case .deepl:
-            pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey, modelType: translationModel?.id))
+            // No explicit model selection → empty id → DeepL account default
+            // model_type (don't force latency_optimized).
+            pipeline.steps.append(makeAISDKStep(
+                engine: .deepl,
+                apiKey: deeplAPIKey,
+                modelID: translationModel?.id ?? "",
+                mode: .translate
+            ))
         case .gemini:
-            pipeline.steps.append(GeminiTranslationStep(
+            pipeline.steps.append(makeAISDKStep(
+                engine: .gemini,
                 apiKey: geminiAPIKey,
-                model: translationModel?.id ?? TranslationEngine.gemini.defaultModel?.id ?? "gemini-2.5-flash"
+                modelID: translationModel?.id ?? TranslationEngine.gemini.defaultModel?.id ?? "gemini-2.5-flash",
+                mode: .translate
+            ))
+        case .openAI:
+            pipeline.steps.append(makeAISDKStep(
+                engine: .openAI,
+                apiKey: openAIAPIKey,
+                modelID: translationModel?.id ?? TranslationEngine.openAI.defaultModel?.id ?? "gpt-5-mini",
+                mode: .translate
+            ))
+        case .anthropic:
+            pipeline.steps.append(makeAISDKStep(
+                engine: .anthropic,
+                apiKey: anthropicAPIKey,
+                modelID: translationModel?.id ?? TranslationEngine.anthropic.defaultModel?.id ?? "claude-sonnet-4-6",
+                mode: .translate
             ))
         case .foundationModel:
-            #if canImport(FoundationModels)
-                if #available(macOS 26, *) {
-                    pipeline.steps.append(FoundationModelStep(mode: .translate, isRequired: true))
-                }
-            #endif
+            pipeline.steps.append(makeAISDKStep(
+                engine: .foundationModel, apiKey: "", modelID: "", mode: .translate
+            ))
         }
 
         // 2. Optional refinement (only when FM is not the primary translator)
         if let refinementEngine, engine != .foundationModel {
             switch refinementEngine {
             case .foundationModel:
-                #if canImport(FoundationModels)
-                    if #available(macOS 26, *) {
-                        pipeline.steps.append(FoundationModelStep(mode: .refine, isRequired: false))
-                    }
-                #endif
+                pipeline.steps.append(makeAISDKStep(
+                    engine: .foundationModel, apiKey: "", modelID: "", mode: .refine
+                ))
             case .gemini:
-                pipeline.steps.append(GeminiTranslationStep(
+                pipeline.steps.append(makeAISDKStep(
+                    engine: .gemini,
                     apiKey: geminiAPIKey,
-                    mode: .refine,
-                    model: refinementModel?.id ?? RefinementEngine.gemini.defaultModel?.id ?? "gemini-2.5-flash"
+                    modelID: refinementModel?.id ?? RefinementEngine.gemini.defaultModel?.id ?? "gemini-2.5-flash",
+                    mode: .refine
                 ))
             }
         }
@@ -95,5 +119,33 @@ struct TranslationPipeline {
         }
 
         return pipeline
+    }
+
+    /// Resolves a `LanguageModelV3` for an LLM engine and wraps it in an
+    /// `AISDKTranslationStep`. If resolution fails (missing key, unsupported
+    /// engine), returns a `FailingTranslationStep` so the error surfaces at
+    /// pipeline-run time — mirroring the old steps' deferred missing-key error.
+    static func makeAISDKStep(
+        engine: TranslationEngine,
+        apiKey: String,
+        modelID: String,
+        mode: TranslationPrompt.Mode
+    ) -> any TranslationPipelineStep & Sendable {
+        // Refinement is best-effort: a failed second pass must not discard a good
+        // primary translation, so refine steps are not required.
+        let required = mode == .translate
+        do {
+            let model = try AISDKModelResolver.model(for: engine, apiKey: apiKey, modelID: modelID)
+            return AISDKTranslationStep(
+                model: model,
+                mode: mode,
+                isRequired: required,
+                temperature: AISDKTranslationStep.temperature(for: engine),
+                providerOptions: AISDKTranslationStep.providerOptions(for: engine, modelID: modelID)
+            )
+        } catch {
+            let name = mode == .translate ? "Translating…" : "Refining…"
+            return FailingTranslationStep(name: name, isRequired: required, error: error)
+        }
     }
 }

@@ -13,6 +13,9 @@ packages:
   Sentry:
     url: https://github.com/getsentry/sentry-cocoa.git
     from: "9.2.0"
+  swift-ai-sdk:
+    url: https://github.com/teunlao/swift-ai-sdk.git
+    exactVersion: "0.17.6"
 
 targets:
   Sela:
@@ -24,6 +27,16 @@ targets:
       - package: SwiftProtobuf
       - package: Sentry
         product: Sentry
+      - package: swift-ai-sdk
+        product: SwiftAISDK
+      - package: swift-ai-sdk
+        product: AISDKJSONSchema
+      - package: swift-ai-sdk
+        product: GoogleProvider
+      - package: swift-ai-sdk
+        product: OpenAIProvider
+      - package: swift-ai-sdk
+        product: AnthropicProvider
     info:
       path: Sela/Info.plist
       properties:
@@ -38,7 +51,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sela.app
         PRODUCT_NAME: Sela
-        MARKETING_VERSION: "0.4.0"
+        MARKETING_VERSION: "0.5.0"
         CURRENT_PROJECT_VERSION: 1
         SWIFT_VERSION: "6.0"
         MACOSX_DEPLOYMENT_TARGET: "14.0"
