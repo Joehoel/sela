@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00A540CCCE7DC453933EA4E3 /* LyricsDumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */; };
 		017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B001CD2FB95782BAF8088DD /* DeepLTranslationStep.swift */; };
 		0262A29D916CFC0582BF9900 /* SelaTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4587C128DE23529FA239D06A /* SelaTips.swift */; };
 		03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */; };
@@ -54,6 +53,7 @@
 		5597231192C89889AA900D77 /* FoundationModelStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0F3C69E24FD4FF9A7C2335 /* FoundationModelStep.swift */; };
 		57B661664080DD86B0B2B957 /* Scorers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB81FD317F55FE9BA417AFE2 /* Scorers.swift */; };
 		582061E73C46E05336B00F1D /* TranslationEvalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3951CAAABEDFADE62D3BDE /* TranslationEvalTests.swift */; };
+		5AD7F50A0B7C97874ED03DD2 /* DevLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4033949BCFCA48E7262C34BB /* DevLibraryTests.swift */; };
 		5EE957CA38279924EC71B98D /* applicationInfo.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACCEAB5F13A4FE3932E3956 /* applicationInfo.pb.swift */; };
 		5FB48FFFE63F4C53CDC22658 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD73A0E57A05F54A568F93E /* EditorController.swift */; };
 		5FF4EA28EAE1F4DB810C9557 /* uuid.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D207E1F9C1B62B5092040BB9 /* uuid.pb.swift */; };
@@ -104,6 +104,7 @@
 		C648F69728B54BA4867629B9 /* SlideGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C383C266D1B8F87634CA00 /* SlideGroup.swift */; };
 		C8916788AA21D20BCC1EBCE6 /* ProPresenterWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D64B9C5B99E603853D99EA /* ProPresenterWriterTests.swift */; };
 		CA357B628CDEF369FCA666B9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684D79F7089AD52F2770565A /* Song.swift */; };
+		CDDD36C02C4FC9605A848722 /* DevLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2BE54995357A5CA6941C90 /* DevLibrary.swift */; };
 		D1A1BE71E4A7068509B1DE98 /* ParsedSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827DB821BA3CF7EBC947D33A /* ParsedSong.swift */; };
 		D2016D67BE01B39137579B6C /* font.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AD3A3B87B9324C144E5DB4 /* font.pb.swift */; };
 		D370C957F764E828DF83CE38 /* collectionElementType.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2106723A82BCFAB0EE6DAE07 /* collectionElementType.pb.swift */; };
@@ -185,6 +186,7 @@
 		3B7503E4CD39EA35952236D6 /* SongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongProvider.swift; sourceTree = "<group>"; };
 		3EC7AF5527E71251E34EF122 /* UserPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesTests.swift; sourceTree = "<group>"; };
 		3EFE3978F9DCDE6792F59055 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4033949BCFCA48E7262C34BB /* DevLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevLibraryTests.swift; sourceTree = "<group>"; };
 		40BA624DF66A8541AD0E9D03 /* GoogleTranslateStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTranslateStep.swift; sourceTree = "<group>"; };
 		4225C77DEF7403128DF6F8E1 /* RTFTextStripper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTFTextStripper.swift; sourceTree = "<group>"; };
 		43B5DFA5E43BF22CECC61280 /* EvalCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalCase.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 		4AD73A0E57A05F54A568F93E /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
 		4BAA3738084D224196CE7EFB /* SongListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListView.swift; sourceTree = "<group>"; };
 		4BDD292842AE93E49842F6E0 /* ToggleInspectorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleInspectorCommand.swift; sourceTree = "<group>"; };
+		4C2BE54995357A5CA6941C90 /* DevLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevLibrary.swift; sourceTree = "<group>"; };
 		50AC6DF7D38ED3926416B298 /* Way Maker.pro */ = {isa = PBXFileReference; path = "Way Maker.pro"; sourceTree = "<group>"; };
 		54F145ECDD59FD1B9849F207 /* RTFHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTFHelperTests.swift; sourceTree = "<group>"; };
 		55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryEntryTests.swift; sourceTree = "<group>"; };
@@ -265,7 +268,6 @@
 		DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLoadStreamTests.swift; sourceTree = "<group>"; };
 		DE3951CAAABEDFADE62D3BDE /* TranslationEvalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEvalTests.swift; sourceTree = "<group>"; };
 		DE9DC164B1529D502251DBFD /* cue.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cue.pb.swift; sourceTree = "<group>"; };
-		DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsDumpTests.swift; sourceTree = "<group>"; };
 		DF4D43D75288C3669D78F31C /* presentation.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = presentation.pb.swift; sourceTree = "<group>"; };
 		E01EA1D24BFBA8902A37743C /* intRange.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = intRange.pb.swift; sourceTree = "<group>"; };
 		E1AC6BC7FF76CAE78EE0A617 /* SaveCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveCommand.swift; sourceTree = "<group>"; };
@@ -369,6 +371,14 @@
 			path = Sidebar;
 			sourceTree = "<group>";
 		};
+		405B46417069751E5073CF6D /* Dev */ = {
+			isa = PBXGroup;
+			children = (
+				4C2BE54995357A5CA6941C90 /* DevLibrary.swift */,
+			);
+			path = Dev;
+			sourceTree = "<group>";
+		};
 		4CED4849389E2A5AD8DB6AE0 /* Diagnostics */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +398,7 @@
 				0EA25C605AF3B058BE9656EA /* Sela.sdef */,
 				CE540DAB80598BE53C26424F /* SelaApp.swift */,
 				37DE692B07F39691E789DD41 /* Controllers */,
+				405B46417069751E5073CF6D /* Dev */,
 				4CED4849389E2A5AD8DB6AE0 /* Diagnostics */,
 				BEF3043B46B784D74A82E7FB /* Mock */,
 				6A26F0C31AA4C1ED144CD46F /* Models */,
@@ -500,12 +511,12 @@
 			children = (
 				34619DE434DDB179602B4A22 /* AppStateTests.swift */,
 				78C50D846289D45A195A1553 /* DeepLTranslationStepTests.swift */,
+				4033949BCFCA48E7262C34BB /* DevLibraryTests.swift */,
 				C245D45FE8A1A1FF13EDF40F /* DiagnoseTests.swift */,
 				B4CF3F5B145136C7980850A8 /* EditorControllerTests.swift */,
 				55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */,
 				C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */,
 				B6FCBAB41BE2450B0A3740CE /* LibraryIndexTests.swift */,
-				DF25B323A4E1E08DBE24C00D /* LyricsDumpTests.swift */,
 				B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */,
 				B05A2707330E40BF60C4A949 /* ProPresenterSongProviderTests.swift */,
 				F9D64B9C5B99E603853D99EA /* ProPresenterWriterTests.swift */,
@@ -742,6 +753,7 @@
 			files = (
 				510C8D2F985AC843542848E3 /* AppStateTests.swift in Sources */,
 				680AA6BE9D06649F32B25E71 /* DeepLTranslationStepTests.swift in Sources */,
+				5AD7F50A0B7C97874ED03DD2 /* DevLibraryTests.swift in Sources */,
 				74DDAE6E41E479FBECEBA40C /* DiagnoseTests.swift in Sources */,
 				C06BFEA3C8EF44FCA4740E89 /* EditorControllerTests.swift in Sources */,
 				EB665F1EA4CB54BF1A2BC17D /* EvalCase.swift in Sources */,
@@ -749,7 +761,6 @@
 				D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */,
 				3AC36DCB4971CD0AA7526DAA /* GlossaryReplacementStepTests.swift in Sources */,
 				4EC3E9A87A244F2E03C36601 /* LibraryIndexTests.swift in Sources */,
-				00A540CCCE7DC453933EA4E3 /* LyricsDumpTests.swift in Sources */,
 				03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */,
 				22153F73DD478F41689BE450 /* ProPresenterSongProviderTests.swift in Sources */,
 				C8916788AA21D20BCC1EBCE6 /* ProPresenterWriterTests.swift in Sources */,
@@ -779,6 +790,7 @@
 				0A4336F8C271E5B145D2DED2 /* Date+Metrics.swift in Sources */,
 				017FA631809FE6CD94B49743 /* DeepLTranslationStep.swift in Sources */,
 				7A8D2E23FCB4F48F876EC61E /* DeepLinkHandler.swift in Sources */,
+				CDDD36C02C4FC9605A848722 /* DevLibrary.swift in Sources */,
 				40712C7A9C20C937E2A3EE25 /* DiagnoseInspector.swift in Sources */,
 				A6962FC2DEB5D2CE67BCCD9D /* DiagnoseIssue.swift in Sources */,
 				14FB85340A7B717D0D02B938 /* DiagnosticRule.swift in Sources */,
@@ -974,7 +986,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sela.app;
 				PRODUCT_NAME = Sela;
 				SDKROOT = macosx;
@@ -1071,7 +1083,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sela.app;
 				PRODUCT_NAME = Sela;
 				SDKROOT = macosx;

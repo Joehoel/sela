@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 @testable import Sela
 import SwiftProtobuf
@@ -11,6 +12,15 @@ struct ProPresenterWriterTests {
 
     private func tempURL() -> URL {
         FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".pro")
+    }
+
+    /// Indices of the text elements in a cue's action, matching the writer's
+    /// own selection logic (`hasText` && non-empty `rtfData`).
+    private func textElementIndices(_ cue: RVData_Cue, action: Int) -> [Int] {
+        let elements = cue.actions[action].slide.presentation.baseSlide.elements
+        return elements.indices.filter {
+            elements[$0].element.hasText && !elements[$0].element.text.rtfData.isEmpty
+        }
     }
 
     @Test("write translation then re-read returns the new text")
@@ -94,6 +104,73 @@ struct ProPresenterWriterTests {
 
         try? FileManager.default.removeItem(at: output)
         try? FileManager.default.removeItem(at: backupURL)
+    }
+
+    @Test("translation inherits original formatting when the translation box is empty")
+    func emptyTranslationBoxInheritsOriginalFormatting() throws {
+        let url = fixtureURL("Welkom.pro")
+        var (song, presentation) = try ProPresenterReader.read(from: url)
+
+        let slide = try #require(song.slideGroups.flatMap(\.slides).first)
+        let line = try #require(slide.lines.first)
+
+        // Locate the cue backing this slide and an action with two text boxes.
+        let cueIndex = try #require(presentation.cues.firstIndex { $0.uuid.string == slide.id })
+        let actionIndex = try #require(
+            presentation.cues[cueIndex].actions.indices
+                .first { textElementIndices(presentation.cues[cueIndex], action: $0).count >= 2 }
+        )
+        let idx = textElementIndices(presentation.cues[cueIndex], action: actionIndex)
+        let originalIdx = idx[0]
+        let translationIdx = idx[1]
+
+        // Give the ORIGINAL box a distinctive, non-default style so the bug is
+        // unambiguous: HelveticaNeue-Bold 71pt, white, centered.
+        let para = NSMutableParagraphStyle()
+        para.alignment = .center
+        let boldFont = try #require(NSFont(name: "HelveticaNeue-Bold", size: 71))
+        let rich = NSAttributedString(
+            string: "Original line",
+            attributes: [.font: boldFont, .foregroundColor: NSColor.white, .paragraphStyle: para]
+        )
+        let richRTF = try #require(rich.rtf(from: NSRange(location: 0, length: rich.length), documentAttributes: [:]))
+
+        // Simulate a freshly-made, EMPTY translation box: valid RTF, zero chars.
+        let emptyRTF = try #require(
+            NSAttributedString(string: "").rtf(from: NSRange(location: 0, length: 0), documentAttributes: [:])
+        )
+
+        presentation.cues[cueIndex].actions[actionIndex]
+            .slide.presentation.baseSlide.elements[originalIdx].element.text.rtfData = richRTF
+        presentation.cues[cueIndex].actions[actionIndex]
+            .slide.presentation.baseSlide.elements[translationIdx].element.text.rtfData = emptyRTF
+
+        line.translation = "Vertaalde tekst"
+
+        let output = tempURL()
+        try ProPresenterWriter.save(song, into: &presentation, at: output)
+
+        // Inspect the raw RTF the writer produced for the translation box.
+        let saved = try RVData_Presentation(serializedBytes: try Data(contentsOf: output))
+        let savedRTF = Data(
+            saved.cues[cueIndex].actions[actionIndex]
+                .slide.presentation.baseSlide.elements[translationIdx].element.text.rtfData
+        )
+        let savedAttr = try #require(NSAttributedString(rtf: savedRTF, documentAttributes: nil))
+
+        #expect(savedAttr.string == "Vertaalde tekst")
+        let attrs = savedAttr.attributes(at: 0, effectiveRange: nil)
+        let savedFont = try #require(attrs[.font] as? NSFont)
+        #expect(savedFont.fontName == "HelveticaNeue-Bold", "translation font should match the original box")
+        #expect(savedFont.pointSize == 71, "translation size should match the original box")
+        let savedPara = try #require(attrs[.paragraphStyle] as? NSParagraphStyle)
+        #expect(savedPara.alignment == .center, "translation alignment should match the original box")
+        if let color = attrs[.foregroundColor] as? NSColor {
+            #expect(color.whiteComponent == 1.0, "translation color should match the original box")
+        }
+
+        try? FileManager.default.removeItem(at: output)
+        try? FileManager.default.removeItem(at: output.appendingPathExtension("bak"))
     }
 
     @Test("full round-trip: read, modify, save, re-read, verify")

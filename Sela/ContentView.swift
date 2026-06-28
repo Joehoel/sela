@@ -23,8 +23,15 @@ struct ContentView: View {
         }
         .searchable(text: $appState.searchText, isPresented: $appState.isSearchFocused, placement: .sidebar, prompt: "Search songs")
         .task(id: preferences.libraryPath) {
-            let url = BookmarkManager.resolveBookmark()
+            var url = BookmarkManager.resolveBookmark()
                 ?? URL(fileURLWithPath: (preferences.libraryPath as NSString).expandingTildeInPath)
+            #if DEBUG
+            // No real ProPresenter library on this machine? Fall back to a
+            // writable copy of the test fixtures so the app is usable in dev.
+            if DevLibrary.shouldUseFixtures(realLibraryURL: url) {
+                url = DevLibrary.seededLibraryURL()
+            }
+            #endif
             _ = url.startAccessingSecurityScopedResource()
             let provider = ProPresenterSongProvider(libraryURL: url)
             await appState.loadSongs(from: provider)

@@ -50,9 +50,11 @@ enum ProPresenterWriter {
             }
             guard textIndices.count >= 2 else { continue }
 
+            let originalIndex = textIndices[0]
             let secondIndex = textIndices[1]
             let rtfData = Data(elements[secondIndex].element.text.rtfData)
-            let newRTF = RTFHelper.replaceText(in: rtfData, with: translation)
+            let sourceRTF = Data(elements[originalIndex].element.text.rtfData)
+            let newRTF = RTFHelper.replaceText(in: rtfData, with: translation, formattingSource: sourceRTF)
             cue.actions[actionIndex]
                 .slide.presentation.baseSlide
                 .elements[secondIndex].element.text.rtfData = newRTF

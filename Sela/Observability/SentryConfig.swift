@@ -60,7 +60,7 @@ enum SentryConfig {
             options.beforeBreadcrumb = { crumb in
                 SentryScrubber.scrub(breadcrumb: crumb)
             }
-            options.experimental.beforeSendMetric = { metric in
+            options.beforeSendMetric = { metric in
                 SentryScrubber.scrub(metric: metric)
             }
         }
