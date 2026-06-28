@@ -35,6 +35,36 @@ final class UserPreferences {
         }
     }
 
+    /// Selected model id for the translation engine (empty = use the engine's
+    /// default). Interpreted via `resolvedTranslationModel`.
+    var translationModelID: String {
+        didSet {
+            defaults.set(translationModelID, forKey: "translationModelID")
+        }
+    }
+
+    /// Selected model id for the refinement engine (empty = use its default).
+    var refinementModelID: String {
+        didSet {
+            defaults.set(refinementModelID, forKey: "refinementModelID")
+        }
+    }
+
+    /// The model to use for translation: the stored selection when it's valid
+    /// for the current engine, otherwise the engine's default. `nil` when the
+    /// engine has no model selection.
+    var resolvedTranslationModel: AIModel? {
+        let models = translationEngine.availableModels
+        return models.first { $0.id == translationModelID } ?? translationEngine.defaultModel
+    }
+
+    /// The model to use for refinement, resolved like `resolvedTranslationModel`.
+    var resolvedRefinementModel: AIModel? {
+        guard let engine = refinementEngine else { return nil }
+        let models = engine.availableModels
+        return models.first { $0.id == refinementModelID } ?? engine.defaultModel
+    }
+
     var enabledRuleIDs: Set<String> {
         didSet {
             defaults.set(Array(enabledRuleIDs), forKey: "enabledRuleIDs")
@@ -54,6 +84,9 @@ final class UserPreferences {
 
         deeplAPIKey = defaults.string(forKey: "deeplAPIKey") ?? ""
         geminiAPIKey = defaults.string(forKey: "geminiAPIKey") ?? ""
+
+        translationModelID = defaults.string(forKey: "translationModelID") ?? ""
+        refinementModelID = defaults.string(forKey: "refinementModelID") ?? ""
 
         libraryPath = defaults.string(forKey: "libraryPath")
             ?? "~/Documents/ProPresenter/Libraries/Default"

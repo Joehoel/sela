@@ -92,6 +92,52 @@ struct UserPreferencesTests {
         #expect(prefs.refinementEngine == nil)
     }
 
+    @Test("translationModelID persists and survives restart")
+    func translationModelPersists() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
+        prefs.translationModelID = "gemini-2.5-pro"
+        #expect(defaults.string(forKey: "translationModelID") == "gemini-2.5-pro")
+
+        let prefs2 = UserPreferences(defaults: defaults)
+        #expect(prefs2.translationModelID == "gemini-2.5-pro")
+    }
+
+    @Test("resolvedTranslationModel returns the stored model when valid for the engine")
+    func resolvedModelHonoursSelection() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+        prefs.translationEngine = .gemini
+        prefs.translationModelID = "gemini-2.5-pro"
+        #expect(prefs.resolvedTranslationModel?.id == "gemini-2.5-pro")
+    }
+
+    @Test("resolvedTranslationModel falls back to the default for a mismatched selection")
+    func resolvedModelFallsBack() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+        prefs.translationEngine = .gemini
+        // A DeepL model id is not valid for Gemini — should fall back to default.
+        prefs.translationModelID = "quality_optimized"
+        #expect(prefs.resolvedTranslationModel?.id == TranslationEngine.gemini.defaultModel?.id)
+    }
+
+    @Test("resolvedTranslationModel is nil for engines without models")
+    func resolvedModelNilForModellessEngine() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+        prefs.translationEngine = .apple
+        #expect(prefs.resolvedTranslationModel == nil)
+    }
+
+    @Test("resolvedRefinementModel resolves against the refinement engine")
+    func resolvedRefinementModel() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+        prefs.refinementEngine = .gemini
+        prefs.refinementModelID = "gemini-3.1-pro-preview"
+        #expect(prefs.resolvedRefinementModel?.id == "gemini-3.1-pro-preview")
+
+        prefs.refinementEngine = nil
+        #expect(prefs.resolvedRefinementModel == nil)
+    }
+
     @Test("enabledRuleIDs persists to UserDefaults on set")
     func ruleIDsPersist() {
         let defaults = makeDefaults()

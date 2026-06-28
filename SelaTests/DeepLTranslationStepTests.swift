@@ -48,6 +48,23 @@ struct DeepLTranslationStepTests {
         }
     }
 
+    // MARK: - Request body / model_type
+
+    @Test("form body omits model_type when none is selected")
+    func formBodyWithoutModelType() {
+        let body = DeepLTranslationStep.formBody(for: ["Hello"], modelType: nil)
+        #expect(body.contains("text=Hello"))
+        #expect(body.contains("source_lang=EN"))
+        #expect(body.contains("target_lang=NL"))
+        #expect(!body.contains("model_type"))
+    }
+
+    @Test("form body includes model_type when selected")
+    func formBodyWithModelType() {
+        let body = DeepLTranslationStep.formBody(for: ["Hello"], modelType: "quality_optimized")
+        #expect(body.contains("model_type=quality_optimized"))
+    }
+
     // MARK: - TranslationEngine
 
     @Test("TranslationEngine raw values")

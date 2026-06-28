@@ -39,7 +39,9 @@ struct TranslationPipeline {
         deeplAPIKey: String = "",
         geminiAPIKey: String = "",
         glossary: [GlossaryEntry] = [],
-        refinementEngine: RefinementEngine? = nil
+        refinementEngine: RefinementEngine? = nil,
+        translationModel: AIModel? = nil,
+        refinementModel: AIModel? = nil
     ) -> TranslationPipeline {
         var pipeline = TranslationPipeline()
 
@@ -54,9 +56,12 @@ struct TranslationPipeline {
         case .myMemory:
             pipeline.steps.append(MyMemoryTranslationStep())
         case .deepl:
-            pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey))
+            pipeline.steps.append(DeepLTranslationStep(apiKey: deeplAPIKey, modelType: translationModel?.id))
         case .gemini:
-            pipeline.steps.append(GeminiTranslationStep(apiKey: geminiAPIKey))
+            pipeline.steps.append(GeminiTranslationStep(
+                apiKey: geminiAPIKey,
+                model: translationModel?.id ?? TranslationEngine.gemini.defaultModel?.id ?? "gemini-2.5-flash"
+            ))
         case .foundationModel:
             #if canImport(FoundationModels)
                 if #available(macOS 26, *) {
@@ -75,7 +80,11 @@ struct TranslationPipeline {
                     }
                 #endif
             case .gemini:
-                pipeline.steps.append(GeminiTranslationStep(apiKey: geminiAPIKey, mode: .refine))
+                pipeline.steps.append(GeminiTranslationStep(
+                    apiKey: geminiAPIKey,
+                    mode: .refine,
+                    model: refinementModel?.id ?? RefinementEngine.gemini.defaultModel?.id ?? "gemini-2.5-flash"
+                ))
             }
         }
 

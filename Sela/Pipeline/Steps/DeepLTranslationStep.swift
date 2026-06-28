@@ -27,6 +27,14 @@ enum DeepLError: LocalizedError {
 struct DeepLTranslationStep: TranslationPipelineStep {
     let name = "Translating…"
     let apiKey: String
+    /// DeepL `model_type` (e.g. "latency_optimized", "quality_optimized").
+    /// `nil` uses DeepL's account default.
+    let modelType: String?
+
+    init(apiKey: String, modelType: String? = nil) {
+        self.apiKey = apiKey
+        self.modelType = modelType
+    }
 
     private static let endpoint = URL(string: "https://api-free.deepl.com/v2/translate")!
 
@@ -68,19 +76,22 @@ struct DeepLTranslationStep: TranslationPipelineStep {
         request.httpMethod = "POST"
         request.setValue("DeepL-Auth-Key \(apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-
-        var components: [String] = []
-        for item in items {
-            components.append("text=\(urlEncode(item.sourceText))")
-        }
-        components.append("source_lang=EN")
-        components.append("target_lang=NL")
-
-        request.httpBody = components.joined(separator: "&").data(using: .utf8)
+        request.httpBody = Self.formBody(for: items.map(\.sourceText), modelType: modelType).data(using: .utf8)
         return request
     }
 
-    private func urlEncode(_ string: String) -> String {
+    /// Builds the form-encoded request body. Exposed for testing.
+    static func formBody(for sourceTexts: [String], modelType: String?) -> String {
+        var components = sourceTexts.map { "text=\(urlEncode($0))" }
+        components.append("source_lang=EN")
+        components.append("target_lang=NL")
+        if let modelType, !modelType.isEmpty {
+            components.append("model_type=\(urlEncode(modelType))")
+        }
+        return components.joined(separator: "&")
+    }
+
+    private static func urlEncode(_ string: String) -> String {
         string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? string
     }
 }

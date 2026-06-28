@@ -151,7 +151,7 @@ final class EditorController {
         let geminiKey = preferences?.geminiAPIKey ?? ""
         let pipeline = TranslationPipeline.make(
             engine: .apple, session: session, geminiAPIKey: geminiKey, glossary: glossary,
-            refinementEngine: refinement
+            refinementEngine: refinement, refinementModel: preferences?.resolvedRefinementModel
         )
         await runPipeline(pipeline)
     }
@@ -175,6 +175,8 @@ final class EditorController {
 
         let refinement = preferences?.refinementEngine
         let geminiKey = preferences?.geminiAPIKey ?? ""
+        let translationModel = preferences?.resolvedTranslationModel
+        let refinementModel = preferences?.resolvedRefinementModel
 
         switch engine {
         case .apple:
@@ -192,7 +194,8 @@ final class EditorController {
             let glossary = GlossaryEntry.load()
             let pipeline = TranslationPipeline.make(
                 engine: engine, geminiAPIKey: geminiKey, glossary: glossary,
-                refinementEngine: refinement
+                refinementEngine: refinement,
+                translationModel: translationModel, refinementModel: refinementModel
             )
             Task { await runPipeline(pipeline) }
         case .deepl:
@@ -200,14 +203,16 @@ final class EditorController {
             let apiKey = preferences?.deeplAPIKey ?? ""
             let pipeline = TranslationPipeline.make(
                 engine: .deepl, deeplAPIKey: apiKey, geminiAPIKey: geminiKey, glossary: glossary,
-                refinementEngine: refinement
+                refinementEngine: refinement,
+                translationModel: translationModel, refinementModel: refinementModel
             )
             Task { await runPipeline(pipeline) }
         case .gemini:
             let glossary = GlossaryEntry.load()
             let pipeline = TranslationPipeline.make(
                 engine: .gemini, geminiAPIKey: geminiKey, glossary: glossary,
-                refinementEngine: refinement
+                refinementEngine: refinement,
+                translationModel: translationModel, refinementModel: refinementModel
             )
             Task { await runPipeline(pipeline) }
         case .foundationModel:

@@ -27,6 +27,7 @@ enum GeminiError: LocalizedError {
 struct GeminiTranslationStep: TranslationPipelineStep {
     let apiKey: String
     let mode: TranslationPrompt.Mode
+    let model: String
 
     var name: String {
         switch mode {
@@ -35,14 +36,16 @@ struct GeminiTranslationStep: TranslationPipelineStep {
         }
     }
 
-    init(apiKey: String, mode: TranslationPrompt.Mode = .translate) {
+    init(apiKey: String, mode: TranslationPrompt.Mode = .translate, model: String = "gemini-2.5-flash") {
         self.apiKey = apiKey
         self.mode = mode
+        self.model = model
     }
 
-    private static let endpoint = URL(
-        string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
-    )!
+    /// The `generateContent` endpoint for a given model id.
+    static func endpointURL(for model: String) -> URL {
+        URL(string: "https://generativelanguage.googleapis.com/v1beta/models/\(model):generateContent")!
+    }
 
     func process(_ items: inout [TranslationItem]) async throws {
         guard !apiKey.isEmpty else { throw GeminiError.missingAPIKey }
@@ -76,29 +79,43 @@ struct GeminiTranslationStep: TranslationPipelineStep {
         TranslationResponseMapper.apply(text, to: &items)
     }
 
+    /// The `thinkingBudget` to request for a model, or `nil` to omit
+    /// `thinkingConfig` entirely.
+    ///
+    /// Only the 2.5 Flash tier reliably supports disabling thinking
+    /// (`thinkingBudget: 0`) for lower latency. Reasoning models — 2.5 Pro and
+    /// the thinking-first Gemini 3.x family — reject budget 0 with
+    /// "Budget 0 is invalid. This model only works in thinking mode", so we omit
+    /// the config and let them use their default thinking mode.
+    static func thinkingBudget(for model: String) -> Int? {
+        switch model {
+        case "gemini-2.5-flash", "gemini-2.5-flash-lite": 0
+        default: nil
+        }
+    }
+
+    /// Builds the request JSON body. Exposed for testing.
+    static func requestBody(systemPrompt: String, userPrompt: String, model: String) -> [String: Any] {
+        var generationConfig: [String: Any] = ["temperature": 0.3]
+        if let budget = thinkingBudget(for: model) {
+            generationConfig["thinkingConfig"] = ["thinkingBudget": budget]
+        }
+        return [
+            "systemInstruction": ["parts": [["text": systemPrompt]]],
+            "contents": [["parts": [["text": userPrompt]]]],
+            "generationConfig": generationConfig,
+        ]
+    }
+
     private func buildRequest(systemPrompt: String, userPrompt: String) -> URLRequest {
-        var request = URLRequest(url: Self.endpoint)
+        var request = URLRequest(url: Self.endpointURL(for: model))
         request.timeoutInterval = 30
         request.httpMethod = "POST"
         request.setValue(apiKey, forHTTPHeaderField: "x-goog-api-key")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let body: [String: Any] = [
-            "systemInstruction": [
-                "parts": [["text": systemPrompt]],
-            ],
-            "contents": [
-                [
-                    "parts": [["text": userPrompt]],
-                ],
-            ],
-            "generationConfig": [
-                "temperature": 0.3,
-                "thinkingConfig": ["thinkingBudget": 0],
-            ],
-        ]
-
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        request.httpBody = try? JSONSerialization.data(
+            withJSONObject: Self.requestBody(systemPrompt: systemPrompt, userPrompt: userPrompt, model: model)
+        )
         return request
     }
 
