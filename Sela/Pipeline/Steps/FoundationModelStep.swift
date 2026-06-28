@@ -7,7 +7,7 @@ import Foundation
     @available(macOS 26, *)
     @Generable
     struct TranslationLines {
-        @Guide(description: "Dutch worship translations, one per input line, same order")
+        @Guide(description: "Dutch worship translations, each prefixed with its source line number, e.g. \"3. <Dutch>\"")
         var lines: [String]
     }
 
@@ -65,9 +65,7 @@ import Foundation
                 return
             }
 
-            for index in items.indices where index < output.count {
-                items[index].currentText = output[index]
-            }
+            TranslationResponseMapper.apply(output.joined(separator: "\n"), to: &items)
         }
     }
 #endif

@@ -30,6 +30,7 @@
 		26000D901806EEBE60970C13 /* SongEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A81F83864242CB8478B21 /* SongEditorView.swift */; };
 		26BB7DF7B7CADBF547BCB661 /* SlideGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */; };
 		2C43ECF143010FFD9841F55F /* MyMemoryTranslationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105AA0D33769BEAA9D8BC993 /* MyMemoryTranslationStep.swift */; };
+		2F0711D8F54E0D3617B63F16 /* TranslationResponseMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F15FF6178EB17ED1726483 /* TranslationResponseMapperTests.swift */; };
 		2FFAC5396323D27E4D347CD2 /* Way Maker.pro in Resources */ = {isa = PBXBuildFile; fileRef = 50AC6DF7D38ED3926416B298 /* Way Maker.pro */; };
 		30786AA779E7978A0C826E66 /* effects.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1E2F707342CB6703A1930 /* effects.pb.swift */; };
 		31536426EDE87DE3762576F2 /* TranslateCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1523F841FFBC4FE209884506 /* TranslateCommand.swift */; };
@@ -101,6 +102,7 @@
 		BF306D0FFADB032E39C62614 /* TranslationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE6F787D4480451253EFFF9 /* TranslationPipeline.swift */; };
 		C06BFEA3C8EF44FCA4740E89 /* EditorControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CF3F5B145136C7980850A8 /* EditorControllerTests.swift */; };
 		C2D5B5EC84C6684412D62CFC /* ToggleInspectorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD292842AE93E49842F6E0 /* ToggleInspectorCommand.swift */; };
+		C4412837063B29EE5EF5E789 /* TranslationResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86E3C69D3A64A6D770D6264 /* TranslationResponseMapper.swift */; };
 		C648F69728B54BA4867629B9 /* SlideGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C383C266D1B8F87634CA00 /* SlideGroup.swift */; };
 		C8916788AA21D20BCC1EBCE6 /* ProPresenterWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D64B9C5B99E603853D99EA /* ProPresenterWriterTests.swift */; };
 		CA357B628CDEF369FCA666B9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684D79F7089AD52F2770565A /* Song.swift */; };
@@ -210,6 +212,7 @@
 		5B2A9619500466F93BA9EDDD /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		5F11CBAA38E625DBF4591BB3 /* SentryConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryConfigTests.swift; sourceTree = "<group>"; };
 		6010D187047A18FDF5D53F0B /* TrailingPunctuationRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingPunctuationRule.swift; sourceTree = "<group>"; };
+		60F15FF6178EB17ED1726483 /* TranslationResponseMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationResponseMapperTests.swift; sourceTree = "<group>"; };
 		61B12E0C09B06EA9B83F61EF /* DiagnosticRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticRule.swift; sourceTree = "<group>"; };
 		641CE4FF9AC95E527E5E2B3F /* templateIdentification.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = templateIdentification.pb.swift; sourceTree = "<group>"; };
 		65994A8B4D08102B939FD782 /* color.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = color.pb.swift; sourceTree = "<group>"; };
@@ -242,6 +245,7 @@
 		9BFD69684DEE89E09A4C43F8 /* SlideGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroupView.swift; sourceTree = "<group>"; };
 		9F8E729F1D72CB25CA3A263A /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		A4A042A9A17373D9035AB04C /* TranslationPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPrompt.swift; sourceTree = "<group>"; };
+		A86E3C69D3A64A6D770D6264 /* TranslationResponseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationResponseMapper.swift; sourceTree = "<group>"; };
 		AB81FD317F55FE9BA417AFE2 /* Scorers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorers.swift; sourceTree = "<group>"; };
 		AD59B033D5DE524B2AC37E98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B05A2707330E40BF60C4A949 /* ProPresenterSongProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterSongProviderTests.swift; sourceTree = "<group>"; };
@@ -349,6 +353,7 @@
 				7135AFA5E3EF1D4AAEA0392D /* TranslationItem.swift */,
 				0DE6F787D4480451253EFFF9 /* TranslationPipeline.swift */,
 				A4A042A9A17373D9035AB04C /* TranslationPrompt.swift */,
+				A86E3C69D3A64A6D770D6264 /* TranslationResponseMapper.swift */,
 				C69E238AE9CD7358ABDE4669 /* Steps */,
 			);
 			path = Pipeline;
@@ -528,6 +533,7 @@
 				DE2D1671AE3B73612E9F9B54 /* SongLoadStreamTests.swift */,
 				1543174EB7507BF1E048A727 /* SongTests.swift */,
 				EAB0B3545374D48015E6C096 /* TranslationPipelineTests.swift */,
+				60F15FF6178EB17ED1726483 /* TranslationResponseMapperTests.swift */,
 				3EC7AF5527E71251E34EF122 /* UserPreferencesTests.swift */,
 				E24A19EED5D92BC83CB73D05 /* Eval */,
 				3579615E39AAA7EDC67F953C /* Fixtures */,
@@ -774,6 +780,7 @@
 				D4CACB58F11DFD713B080ED6 /* SongTests.swift in Sources */,
 				582061E73C46E05336B00F1D /* TranslationEvalTests.swift in Sources */,
 				AB347F062243484C0C3FC893 /* TranslationPipelineTests.swift in Sources */,
+				2F0711D8F54E0D3617B63F16 /* TranslationResponseMapperTests.swift in Sources */,
 				475C60497842B77F956A4ECC /* UserPreferencesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -843,6 +850,7 @@
 				FE9F77B5D38FE4892D5ABEF8 /* TranslationItem.swift in Sources */,
 				BF306D0FFADB032E39C62614 /* TranslationPipeline.swift in Sources */,
 				477964E9EF8C5A36C23122A5 /* TranslationPrompt.swift in Sources */,
+				C4412837063B29EE5EF5E789 /* TranslationResponseMapper.swift in Sources */,
 				1E8E634F976ED9C2C7D0E105 /* UserPreferences.swift in Sources */,
 				1769A18654DC8B234A4B1E74 /* action.pb.swift in Sources */,
 				F05994906903E8AFDCD41241 /* alignmentGuide.pb.swift in Sources */,

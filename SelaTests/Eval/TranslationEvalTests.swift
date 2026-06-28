@@ -87,7 +87,9 @@ import Testing
                 to: userPrompt,
                 generating: TranslationLines.self
             )
-            return response.content.lines
+            var mapped = items
+            TranslationResponseMapper.apply(response.content.lines.joined(separator: "\n"), to: &mapped)
+            return mapped.map(\.currentText)
         }
     }
 #endif

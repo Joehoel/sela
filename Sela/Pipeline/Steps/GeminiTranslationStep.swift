@@ -72,11 +72,8 @@ struct GeminiTranslationStep: TranslationPipelineStep {
             throw GeminiError.requestFailed(statusCode: httpResponse.statusCode)
         }
 
-        let lines = try parseResponse(data)
-
-        for index in items.indices where index < lines.count {
-            items[index].currentText = lines[index]
-        }
+        let text = try parseResponseText(data)
+        TranslationResponseMapper.apply(text, to: &items)
     }
 
     private func buildRequest(systemPrompt: String, userPrompt: String) -> URLRequest {
@@ -105,7 +102,7 @@ struct GeminiTranslationStep: TranslationPipelineStep {
         return request
     }
 
-    private func parseResponse(_ data: Data) throws -> [String] {
+    private func parseResponseText(_ data: Data) throws -> String {
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
               let candidates = json["candidates"] as? [[String: Any]],
               let content = candidates.first?["content"] as? [String: Any],
@@ -114,9 +111,6 @@ struct GeminiTranslationStep: TranslationPipelineStep {
         else {
             throw GeminiError.invalidResponse
         }
-
         return text
-            .components(separatedBy: "\n")
-            .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
     }
 }

@@ -28,9 +28,13 @@ struct TranslationPrompt {
             - Use common Dutch worship vocabulary
             - Maintain the poetic/lyrical feel
             - Do not add or remove lines
-            - Return exactly \(count) lines in the same order
-            - Return only the translated Dutch text, one line per input line
-            - Do not include prefixes like "NL:", labels, group headers, or any other formatting
+            - Each input line is numbered. Return every translation prefixed with
+              the SAME number, e.g. "3. <Dutch translation>"
+            - The number maps each translation back to its source line, so keep it
+              exact even if you change the order
+            - Return exactly \(count) numbered lines, one per input line
+            - Return only the number and the Dutch text — no "NL:" prefixes,
+              labels, group headers, or other formatting
             """
         case .refine:
             return """
@@ -41,9 +45,13 @@ struct TranslationPrompt {
             - Use common Dutch worship vocabulary
             - Maintain the poetic/lyrical feel
             - Do not add or remove lines
-            - Return exactly \(count) lines in the same order
-            - Return only the refined Dutch text, one line per input line
-            - Do not include prefixes like "NL:", labels, group headers, or any other formatting
+            - Each input line is numbered. Return every refined line prefixed with
+              the SAME number, e.g. "3. <Dutch translation>"
+            - The number maps each line back to its source, so keep it exact even
+              if you change the order
+            - Return exactly \(count) numbered lines, one per input line
+            - Return only the number and the Dutch text — no "NL:" prefixes,
+              labels, group headers, or other formatting
             """
         }
     }
@@ -59,14 +67,15 @@ struct TranslationPrompt {
         }
 
         var currentGroup: String?
-        for item in items {
+        for (index, item) in items.enumerated() {
             if let group = item.groupName, group != currentGroup {
                 lines.append("[\(group)]")
                 currentGroup = group
             }
-            lines.append("EN: \(item.sourceText)")
+            let number = index + 1
+            lines.append("\(number). EN: \(item.sourceText)")
             if mode == .refine {
-                lines.append("NL: \(item.currentText)")
+                lines.append("\(number). NL: \(item.currentText)")
             }
             lines.append("")
         }
