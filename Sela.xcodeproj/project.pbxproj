@@ -72,11 +72,31 @@
 		793D6E27F08AF2E74C472B68 /* CustomTranslationModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32295D97D0B4A73780F26C75 /* CustomTranslationModelTests.swift */; };
 		7A8D2E23FCB4F48F876EC61E /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8E729F1D72CB25CA3A263A /* DeepLinkHandler.swift */; };
 		7B36BDA228940DA0805D3ECE /* ProPresenterReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2673101A91E1B71DF5A0CE /* ProPresenterReader.swift */; };
+		C4A1000000000000000000A2 /* ProPresenterAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000A1 /* ProPresenterAPIClient.swift */; };
+		C4A1000000000000000000A4 /* ProPresenterAPIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000A3 /* ProPresenterAPIModels.swift */; };
+		C4A1000000000000000000A6 /* ProPresenterAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000A5 /* ProPresenterAPIClientTests.swift */; };
+		C4A1000000000000000000A8 /* ProPresenterConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000A7 /* ProPresenterConnection.swift */; };
+		C4A1000000000000000000C0 /* ServicePlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000B1 /* ServicePlaylist.swift */; };
+		C4A1000000000000000000C1 /* PlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000B2 /* PlaylistController.swift */; };
+		C4A1000000000000000000E1 /* PlaylistController+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000E3 /* PlaylistController+Resolution.swift */; };
+		C4A1000000000000000000E2 /* PlaylistControllerLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000E4 /* PlaylistControllerLiveTests.swift */; };
+		C4A1000000000000000000F1 /* PlaylistController+Streaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000F3 /* PlaylistController+Streaming.swift */; };
+		C4A1000000000000000000F2 /* PlaylistControllerDampingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000F4 /* PlaylistControllerDampingTests.swift */; };
+		C4A1000000000000000000E5 /* SelaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000E6 /* SelaAppTests.swift */; };
+		C4A1000000000000000000C2 /* PlaylistControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000B3 /* PlaylistControllerTests.swift */; };
+		C4A1000000000000000000C3 /* FakeProPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000B4 /* FakeProPresenter.swift */; };
+		C4A1000000000000000000D2 /* PlaylistSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000D1 /* PlaylistSectionView.swift */; };
+		C4A1000000000000000000D4 /* PlaylistSectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000D3 /* PlaylistSectionViewTests.swift */; };
+		C4A1000000000000000000B0 /* ProPresenterConnectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A1000000000000000000A9 /* ProPresenterConnectionTests.swift */; };
 		8070D7E157EAABD9836694BB /* background.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA42E2F0DE04F57D8E6DCA79 /* background.pb.swift */; };
 		83FC3D389B8DCE093638476C /* SlideLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740C64B189E675F5B9705D0E /* SlideLineView.swift */; };
 		83FC45CB98BACB828B6CD3D1 /* TranslationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E96CAC4E6576830D6E012F1 /* TranslationEngine.swift */; };
 		840DDE7294D2B0F83014C883 /* digitalAudio.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173876FD28BADCA3B8A333EC /* digitalAudio.pb.swift */; };
 		844FF7AD4F4DF52D5BA2048F /* ProPresenterSongProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C5A9588B037D5137C01CBB /* ProPresenterSongProvider.swift */; };
+		5A2514BC999244EDAF312C4C /* LibraryDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F61514214414188A5379CF8 /* LibraryDiscovery.swift */; };
+		A1C4E20B7F3D48A19B0C1D02 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C4E20B7F3D48A19B0C1D01 /* Library.swift */; };
+		A1C4E20B7F3D48A19B0C1D04 /* MultiLibraryLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C4E20B7F3D48A19B0C1D03 /* MultiLibraryLoadingTests.swift */; };
+		457D6E99128F42FEB7D0F862 /* LibraryDiscoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60684172184C40F785D25589 /* LibraryDiscoveryTests.swift */; };
 		85F0A7D20873EFB0B3607F37 /* stage.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B94C403042EB33B0439CC2 /* stage.pb.swift */; };
 		89B6A8D5B982FD8AA25B0458 /* intRange.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01EA1D24BFBA8902A37743C /* intRange.pb.swift */; };
 		8E209890C6521F972F0EF70D /* DevFixtureFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B2A470C66A4990ED5CC36D /* DevFixtureFactoryTests.swift */; };
@@ -251,6 +271,10 @@
 		70A89106237F130DA8ABD168 /* TranslationEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationEngineTests.swift; sourceTree = "<group>"; };
 		7135AFA5E3EF1D4AAEA0392D /* TranslationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationItem.swift; sourceTree = "<group>"; };
 		73C5A9588B037D5137C01CBB /* ProPresenterSongProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterSongProvider.swift; sourceTree = "<group>"; };
+		2F61514214414188A5379CF8 /* LibraryDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryDiscovery.swift; sourceTree = "<group>"; };
+		A1C4E20B7F3D48A19B0C1D01 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		A1C4E20B7F3D48A19B0C1D03 /* MultiLibraryLoadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLibraryLoadingTests.swift; sourceTree = "<group>"; };
+		60684172184C40F785D25589 /* LibraryDiscoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryDiscoveryTests.swift; sourceTree = "<group>"; };
 		740C64B189E675F5B9705D0E /* SlideLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideLineView.swift; sourceTree = "<group>"; };
 		75C383C266D1B8F87634CA00 /* SlideGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideGroup.swift; sourceTree = "<group>"; };
 		766A0C2C976801F42AC14709 /* rvtimestamp.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rvtimestamp.pb.swift; sourceTree = "<group>"; };
@@ -317,6 +341,22 @@
 		FB8D9803552221DE4FB3CB92 /* groups.pb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groups.pb.swift; sourceTree = "<group>"; };
 		FD87FA492FDE638F7D66B6E8 /* EvalReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalReport.swift; sourceTree = "<group>"; };
 		FF2673101A91E1B71DF5A0CE /* ProPresenterReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterReader.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000A1 /* ProPresenterAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterAPIClient.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000A3 /* ProPresenterAPIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterAPIModels.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000A5 /* ProPresenterAPIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterAPIClientTests.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000A7 /* ProPresenterConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterConnection.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000B1 /* ServicePlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicePlaylist.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000B2 /* PlaylistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistController.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000E3 /* PlaylistController+Resolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistController+Resolution.swift"; sourceTree = "<group>"; };
+		C4A1000000000000000000E4 /* PlaylistControllerLiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistControllerLiveTests.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000F3 /* PlaylistController+Streaming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistController+Streaming.swift"; sourceTree = "<group>"; };
+		C4A1000000000000000000F4 /* PlaylistControllerDampingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistControllerDampingTests.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000E6 /* SelaAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelaAppTests.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000B3 /* PlaylistControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistControllerTests.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000B4 /* FakeProPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeProPresenter.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000D1 /* PlaylistSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistSectionView.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000D3 /* PlaylistSectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistSectionViewTests.swift; sourceTree = "<group>"; };
+		C4A1000000000000000000A9 /* ProPresenterConnectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPresenterConnectionTests.swift; sourceTree = "<group>"; };
 		FFF3F476B7BA16805E4F3C8A /* FoundationModelLanguageModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModelLanguageModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -401,6 +441,9 @@
 			isa = PBXGroup;
 			children = (
 				4AD73A0E57A05F54A568F93E /* EditorController.swift */,
+				C4A1000000000000000000B2 /* PlaylistController.swift */,
+				C4A1000000000000000000E3 /* PlaylistController+Resolution.swift */,
+				C4A1000000000000000000F3 /* PlaylistController+Streaming.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -408,6 +451,7 @@
 		3B1CF41CA8573B51E68479DF /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
+				C4A1000000000000000000D1 /* PlaylistSectionView.swift */,
 				4BAA3738084D224196CE7EFB /* SongListView.swift */,
 				CE807C04B2DB30418F5958A3 /* SongRowView.swift */,
 			);
@@ -475,6 +519,8 @@
 			children = (
 				E1B944FBFF2E5F68DEB1675E /* AppState.swift */,
 				BF4F469FB1DAD40D82D9D82D /* DiagnoseIssue.swift */,
+				A1C4E20B7F3D48A19B0C1D01 /* Library.swift */,
+				C4A1000000000000000000B1 /* ServicePlaylist.swift */,
 				554B4AA4096F03804218D05B /* Slide.swift */,
 				75C383C266D1B8F87634CA00 /* SlideGroup.swift */,
 				928D490244ABDE64693E6DB0 /* SlideLine.swift */,
@@ -569,8 +615,18 @@
 				55194A4E45C324B2D21BCD33 /* GlossaryEntryTests.swift */,
 				C11079A3EAB0D49E6787D838 /* GlossaryReplacementStepTests.swift */,
 				2ECD69CF98973383121F3E1E /* GoogleTranslateLanguageModelTests.swift */,
+				60684172184C40F785D25589 /* LibraryDiscoveryTests.swift */,
 				B6FCBAB41BE2450B0A3740CE /* LibraryIndexTests.swift */,
+				A1C4E20B7F3D48A19B0C1D03 /* MultiLibraryLoadingTests.swift */,
 				1ECD98DBC68B490D2325E521 /* MyMemoryLanguageModelTests.swift */,
+				C4A1000000000000000000A5 /* ProPresenterAPIClientTests.swift */,
+				C4A1000000000000000000A9 /* ProPresenterConnectionTests.swift */,
+				C4A1000000000000000000B3 /* PlaylistControllerTests.swift */,
+				C4A1000000000000000000E4 /* PlaylistControllerLiveTests.swift */,
+				C4A1000000000000000000F4 /* PlaylistControllerDampingTests.swift */,
+				C4A1000000000000000000E6 /* SelaAppTests.swift */,
+				C4A1000000000000000000D3 /* PlaylistSectionViewTests.swift */,
+				C4A1000000000000000000B4 /* FakeProPresenter.swift */,
 				B793A6B4E9A84E82CC2DD51D /* ProPresenterReaderTests.swift */,
 				B4A7A5B9A27CF0E80F3F153B /* ProPresenterRestarterTests.swift */,
 				B05A2707330E40BF60C4A949 /* ProPresenterSongProviderTests.swift */,
@@ -653,6 +709,7 @@
 		D8A7862A9E211A663396F633 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				2F61514214414188A5379CF8 /* LibraryDiscovery.swift */,
 				73C5A9588B037D5137C01CBB /* ProPresenterSongProvider.swift */,
 				3B7503E4CD39EA35952236D6 /* SongProvider.swift */,
 			);
@@ -694,9 +751,20 @@
 			path = Inspector;
 			sourceTree = "<group>";
 		};
+		C4A1000000000000000000A0 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				C4A1000000000000000000A1 /* ProPresenterAPIClient.swift */,
+				C4A1000000000000000000A3 /* ProPresenterAPIModels.swift */,
+				C4A1000000000000000000A7 /* ProPresenterConnection.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		FA4F7BF1E1476ABA9060D822 /* ProPresenter */ = {
 			isa = PBXGroup;
 			children = (
+				C4A1000000000000000000A0 /* API */,
 				59F30C0618B4DD66B9189958 /* LibraryIndex.swift */,
 				827DB821BA3CF7EBC947D33A /* ParsedSong.swift */,
 				FF2673101A91E1B71DF5A0CE /* ProPresenterReader.swift */,
@@ -840,8 +908,18 @@
 				D78E27123C2135F95343E6D9 /* GlossaryEntryTests.swift in Sources */,
 				3AC36DCB4971CD0AA7526DAA /* GlossaryReplacementStepTests.swift in Sources */,
 				624406FD8239E7D43F305E67 /* GoogleTranslateLanguageModelTests.swift in Sources */,
+				457D6E99128F42FEB7D0F862 /* LibraryDiscoveryTests.swift in Sources */,
+				A1C4E20B7F3D48A19B0C1D04 /* MultiLibraryLoadingTests.swift in Sources */,
 				4EC3E9A87A244F2E03C36601 /* LibraryIndexTests.swift in Sources */,
 				B59031BA5F96FBA55B073992 /* MyMemoryLanguageModelTests.swift in Sources */,
+				C4A1000000000000000000A6 /* ProPresenterAPIClientTests.swift in Sources */,
+				C4A1000000000000000000B0 /* ProPresenterConnectionTests.swift in Sources */,
+				C4A1000000000000000000C2 /* PlaylistControllerTests.swift in Sources */,
+				C4A1000000000000000000E2 /* PlaylistControllerLiveTests.swift in Sources */,
+				C4A1000000000000000000F2 /* PlaylistControllerDampingTests.swift in Sources */,
+				C4A1000000000000000000E5 /* SelaAppTests.swift in Sources */,
+				C4A1000000000000000000D4 /* PlaylistSectionViewTests.swift in Sources */,
+				C4A1000000000000000000C3 /* FakeProPresenter.swift in Sources */,
 				03DAC9AB1C2C18D064F748E1 /* ProPresenterReaderTests.swift in Sources */,
 				D874D734B34C57C42F2999B3 /* ProPresenterRestarterTests.swift in Sources */,
 				22153F73DD478F41689BE450 /* ProPresenterSongProviderTests.swift in Sources */,
@@ -898,8 +976,17 @@
 				B3544E21E72B839D00343216 /* MyMemoryLanguageModel.swift in Sources */,
 				13BEA72F0DAE2018E8DBEBD4 /* NSApplicationScripting.swift in Sources */,
 				D1A1BE71E4A7068509B1DE98 /* ParsedSong.swift in Sources */,
+				C4A1000000000000000000A2 /* ProPresenterAPIClient.swift in Sources */,
+				C4A1000000000000000000A4 /* ProPresenterAPIModels.swift in Sources */,
+				C4A1000000000000000000A8 /* ProPresenterConnection.swift in Sources */,
+				C4A1000000000000000000C0 /* ServicePlaylist.swift in Sources */,
+				C4A1000000000000000000C1 /* PlaylistController.swift in Sources */,
+				C4A1000000000000000000E1 /* PlaylistController+Resolution.swift in Sources */,
+				C4A1000000000000000000F1 /* PlaylistController+Streaming.swift in Sources */,
 				7B36BDA228940DA0805D3ECE /* ProPresenterReader.swift in Sources */,
 				9FF9E723D8F48F5A6EE4F609 /* ProPresenterRestarter.swift in Sources */,
+				5A2514BC999244EDAF312C4C /* LibraryDiscovery.swift in Sources */,
+				A1C4E20B7F3D48A19B0C1D02 /* Library.swift in Sources */,
 				844FF7AD4F4DF52D5BA2048F /* ProPresenterSongProvider.swift in Sources */,
 				253011355D03934940BB9185 /* ProPresenterWriter.swift in Sources */,
 				0F3D6E3F92FFC62023A74BB6 /* RTFHelper.swift in Sources */,
@@ -921,6 +1008,7 @@
 				83FC3D389B8DCE093638476C /* SlideLineView.swift in Sources */,
 				CA357B628CDEF369FCA666B9 /* Song.swift in Sources */,
 				26000D901806EEBE60970C13 /* SongEditorView.swift in Sources */,
+				C4A1000000000000000000D2 /* PlaylistSectionView.swift in Sources */,
 				9F921A4DE2B54C355681CA7A /* SongListView.swift in Sources */,
 				DB95294103D26EEB620056D7 /* SongProvider.swift in Sources */,
 				B536405302EC5103F9A95B6E /* SongRowView.swift in Sources */,

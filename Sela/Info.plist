@@ -33,6 +33,8 @@
 	<string>public.app-category.utilities</string>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Sela restarts ProPresenter so it reloads the translated song files you just saved.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Sela looks for ProPresenter on your local network so it can follow the focused playlist.</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>OSAScriptingDefinition</key>

@@ -176,6 +176,98 @@ struct UserPreferencesTests {
         #expect(prefs.resolvedRefinementModel == nil)
     }
 
+    @Test("librariesRootPath defaults to the ProPresenter Libraries folder")
+    func librariesRootDefault() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+        #expect(prefs.librariesRootPath == "~/Documents/ProPresenter/Libraries")
+    }
+
+    @Test("librariesRootPath migrates the old single-library path to its parent")
+    func librariesRootMigratesFromLibraryPath() throws {
+        let defaults = makeDefaults()
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent("sela-prefs-\(UUID().uuidString)/Libraries", isDirectory: true)
+        let library = root.appendingPathComponent("Default", isDirectory: true)
+        try FileManager.default.createDirectory(at: library, withIntermediateDirectories: true)
+        defaults.set(library.path, forKey: "libraryPath")
+
+        let prefs = UserPreferences(defaults: defaults)
+
+        #expect(prefs.librariesRootPath == root.path)
+        #expect(defaults.string(forKey: "librariesRootPath") == root.path)
+        #expect(defaults.string(forKey: "libraryPath") == nil)
+    }
+
+    @Test("librariesRootPath migration keeps the tilde form of the old path")
+    func librariesRootMigrationKeepsTilde() {
+        let defaults = makeDefaults()
+        defaults.set("~/Documents/ProPresenter/Libraries/Default", forKey: "libraryPath")
+
+        let prefs = UserPreferences(defaults: defaults)
+
+        #expect(prefs.librariesRootPath == "~/Documents/ProPresenter/Libraries")
+    }
+
+    @Test("librariesRootPath ignores the old key once a root is stored")
+    func librariesRootPrefersStoredValue() {
+        let defaults = makeDefaults()
+        defaults.set("/Volumes/Media/Libraries", forKey: "librariesRootPath")
+        defaults.set("/Volumes/Media/Libraries/Default", forKey: "libraryPath")
+
+        let prefs = UserPreferences(defaults: defaults)
+
+        #expect(prefs.librariesRootPath == "/Volumes/Media/Libraries")
+        #expect(defaults.string(forKey: "libraryPath") == nil)
+    }
+
+    @Test("librariesRootPath persists and survives restart")
+    func librariesRootPersists() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
+        prefs.librariesRootPath = "/Volumes/Media/Libraries"
+
+        #expect(defaults.string(forKey: "librariesRootPath") == "/Volumes/Media/Libraries")
+        #expect(UserPreferences(defaults: defaults).librariesRootPath == "/Volumes/Media/Libraries")
+    }
+
+    // MARK: - ProPresenter connection
+
+    @Test("the ProPresenter connection defaults to automatic on localhost:1025")
+    func proPresenterDefaults() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+
+        #expect(prefs.proPresenterMode == .automatic)
+        #expect(prefs.proPresenterHost == "localhost")
+        #expect(prefs.proPresenterPort == 1025)
+        #expect(prefs.proPresenterLastKnownEndpoint == nil)
+    }
+
+    @Test("manual ProPresenter settings survive a restart")
+    func proPresenterManualSettingsPersist() {
+        let defaults = makeDefaults()
+        let prefs = UserPreferences(defaults: defaults)
+
+        prefs.proPresenterMode = .manual
+        prefs.proPresenterHost = "10.0.0.5"
+        prefs.proPresenterPort = 50727
+
+        let restarted = UserPreferences(defaults: defaults)
+        #expect(restarted.proPresenterMode == .manual)
+        #expect(restarted.proPresenterManualEndpoint == ProPresenterEndpoint(host: "10.0.0.5", port: 50727))
+    }
+
+    @Test("an empty host or an impossible port leaves no manual endpoint")
+    func proPresenterManualEndpointValidation() {
+        let prefs = UserPreferences(defaults: makeDefaults())
+
+        prefs.proPresenterHost = ""
+        #expect(prefs.proPresenterManualEndpoint == nil)
+
+        prefs.proPresenterHost = "localhost"
+        prefs.proPresenterPort = 0
+        #expect(prefs.proPresenterManualEndpoint == nil)
+    }
+
     @Test("enabledRuleIDs persists to UserDefaults on set")
     func ruleIDsPersist() {
         let defaults = makeDefaults()

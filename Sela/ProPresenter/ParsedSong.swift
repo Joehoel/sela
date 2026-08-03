@@ -34,13 +34,17 @@ struct ParsedLine: Codable {
 // MARK: - DTO → model conversion
 
 extension Song {
-    convenience init(parsed: ParsedSong) {
+    /// - Parameter library: the library the file was loaded from; `nil` for
+    ///   songs loaded ad hoc from outside the configured libraries.
+    convenience init(parsed: ParsedSong, library: Library? = nil) {
         self.init(
             id: parsed.id,
             title: parsed.title,
             author: parsed.author,
             slideGroups: parsed.slideGroups.map { SlideGroup(parsed: $0) },
-            filePath: parsed.filePath
+            filePath: parsed.filePath,
+            libraryID: library?.id,
+            libraryName: library?.name
         )
     }
 }

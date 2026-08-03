@@ -48,6 +48,7 @@ targets:
         NSAppleScriptEnabled: true
         OSAScriptingDefinition: Sela.sdef
         NSAppleEventsUsageDescription: "Sela restarts ProPresenter so it reloads the translated song files you just saved."
+        NSLocalNetworkUsageDescription: "Sela looks for ProPresenter on your local network so it can follow the focused playlist."
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sela.app

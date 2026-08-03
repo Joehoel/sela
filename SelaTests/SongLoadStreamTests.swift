@@ -100,7 +100,7 @@ struct SongLoadStreamTests {
     func appStateTotalCount() async {
         let state = AppState()
         let stub = StreamingStubProvider()
-        let loading = Task { await state.loadSongs(from: stub) }
+        let loading = Task { await state.loadLibraries([stubLibrary]) { _ in stub } }
 
         await stub.yieldWhenReady(.started(total: 7))
         stub.finish()
@@ -126,7 +126,7 @@ struct SongLoadStreamTests {
             filePath: URL(fileURLWithPath: "/tmp/b.pro")
         )
 
-        let loading = Task { await state.loadSongs(from: stub) }
+        let loading = Task { await state.loadLibraries([stubLibrary]) { _ in stub } }
 
         await stub.yieldWhenReady(.started(total: 2))
         await stub.yieldWhenReady(.parsed(song1, loaded: 1))
@@ -155,7 +155,7 @@ struct SongLoadStreamTests {
             filePath: URL(fileURLWithPath: "/tmp/r.pro")
         )
 
-        let loading = Task { await state.loadSongs(from: stub) }
+        let loading = Task { await state.loadLibraries([stubLibrary]) { _ in stub } }
         await stub.yieldWhenReady(.started(total: 2))
         await stub.yieldWhenReady(.parsed(empty, loaded: 1))
         await stub.yieldWhenReady(.parsed(real, loaded: 2))
@@ -183,7 +183,7 @@ struct SongLoadStreamTests {
             )
         }
 
-        let loading = Task { await state.loadSongs(from: stub) }
+        let loading = Task { await state.loadLibraries([stubLibrary]) { _ in stub } }
         await stub.yieldWhenReady(.started(total: 3))
         for (idx, parsed) in songs.enumerated() {
             await stub.yieldWhenReady(.parsed(parsed, loaded: idx + 1))
@@ -199,7 +199,7 @@ struct SongLoadStreamTests {
         let state = AppState()
         let stub = StreamingStubProvider()
 
-        let loading = Task { await state.loadSongs(from: stub) }
+        let loading = Task { await state.loadLibraries([stubLibrary]) { _ in stub } }
         await stub.yieldWhenReady(.started(total: 100))
         loading.cancel()
         stub.finish()
@@ -209,6 +209,10 @@ struct SongLoadStreamTests {
     }
 
     // MARK: - Test helpers
+
+    private var stubLibrary: Library {
+        Library(url: URL(fileURLWithPath: "/tmp/Libraries/Stub", isDirectory: true))
+    }
 
     private func groupWithOneSlide(id: String) -> ParsedSlideGroup {
         ParsedSlideGroup(

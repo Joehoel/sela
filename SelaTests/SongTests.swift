@@ -118,4 +118,51 @@ struct SongTests {
         song.clearTranslations()
         #expect(!song.hasTranslation)
     }
+
+    // MARK: - Sidebar status accent
+
+    @Test("status is untranslated without any translation")
+    func statusUntranslated() {
+        let song = Song(
+            title: "Test",
+            slideGroups: [
+                SlideGroup(name: "V1", slides: [
+                    Slide(lines: [SlideLine(original: "A")]),
+                ]),
+            ]
+        )
+        #expect(SongStatus(song: song) == .untranslated)
+    }
+
+    @Test("status carries progress while in progress")
+    func statusInProgress() {
+        let song = Song(
+            title: "Test",
+            slideGroups: [
+                SlideGroup(name: "V1", slides: [
+                    Slide(lines: [SlideLine(original: "A", translation: "X")]),
+                    Slide(lines: [SlideLine(original: "B")]),
+                ]),
+            ]
+        )
+        #expect(SongStatus(song: song) == .inProgress(progress: 0.5))
+    }
+
+    @Test("status is translated when every slide is translated")
+    func statusTranslated() {
+        let song = Song(
+            title: "Test",
+            slideGroups: [
+                SlideGroup(name: "V1", slides: [
+                    Slide(lines: [SlideLine(original: "A", translation: "X")]),
+                ]),
+            ]
+        )
+        #expect(SongStatus(song: song) == .translated)
+    }
+
+    @Test("status of an empty song is untranslated")
+    func statusEmptySong() {
+        #expect(SongStatus(song: Song(title: "Empty", slideGroups: [])) == .untranslated)
+    }
 }

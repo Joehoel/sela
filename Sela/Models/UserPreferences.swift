@@ -35,9 +35,11 @@ final class UserPreferences {
         }
     }
 
-    var libraryPath: String {
+    /// Folder holding the ProPresenter libraries; every subfolder with `.pro`
+    /// files is a library (see `LibraryDiscovery`).
+    var librariesRootPath: String {
         didSet {
-            defaults.set(libraryPath, forKey: "libraryPath")
+            defaults.set(librariesRootPath, forKey: "librariesRootPath")
         }
     }
 
@@ -83,6 +85,45 @@ final class UserPreferences {
         }
     }
 
+    // MARK: - ProPresenter connection
+
+    /// Whether Sela searches for the ProPresenter API or uses a fixed address.
+    var proPresenterMode: ProPresenterConnectionMode {
+        didSet {
+            defaults.set(proPresenterMode.rawValue, forKey: "proPresenterMode")
+        }
+    }
+
+    /// Host used in manual mode; untouched by auto-discovery.
+    var proPresenterHost: String {
+        didSet {
+            defaults.set(proPresenterHost, forKey: "proPresenterHost")
+        }
+    }
+
+    /// Port used in manual mode; ProPresenter's default is 1025.
+    var proPresenterPort: Int {
+        didSet {
+            defaults.set(proPresenterPort, forKey: "proPresenterPort")
+        }
+    }
+
+    /// The last endpoint that answered `GET /version`, tried first in auto mode
+    /// so a known ProPresenter is found without waiting for discovery.
+    var proPresenterLastKnownEndpoint: ProPresenterEndpoint? {
+        didSet {
+            defaults.set(proPresenterLastKnownEndpoint?.host, forKey: "proPresenterLastKnownHost")
+            defaults.set(proPresenterLastKnownEndpoint?.port, forKey: "proPresenterLastKnownPort")
+        }
+    }
+
+    /// The manually configured endpoint, or `nil` when it is not usable.
+    var proPresenterManualEndpoint: ProPresenterEndpoint? {
+        let host = proPresenterHost.trimmingCharacters(in: .whitespaces)
+        guard !host.isEmpty, (1 ... 65535).contains(proPresenterPort) else { return nil }
+        return ProPresenterEndpoint(host: host, port: proPresenterPort)
+    }
+
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
 
@@ -102,8 +143,14 @@ final class UserPreferences {
         translationModelID = defaults.string(forKey: "translationModelID") ?? ""
         refinementModelID = defaults.string(forKey: "refinementModelID") ?? ""
 
-        libraryPath = defaults.string(forKey: "libraryPath")
-            ?? "~/Documents/ProPresenter/Libraries/Default"
+        librariesRootPath = Self.resolveLibrariesRootPath(defaults: defaults)
+
+        proPresenterMode = defaults.string(forKey: "proPresenterMode")
+            .flatMap(ProPresenterConnectionMode.init(rawValue:)) ?? .automatic
+        proPresenterHost = defaults.string(forKey: "proPresenterHost") ?? Self.defaultProPresenterHost
+        let storedPort = defaults.integer(forKey: "proPresenterPort")
+        proPresenterPort = storedPort > 0 ? storedPort : Self.defaultProPresenterPort
+        proPresenterLastKnownEndpoint = Self.storedEndpoint(defaults: defaults)
 
         // Migrate from old boolean preference to new enum
         if let raw = defaults.string(forKey: "refinementEngine") {
@@ -119,5 +166,51 @@ final class UserPreferences {
         } else {
             enabledRuleIDs = Set(DiagnosticRules.defaultEnabledIDs)
         }
+    }
+
+    // MARK: - Libraries root
+
+    static let defaultLibrariesRootPath = "~/Documents/ProPresenter/Libraries"
+    static let defaultProPresenterHost = "localhost"
+    static let defaultProPresenterPort = 1025
+
+    /// The persisted last-known endpoint, or `nil` when nothing was stored yet.
+    private static func storedEndpoint(defaults: UserDefaults) -> ProPresenterEndpoint? {
+        guard let host = defaults.string(forKey: "proPresenterLastKnownHost"), !host.isEmpty else { return nil }
+        let port = defaults.integer(forKey: "proPresenterLastKnownPort")
+        guard port > 0 else { return nil }
+        return ProPresenterEndpoint(host: host, port: port)
+    }
+
+    /// The stored libraries root, migrating the pre-multi-library `libraryPath`
+    /// (a single library folder) to its parent folder on first run.
+    private static func resolveLibrariesRootPath(defaults: UserDefaults) -> String {
+        defer { defaults.removeObject(forKey: "libraryPath") }
+
+        if let stored = defaults.string(forKey: "librariesRootPath"), !stored.isEmpty {
+            return stored
+        }
+
+        if let migrated = migratedLibrariesRootPath(defaults: defaults) {
+            defaults.set(migrated, forKey: "librariesRootPath")
+            return migrated
+        }
+
+        return defaultLibrariesRootPath
+    }
+
+    /// The parent of the legacy single-library path, when that path is a folder.
+    private static func migratedLibrariesRootPath(defaults: UserDefaults) -> String? {
+        guard let legacy = defaults.string(forKey: "libraryPath"), !legacy.isEmpty else { return nil }
+
+        var isDirectory: ObjCBool = false
+        let exists = FileManager.default.fileExists(
+            atPath: (legacy as NSString).expandingTildeInPath,
+            isDirectory: &isDirectory
+        )
+        guard !exists || isDirectory.boolValue else { return nil }
+
+        let parent = (legacy as NSString).deletingLastPathComponent
+        return parent.isEmpty || parent == "/" ? nil : parent
     }
 }

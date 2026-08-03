@@ -25,12 +25,17 @@ struct SettingsView: View {
 
 struct GeneralSettingsView: View {
     @Environment(UserPreferences.self) private var preferences
+    @Environment(ProPresenterConnection.self) private var connection
 
     /// Whether the EN→NL Apple Translation pair is installed. Resolved
     /// asynchronously on appear (macOS 26+); Apple Translation only appears in the
     /// engine picker once this is `true`, because the headless session can't
     /// present the download-consent prompt.
     @State private var appleTranslationInstalled = false
+
+    /// Library folders found under the libraries root, shown read-only so the
+    /// user can confirm the chosen folder is the right one.
+    @State private var discoveredLibraries: [URL] = []
 
     private var hasDeepLKey: Bool { !preferences.deeplAPIKey.isEmpty }
     private var hasGeminiKey: Bool { !preferences.geminiAPIKey.isEmpty }
@@ -55,10 +60,10 @@ struct GeneralSettingsView: View {
         @Bindable var preferences = preferences
 
         Form {
-            Section("Library") {
+            Section {
                 LabeledContent("Location") {
                     HStack {
-                        Text(preferences.libraryPath)
+                        Text(preferences.librariesRootPath)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                             .truncationMode(.middle)
@@ -66,6 +71,61 @@ struct GeneralSettingsView: View {
                         Button("Choose…") { chooseFolder() }
                     }
                 }
+
+                LabeledContent("Libraries") {
+                    if discoveredLibraries.isEmpty {
+                        Text("None found")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        VStack(alignment: .leading, spacing: 2) {
+                            ForEach(discoveredLibraries, id: \.self) { library in
+                                Text(library.lastPathComponent)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
+            } header: {
+                Text("Libraries")
+            } footer: {
+                Text("Every subfolder with ProPresenter documents is loaded as a library.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Section {
+                Picker("Connection", selection: $preferences.proPresenterMode) {
+                    ForEach(ProPresenterConnectionMode.allCases, id: \.rawValue) { mode in
+                        Text(mode.displayName).tag(mode)
+                    }
+                }
+
+                TextField("Host", text: $preferences.proPresenterHost)
+                    .disabled(preferences.proPresenterMode == .automatic)
+                    .onSubmit { connection.reconnect() }
+
+                TextField("Port", value: $preferences.proPresenterPort, format: .number.grouping(.never))
+                    .disabled(preferences.proPresenterMode == .automatic)
+                    .onSubmit { connection.reconnect() }
+
+                LabeledContent("Status") {
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(connection.status.isConnected ? Color.green : Color.secondary)
+                            .frame(width: 8, height: 8)
+                        Text(connection.status.summary)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            } header: {
+                Text("ProPresenter")
+            } footer: {
+                Text("""
+                Turn on Enable Network in ProPresenter's Network settings. Automatic tries the last \
+                known address, then Bonjour, then the usual localhost ports.
+                """)
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
 
             Section("Translation") {
@@ -147,7 +207,9 @@ struct GeneralSettingsView: View {
         .padding()
         .onAppear { coerceSelections() }
         .task { await refreshAppleTranslationAvailability() }
+        .task(id: preferences.librariesRootPath) { await refreshDiscoveredLibraries() }
         .onChange(of: appleTranslationInstalled) { _, _ in coerceSelections() }
+        .onChange(of: preferences.proPresenterMode) { _, _ in connection.reconnect() }
         .onChange(of: preferences.deeplAPIKey) { _, _ in coerceSelections() }
         .onChange(of: preferences.geminiAPIKey) { _, _ in coerceSelections() }
         .onChange(of: preferences.openAIAPIKey) { _, _ in coerceSelections() }
@@ -215,23 +277,32 @@ struct GeneralSettingsView: View {
         }
     }
 
+    /// Rescans the libraries root off the main actor — the scan walks the file
+    /// system and the root can hold thousands of documents.
+    private func refreshDiscoveredLibraries() async {
+        let root = URL(fileURLWithPath: (preferences.librariesRootPath as NSString).expandingTildeInPath)
+        discoveredLibraries = await Task.detached { LibraryDiscovery.libraries(in: root) }.value
+    }
+
     private func chooseFolder() {
         let panel = NSOpenPanel()
-        panel.title = "Select ProPresenter Library Folder"
+        panel.title = "Select ProPresenter Libraries Folder"
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
-        panel.directoryURL = URL(fileURLWithPath: (preferences.libraryPath as NSString).expandingTildeInPath)
+        panel.directoryURL = URL(fileURLWithPath: (preferences.librariesRootPath as NSString).expandingTildeInPath)
 
         if panel.runModal() == .OK, let url = panel.url {
             BookmarkManager.saveBookmark(for: url)
-            preferences.libraryPath = url.path
+            preferences.librariesRootPath = url.path
         }
     }
 }
 
 #Preview {
+    let preferences = UserPreferences()
     GeneralSettingsView()
-        .environment(UserPreferences())
+        .environment(preferences)
+        .environment(ProPresenterConnection(preferences: preferences))
         .frame(width: 500, height: 480)
 }
