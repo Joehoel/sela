@@ -1,0 +1,30 @@
+version: 2
+updates:
+  # GitHub Actions used in the CI and release workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - github-actions
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Swift Package Manager dependencies for the ProtoExtractor tool.
+  # NOTE: The main Sela app declares its SPM packages (SwiftProtobuf, Sentry)
+  # in project.yml (xcodegen), which Dependabot cannot parse, so those are not
+  # covered here.
+  - package-ecosystem: swift
+    directory: /Tools/ProtoExtractor
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - swift
+    groups:
+      swift:
+        patterns:
+          - "*"
