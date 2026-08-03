@@ -24,9 +24,18 @@ import Testing
             referenceSimilarity,
         ]
 
+        /// True only when the on-device model can actually run here: the OS is new
+        /// enough *and* Apple Intelligence is enabled with its assets downloaded.
+        /// Without this the eval suite fails with `assetsUnavailable` on every host
+        /// that simply has the feature switched off (CI, most dev machines).
+        static var foundationModelAvailable: Bool {
+            guard #available(macOS 26, *) else { return false }
+            return SystemLanguageModel.default.availability == .available
+        }
+
         @Test("FM translate", arguments: cases)
         func translate(_ evalCase: EvalCase) async throws {
-            guard #available(macOS 26, *) else { return }
+            guard #available(macOS 26, *), Self.foundationModelAvailable else { return }
 
             let output = try await runFM(mode: .translate, items: evalCase.makeItems())
 
@@ -42,7 +51,7 @@ import Testing
 
         @Test("FM refine", arguments: cases)
         func refine(_ evalCase: EvalCase) async throws {
-            guard #available(macOS 26, *) else { return }
+            guard #available(macOS 26, *), Self.foundationModelAvailable else { return }
 
             // First translate, then refine the same items.
             var items = evalCase.makeItems()

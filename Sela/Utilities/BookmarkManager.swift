@@ -1,7 +1,10 @@
 import Foundation
 
 enum BookmarkManager {
-    private static let bookmarkKey = "libraryBookmark"
+    /// Security-scoped bookmark for the libraries root folder. The pre-multi-
+    /// library `libraryBookmark` is not migrated — the app isn't sandboxed, so
+    /// path access keeps working; the user can re-pick the folder if needed.
+    private static let bookmarkKey = "librariesRootBookmark"
 
     static func saveBookmark(for url: URL) {
         guard let data = try? url.bookmarkData(

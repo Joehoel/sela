@@ -10,6 +10,11 @@ class Song: Identifiable {
     var slideGroups: [SlideGroup]
     var filePath: URL?
     var isHidden: Bool = false
+    /// Absolute path of the library this song was loaded from, or `nil` for
+    /// songs loaded ad hoc from outside the configured libraries.
+    var libraryID: String?
+    /// Display name of the library this song belongs to, `nil` when ad hoc.
+    var libraryName: String?
 
     var hasTranslation: Bool {
         slideGroups.contains { group in
@@ -48,7 +53,9 @@ class Song: Identifiable {
         author: String = "",
         category: String = "",
         slideGroups: [SlideGroup] = [],
-        filePath: URL? = nil
+        filePath: URL? = nil,
+        libraryID: String? = nil,
+        libraryName: String? = nil
     ) {
         self.id = id
         self.title = title
@@ -56,5 +63,7 @@ class Song: Identifiable {
         self.category = category
         self.slideGroups = slideGroups
         self.filePath = filePath
+        self.libraryID = libraryID
+        self.libraryName = libraryName
     }
 }

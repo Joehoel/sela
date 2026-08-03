@@ -2,36 +2,22 @@ import SwiftUI
 
 struct SongListView: View {
     @Environment(AppState.self) private var appState
+    @Environment(PlaylistController.self) private var playlistController
     @State private var isHiddenExpanded = false
 
     var body: some View {
         @Bindable var appState = appState
 
         List(selection: $appState.selectedSongID) {
+            PlaylistSectionView()
             if appState.isLoading, appState.songs.isEmpty {
                 loadingIndicator
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 40)
             }
-            if !appState.inProgressSongs.isEmpty {
-                Section("In Progress") {
-                    ForEach(appState.inProgressSongs) { song in
-                        SongRowView(song: song)
-                            .contextMenu { songContextMenu(for: song) }
-                    }
-                }
-            }
-            if !appState.untranslatedSongs.isEmpty {
-                Section("Untranslated") {
-                    ForEach(appState.untranslatedSongs) { song in
-                        SongRowView(song: song)
-                            .contextMenu { songContextMenu(for: song) }
-                    }
-                }
-            }
-            if !appState.translatedSongs.isEmpty {
-                Section("Translated") {
-                    ForEach(appState.translatedSongs) { song in
+            ForEach(appState.sidebarLibraries) { library in
+                Section(library.name, isExpanded: expansion(for: library)) {
+                    ForEach(appState.songs(in: library)) { song in
                         SongRowView(song: song)
                             .contextMenu { songContextMenu(for: song) }
                     }
@@ -47,6 +33,9 @@ struct SongListView: View {
             }
         }
         .listStyle(.sidebar)
+        // A playlist change in ProPresenter arrives on its own, without a user
+        // gesture to animate from — so the list animates the row changes itself.
+        .animation(.default, value: playlistController.playlist?.items.map(\.id))
         .navigationTitle("Songs")
         .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
         .toolbar {
@@ -57,6 +46,17 @@ struct SongListView: View {
                 .popoverTip(ChangeEngineTip())
             }
         }
+    }
+
+    /// Expand/collapse binding for a library group, persisted in `AppState`.
+    /// While searching the groups stay open so matches are never hidden behind
+    /// a collapsed header.
+    private func expansion(for library: Library) -> Binding<Bool> {
+        guard appState.searchText.isEmpty else { return .constant(true) }
+        return Binding(
+            get: { appState.isLibraryExpanded(library) },
+            set: { appState.setLibrary(library, expanded: $0) }
+        )
     }
 
     @ViewBuilder
@@ -101,12 +101,23 @@ struct SongListView: View {
 
 #Preview {
     let state = AppState()
-    state.songs = MockSongProvider.allSongs
+    let hymns = Library(url: URL(fileURLWithPath: "/Libraries/Hymns", isDirectory: true))
+    let modern = Library(url: URL(fileURLWithPath: "/Libraries/Modern", isDirectory: true))
+    state.libraries = [hymns, modern]
+    state.songs = MockSongProvider.allSongs.enumerated().map { index, song in
+        let library = index.isMultiple(of: 2) ? hymns : modern
+        song.libraryID = library.id
+        song.libraryName = library.name
+        return song
+    }
+    let connection = ProPresenterConnection(preferences: UserPreferences())
     return NavigationSplitView {
         SongListView()
     } detail: {
         Text("Select a song")
     }
     .environment(state)
+    .environment(connection)
+    .environment(PlaylistController(appState: state, connection: connection))
     .frame(width: 700, height: 500)
 }

@@ -2,89 +2,140 @@
 
 ## Problem
 
-After Sela saves translations to `.pro` files on disk, ProPresenter must be restarted to see the changes. This document records all approaches tested to force ProPresenter to re-read files without a restart.
+After Sela saves translations to `.pro` files on disk, ProPresenter keeps showing
+the old text. Today the only reliable fix is restarting ProPresenter.
 
-## Environment
+## Status
 
-- ProPresenter 21.2 (macOS, `host_description: "ProPresenter 21.2"`)
-- REST API on port 50727 (Network must be enabled in ProPresenter → Settings → Network)
-- API docs: `http://localhost:50727/v1/doc/index.html`
-- Library path: `~/Documents/ProPresenter/Libraries/Default/`
-- ProPresenter caches presentations in a LevelDB database at `~/Library/Application Support/RenewedVision/ProPresenter/Workspaces/ProPresenter-*/Database/`
+**Solved, with a caveat.** ProPresenter never re-reads a presentation file it has
+already read during the current session — no matter how the file is written. It
+*does* read a file it has not seen before. So the one thing that produces fresh
+content without a restart is **saving under a filename ProPresenter has not seen
+since it launched**.
 
-## API Endpoints Tested
+## Environment for these findings
 
-All presentation-related endpoints from the ProPresenter 21.2 OpenAPI spec:
+- ProPresenter **21.4** (build 352583705, released 2026-07-01) on macOS 26.4
+- Library path (21.4 uses a "local workspace", not `~/Documents` any more):
+  `~/Library/Application Support/RenewedVision/ProPresenter/UserWorkspaces/ProPresenter/Libraries/<Library>/`
+- Network API on port 50727
 
-- `GET /v1/presentation/{uuid}` — returns cached presentation data (groups, slides, text)
-- `GET /v1/presentation/{uuid}/trigger` — activates presentation on screen (from cache)
-- `GET /v1/presentation/{uuid}/focus` — focuses presentation in UI
-- `GET /v1/library/{library_id}/{presentation_id}/trigger` — triggers via library path
-- `GET /v1/library/{library_id}/{presentation_id}/{index}/trigger` — triggers specific cue via library
-- `GET /v1/clear/layer/slide` — clears the slide layer
+### Two tools that made this testable
 
-None of these force a re-read from disk. The API has no POST/PUT endpoints for presentation content and no reload/refresh endpoint.
+1. **Enabling the Network API without touching the UI.** ProPresenter reads these
+   from the NSUserDefaults argument domain:
+   ```
+   open -a ProPresenter --args -networkEnabled YES -networkPort 50727
+   ```
+2. **A trustworthy oracle.** `GET /v1/presentation/{uuid}` returns the slide text
+   ProPresenter actually holds in memory — the same content it would project.
+   Comparing that against the bytes on disk is what settled every question below.
+   Two lesser oracles also help:
+   - `GET /v1/presentation/{uuid}/focus` forces a non-resident document to load
+     (a presentation that has never been opened returns groups with 0 slides).
+   - Writing deliberately corrupt bytes makes ProPresenter log
+     `LibraryItemIndex … SwiftProtobuf.BinaryDecodingError.malformedProtobuf`,
+     which proves whether a re-parse happened at all.
 
-## Approaches Tested
+> The earlier round of research used the ProPresenter window as its oracle. That
+> is misleading: the slide grid keeps rendering a document even after its file has
+> been deleted from the library, so "the UI did not change" does not mean "the file
+> was not re-read", and vice versa.
 
-### REST API Approaches (all ❌)
+## What ProPresenter *does* notice, live
+
+| Event | Result |
+|---|---|
+| New `.pro` file appears in the library folder | ✅ Indexed and listed within a few seconds, content parsed from disk |
+| `.pro` file deleted | ✅ Item disappears from the library within a few seconds |
+| Existing file replaced atomically (temp + rename) | ⚠️ Re-parsed for the **search/Spotlight index only** — live document unchanged |
+| Existing file written in place | ❌ Nothing happens at all |
+| `touch` (mtime only) | ❌ Nothing |
+
+So the folder watcher works fine. The problem is one level up: the parsed
+presentation document is cached per file path for the lifetime of the process.
+
+## What does **not** refresh the live document
+
+Every one of these was measured against `GET /v1/presentation/{uuid}` with a known
+marker string rotated in the file, on ProPresenter 21.4:
 
 | # | Approach | Result |
-|---|----------|--------|
-| A | `presentation/{uuid}/trigger` | Serves from cache |
-| B | `library/{lib}/{pres}/trigger` | Serves from cache |
-| C | `clear/layer/slide` → trigger | Serves from cache |
-| D | Trigger different presentation → trigger back | Serves from cache |
-| E | `presentation/{uuid}/focus` → trigger | Serves from cache |
-| F | Focus other → library trigger | Serves from cache |
+|---|---|---|
+| A | In-place write (`open r+b`, fsync) | ❌ stale |
+| B | Atomic write (temp + `rename`) — what Sela does today | ❌ stale |
+| C | `touch` on the file | ❌ stale |
+| D | Delete, wait 4–12 s, write the file back at the same path | ❌ stale (item is evicted and re-added, content is not) |
+| E | Delete, wait, write back, then poll for 84 s | ❌ never catches up |
+| F | Move the file out of the library and back | ❌ stale |
+| G | Change the presentation UUID *inside* the file, then write atomically | ❌ stale; the library item even keeps its old UUID |
+| H | Rename the whole library folder away and back | ❌ library object is rebuilt, documents are not |
+| I | `open -a ProPresenter <file.pro>` | ❌ stale |
+| J | Index a fresh copy under a temp name, then rename it over the original | ❌ the original path resolves back to its cached document |
+| K | Rename to a new name (fresh ✅) and later rename **back** to the old name | ❌ the old name resurrects its original, first-parsed content |
 
-### File System Approaches (all ❌)
+Test K is the important one: the cache is keyed by path, it is never invalidated,
+and it survives the path disappearing entirely. It only dies with the process.
 
-| # | Approach | Result |
-|---|----------|--------|
-| G | Atomic write (Data.write .atomic) | Not detected |
-| H | Non-atomic in-place overwrite | Not detected |
-| I | `touch` (mtime change only) | Not detected |
-| J | `mv` away + `mv` back | Not detected |
-| K | `rm` + `cp` (new inode) | Not detected |
-| L | NSFileCoordinator coordinated write (.forReplacing) | Not detected |
-| M | Wait 15-20 seconds for FSEvents coalescing | Not detected |
+## What *does* work
 
-### macOS Integration Approaches (all ❌)
+**Write the updated presentation under a filename ProPresenter has not seen since
+it launched.**
 
-| # | Approach | Result |
-|---|----------|--------|
-| N | `open -a ProPresenter path/to/file.pro` | No reload |
-| O | AppleScript: Cmd+S (save conflict detection) | No dialog appears |
-| P | AppleScript: Cmd+E (editor) + Cmd+S | No dialog appears |
+Measured end-to-end after a clean restart:
 
-## Binary Analysis Findings
+```
+baseline                        disk=Amazing  live=Amazing
+atomic save, same filename      disk=BBBBBBB  live=Amazing   <- the bug
+save + rename to a new name     disk=CCCCCCC  live=CCCCCCC   <- reloaded, no restart
+```
 
-The ProPresenter binary contains file monitoring infrastructure that does NOT appear to trigger reloads for modified presentations:
+Useful detail: the re-indexed item **kept the presentation UUID from inside the
+file** (`87566B14-…`), so API triggers by UUID keep working across the rename.
 
-- `FileSystemItemPresenter` (NSFilePresenter) — registered but `presentedItemDidChange()` doesn't trigger visible reload
-- `RVFileSystemEventMonitor` (FSEvents wrapper) — monitors library directory but appears to be for detecting new/deleted files only
-- `FileSystemItemMonitor` — coordinates monitoring but reload chain (`showFileDidChange` → `reloadDocument`) doesn't fire for external modifications
-- ProPresenter uses NSDocument (`ProPresentationDocument`) but doesn't expose standard Revert behavior
+### Trade-offs before building on this
 
-## ProPresenter Internals
+- The library item's display name comes from the **filename**, so a rename is
+  visible to the operator (`Amazing Grace` → `Amazing Grace (v2)`).
+- Every save needs a *new* name; toggling between two names fails on the second
+  use (test K).
+- **Unverified:** whether an entry in a ProPresenter *playlist* survives the
+  rename. Playlists are the normal way to present, so this needs a manual check
+  before shipping anything. The API has no write endpoints for playlists, so it
+  could not be automated here.
 
-- Presentations are cached in a **LevelDB database** (locked while ProPresenter is running)
-- Library index at `~/Documents/ProPresenter/Libraries/LibraryData` (protobuf)
-- Thumbnail cache at `~/Library/Application Support/RenewedVision/ProPresenter/Workspaces/ProPresenter-*/Thumbnails/`
-- No AppleScript dictionary (`.sdef`) — only generic `open` commands work
-- URL schemes registered: `pro://`, `propresenter://` (undocumented format)
-- No "Reload", "Revert", "Refresh", or "Empty Cache" menu item
+## The API surface in 21.4
 
-## Conclusion
+Extracted from the shipped binary (`ProCore.framework`), which is more complete
+than the published OpenAPI doc. There is **no** reload/refresh/import endpoint,
+and no `POST`/`PUT` that writes presentation content. The only mutating routes in
+the whole v1 surface are:
 
-**ProPresenter 21.2 does not support hot-reloading of externally modified `.pro` files.** This is a limitation of ProPresenter, not Sela. The recommended workflow is:
+```
+POST   /v1/prop_collections     PUT /v1/prop/{id}             DELETE /v1/prop/{id}
+POST   /v1/timers               PUT /v1/prop_collection/{id}  DELETE /v1/prop_collection/{id}
+                                PUT /v1/timer/{id}            DELETE /v1/timer/{id}
+                                PUT /v1/timer/{id}/{operation}
+```
 
-1. Translate songs in Sela (translations are saved to `.pro` files on disk)
-2. Restart ProPresenter before the service to pick up changes
+Everything under `/v1/presentation/**` and `/v1/library/**` is `GET` only:
+`trigger`, `focus`, `next`, `previous`, `group/{identifier}/trigger`, and reads.
 
-## Potential Future Solutions
+## Corrections to the previous write-up
 
-- **Renewed Vision feature request**: Ask for a `POST /v1/library/reload` or `POST /v1/presentation/{uuid}/reload` API endpoint
-- **ProPresenter update**: A future version may add file watching for modified presentations
-- **Alternative**: If ProPresenter ever exposes presentation content via PUT/POST, Sela could write directly to ProPresenter's cache via the API instead of modifying files on disk
+- Presentations are **not** cached in the LevelDB database. That store is
+  `helper_workspaces::db::models::asset::Asset` — the *media* asset cache. The
+  presentation cache is in-process only.
+- ProPresenter 21.x keeps its configuration (`LibraryData`, `Timers`, `Groups`,
+  `Stage`, …) as **loro CRDT snapshot documents**, not plain protobufs.
+- ProPresenter *does* watch the library folder and reacts to file creation and
+  deletion in real time. The earlier conclusion that file-system events are
+  ignored was wrong; only content changes to a known path are ignored.
+
+## Remaining options
+
+- **Feature request to Renewed Vision** for `POST /v1/library/{id}/reload` or
+  `POST /v1/presentation/{uuid}/reload`. This is the clean fix and the API is
+  clearly built to accommodate it.
+- **Restart button** (what Sela ships today) stays the only zero-risk option.
+- **Rename-on-save**, with the caveats above.
